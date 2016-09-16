@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         // create array of database results
-        ArrayList<MusicXMLFile> songs = new ArrayList<MusicXMLFile>();
+        ArrayList<MusicXMLFile> songList = new ArrayList<MusicXMLFile>();
 
         //Connect to database
         try {
@@ -31,11 +31,11 @@ public class Main extends Application {
             ResultSet rs = stat.executeQuery(sqlQueryString);
 
             while (rs.next()) {
-                //System.out.println("songTitle " + rs.getString("songTitle"));
-                //System.out.println("composer: " + rs.getString("composer"));
-                //System.out.println("filePath " + rs.getString("filePath"));
+                /*System.out.println("songTitle " + rs.getString("songTitle"));
+                System.out.println("composer: " + rs.getString("composer"));
+                System.out.println("filePath " + rs.getString("filePath"));*/
                 MusicXMLFile mXMLfile = new MusicXMLFile(rs.getString("songTitle"),rs.getString("composer"), rs.getString("filePath"));
-                songs.add(mXMLfile);
+                songList.add(mXMLfile);
             }
             rs.close();
         } catch (ClassNotFoundException e) {
@@ -46,11 +46,11 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-
-        for (MusicXMLFile song : songs) {
+        // see array list
+        /*for (MusicXMLFile song : songList) {
             String s = song.toString();
             System.out.println(s);
-        }
+        }*/
 
 
 
