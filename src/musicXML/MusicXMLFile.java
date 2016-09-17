@@ -70,6 +70,6 @@ public class MusicXMLFile {
 
     // toString
     public String toString(){
-        return "ID#: " + id + ", songTitle: " + songTitle + ", composer: " + composer + ", filePath: " + filePath;
+        return "ID#: " + id + ", songTitle: " + getSongTitle() + ", composer: " + getComposer() + ", filePath: " + filePath;
     }
 }

@@ -13,7 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 
@@ -59,9 +59,13 @@ public class Controller {
 
 
     @FXML
-    private void handleImportButton (ActionEvent event) {
+    private void handleImportButton(ActionEvent event) {
         System.out.println("Import clicked");
-        //outputTextArea.appendText("Button Action\n");
+    }
+
+    @FXML
+    private void handleEditButton(ActionEvent event) {
+        System.out.println("Edit clicked");
     }
 
     @FXML
@@ -70,10 +74,22 @@ public class Controller {
     }
 
     @FXML
-    private void handleTableViewClick() {
-       // TableRow<MusicXMLFile> row = new TableRow<>();
+    private void handleTableViewClick(MouseEvent click) {
+
+        if (tView.getSelectionModel().getSelectedItem() == null) {
+            System.out.println("null");
+            return;
+        }
+
         MusicXMLFile test = tView.getSelectionModel().getSelectedItem();
-        System.out.println(test.getId() + " " + test.getSongTitle() + " " + test.getComposer() + " " + test.getFilePath());
+        System.out.println(test.toString());
+        if (click.getClickCount() == 2) {
+            System.out.println("doubleClick");
+        } else if (click.getClickCount() == 1) {
+            System.out.println("singleClick");
+        }
+
+        //tView.getSelectionModel().clearSelection();
     }
 
     //fill tableView

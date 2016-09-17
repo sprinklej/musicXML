@@ -27,8 +27,9 @@
              </TableView>
              <TextField fx:id="searchField" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="300.0" promptText="Search" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
              <TextArea layoutX="326.0" layoutY="10.0" prefHeight="426.0" prefWidth="360.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="326.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0" />
-             <Button fx:id="importButton" layoutX="14.0" layoutY="409.0" mnemonicParsing="false" onAction="#handleImportButton" prefHeight="27.0" prefWidth="110.0" text="Import" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
-             <Button fx:id="exportButton" layoutX="131.0" layoutY="409.0" mnemonicParsing="false" onAction="#handleExportButton" prefHeight="27.0" prefWidth="110.0" text="Export" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" />
+             <Button fx:id="importButton" layoutX="14.0" layoutY="409.0" mnemonicParsing="false" onAction="#handleImportButton" prefHeight="27.0" prefWidth="95.0" text="Import" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+             <Button fx:id="exportButton" layoutX="219.0" layoutY="409.0" mnemonicParsing="false" onAction="#handleExportButton" prefHeight="27.0" prefWidth="95.0" text="Export" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" />
+            <Button layoutX="117.0" layoutY="409.0" mnemonicParsing="false" onAction="#handleEditButton" prefHeight="27.0" prefWidth="95.0" text="Edit" AnchorPane.bottomAnchor="14.0" />
          </children>
       </AnchorPane>
    </children>
