@@ -8,7 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 
+import java.util.ArrayList;
 import javafx.collections.*;
+
 
 public class Controller {
     @FXML
@@ -21,9 +23,14 @@ public class Controller {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
 
-        ObservableList<String> items = FXCollections.observableArrayList (
-                "Song1", "Song2", "Song3", "Song4", "Song5", "Song6", "Song7", "Song8", "Song9", "Song10",
-                "Song1", "Song2", "Song3", "Song4", "Song5", "Song6", "Song7", "Song8", "Song9", "Song10");
+        // using listview
+        Database db = new Database();
+        db.getXMLList();
+        ArrayList<MusicXMLFile> XMLList = db.getXMLList();
+        ObservableList<String> items = FXCollections.observableArrayList ();
+        for (MusicXMLFile mXMLFile : XMLList) {
+            items.add(mXMLFile.toString());
+        }
         lView.setItems(items);
     }
 }

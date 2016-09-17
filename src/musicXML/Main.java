@@ -6,15 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.sql.*;
-import java.util.ArrayList;
+//import java.sql.*;
+//import java.util.ArrayList;
 
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
+/*
         // create array of database results
         ArrayList<MusicXMLFile> songList = new ArrayList<MusicXMLFile>();
 
@@ -31,9 +31,9 @@ public class Main extends Application {
             ResultSet rs = stat.executeQuery(sqlQueryString);
 
             while (rs.next()) {
-                /*System.out.println("songTitle " + rs.getString("songTitle"));
+                System.out.println("songTitle " + rs.getString("songTitle"));
                 System.out.println("composer: " + rs.getString("composer"));
-                System.out.println("filePath " + rs.getString("filePath"));*/
+                System.out.println("filePath " + rs.getString("filePath"));
                 MusicXMLFile mXMLfile = new MusicXMLFile(rs.getString("songTitle"),rs.getString("composer"), rs.getString("filePath"));
                 songList.add(mXMLfile);
             }
@@ -47,12 +47,11 @@ public class Main extends Application {
         }
 
         // see array list
-        /*for (MusicXMLFile song : songList) {
+        for (MusicXMLFile song : songList) {
             String s = song.toString();
             System.out.println(s);
-        }*/
-
-
+        }
+        */
 
 
         Parent root = FXMLLoader.load(getClass().getResource("musicXML.fxml"));
