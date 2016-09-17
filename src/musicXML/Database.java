@@ -36,7 +36,7 @@ public class Database {
         }
     }
 
-    public ArrayList<MusicXMLFile> getXMLList() {
+    public ArrayList<MusicXMLFile> getMXMLList() {
         ArrayList<MusicXMLFile> XMLList = new ArrayList<MusicXMLFile>();
         String sqlQueryString = "select * from musicXMLFiles;";
 
@@ -47,8 +47,8 @@ public class Database {
                 System.out.println("songTitle " + rs.getString("songTitle"));
                 System.out.println("composer: " + rs.getString("composer"));
                 System.out.println("filePath " + rs.getString("filePath"));*/
-                MusicXMLFile XMLfile = new MusicXMLFile(rs.getInt("id"), rs.getString("songTitle"),rs.getString("composer"), rs.getString("filePath"));
-                XMLList.add(XMLfile);
+                MusicXMLFile MXMLfile = new MusicXMLFile(rs.getInt("id"), rs.getString("songTitle"),rs.getString("composer"), rs.getString("filePath"));
+                XMLList.add(MXMLfile);
             }
             rs.close();
         } catch (SQLException e) {

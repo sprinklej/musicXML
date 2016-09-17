@@ -1,32 +1,33 @@
-package musicXML;
+/**
+ * Created by sprinklej on 2016-09-16.
+ */
 
+package musicXML;
 
 import javafx.beans.property.StringProperty ;
 import javafx.beans.property.SimpleStringProperty ;
 
-/**
- * Created by sprinklej on 2016-09-16.
- */
+
 public class MusicXMLFile {
 
     private Integer id;
     private String filePath;
 
-    private StringProperty songTitle = new SimpleStringProperty(this, "songTitle");
-    private StringProperty composer = new SimpleStringProperty(this, "composer");;
+    private StringProperty songTitle; // = new SimpleStringProperty(this, "songTitle");
+    private StringProperty composer; // = new SimpleStringProperty(this, "composer");
 
 
     public MusicXMLFile(Integer aid, String aSongTitle,  String aComposer, String aFilePath){
+        songTitle = new SimpleStringProperty(this, "songTitle");
+        composer = new SimpleStringProperty(this, "composer");
+
         id = aid;
         setSongTitle(aSongTitle);
         setComposer(aComposer);
         filePath = aFilePath;
-
-        //songTitle = aSongTitle;
-        //composer = aComposer;
     }
 
-    //String Properties
+    // string Properties
     private final StringProperty songTitleProp = new SimpleStringProperty(this, "songTitleProp");
     public StringProperty songTitleProperty() {
         return songTitleProp;
@@ -37,7 +38,7 @@ public class MusicXMLFile {
         return composerProp;
     }
 
-    //getters
+    // getters
     public Integer getId() {
         return id;
     }
@@ -54,7 +55,7 @@ public class MusicXMLFile {
         return filePath;
     }
 
-    //setters
+    // setters
     public void setSongTitle(String aSongTitle) {
         songTitleProperty().set(aSongTitle);
     }
@@ -63,7 +64,11 @@ public class MusicXMLFile {
         composerProperty().set(aComposer);
     }
 
+    public void setFilePath(String aFilePath) {
+        filePath = aFilePath;
+    }
 
+    // toString
     public String toString(){
         return "ID#: " + id + ", songTitle: " + songTitle + ", composer: " + composer + ", filePath: " + filePath;
     }
