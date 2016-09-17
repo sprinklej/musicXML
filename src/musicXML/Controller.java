@@ -2,23 +2,25 @@ package musicXML;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.collections.*;
+import javafx.scene.input.KeyEvent;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
-import javafx.collections.*;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
+
 
 import javafx.beans.value.ChangeListener;
 
 import javax.swing.plaf.basic.BasicOptionPaneUI;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 
 public class Controller {
@@ -67,20 +69,18 @@ public class Controller {
         System.out.println("Export clicked");
     }
 
+    @FXML
+    private void handleTableViewClick() {
+       // TableRow<MusicXMLFile> row = new TableRow<>();
+        MusicXMLFile test = tView.getSelectionModel().getSelectedItem();
+        System.out.println(test.getId() + " " + test.getSongTitle() + " " + test.getComposer() + " " + test.getFilePath());
+    }
+
     //fill tableView
     private void fillTableView() {
         // uses tableview
         songTitleCol.setCellValueFactory(new PropertyValueFactory<>("songTitle"));
         composerCol.setCellValueFactory(new PropertyValueFactory<>("composer"));
         tView.getItems().addAll(db.getMXMLList());
-
-        /* //uses listview
-        ArrayList<MusicXMLFile> XMLList = db.getXMLList();
-        ObservableList<String> items = FXCollections.observableArrayList ();
-        for (MusicXMLFile mXMLFile : XMLList) {
-            items.add(mXMLFile.toString());
-        }
-        lView.setItems(items);
-        */
     }
 }
