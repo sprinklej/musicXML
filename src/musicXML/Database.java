@@ -43,10 +43,11 @@ public class Database {
         try {
             ResultSet rs = stat.executeQuery(sqlQueryString);
             while (rs.next()) {
-                /*System.out.println("songTitle " + rs.getString("songTitle"));
+                /*System.out.println("id " + rs.getInt("id"));
+                System.out.println("songTitle " + rs.getString("songTitle"));
                 System.out.println("composer: " + rs.getString("composer"));
                 System.out.println("filePath " + rs.getString("filePath"));*/
-                MusicXMLFile XMLfile = new MusicXMLFile(rs.getString("songTitle"),rs.getString("composer"), rs.getString("filePath"));
+                MusicXMLFile XMLfile = new MusicXMLFile(rs.getInt("id"), rs.getString("songTitle"),rs.getString("composer"), rs.getString("filePath"));
                 XMLList.add(XMLfile);
             }
             rs.close();

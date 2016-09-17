@@ -10,6 +10,9 @@ import javafx.scene.control.ListView;
 
 import java.util.ArrayList;
 import javafx.collections.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 
 public class Controller {
@@ -18,19 +21,32 @@ public class Controller {
     @FXML
     private Button exportButton;
     @FXML
-    private ListView<String> lView;
+    private TableView<MusicXMLFile> tView;
+    @FXML
+    private TableColumn<MusicXMLFile, String> songTitleCol;
+    @FXML
+    private TableColumn<MusicXMLFile, String> composerCol;
+
+    //@FXML
+    //private ListView<String> lView;
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-
-        // using listview
+        // load database
         Database db = new Database();
-        db.getXMLList();
+
+        // uses tableview
+        songTitleCol.setCellValueFactory(new PropertyValueFactory<>("songTitle"));
+        composerCol.setCellValueFactory(new PropertyValueFactory<>("composer"));
+        tView.getItems().addAll(db.getXMLList());
+
+        /* //uses listview
         ArrayList<MusicXMLFile> XMLList = db.getXMLList();
         ObservableList<String> items = FXCollections.observableArrayList ();
         for (MusicXMLFile mXMLFile : XMLList) {
             items.add(mXMLFile.toString());
         }
         lView.setItems(items);
+        */
     }
 }

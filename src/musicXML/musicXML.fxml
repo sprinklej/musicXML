@@ -17,13 +17,20 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <AnchorPane minHeight="450.0" minWidth="600.0" prefHeight="450.0" prefWidth="600.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+      <AnchorPane minHeight="450.0" minWidth="700.0" prefHeight="450.0" prefWidth="700.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
          <children>
-            <ListView fx:id="lView" layoutX="14.0" layoutY="41.0" minHeight="-Infinity" prefHeight="359.0" prefWidth="227.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="41.0" />
-            <TextField fx:id="searchField" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="227.0" promptText="Search" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-            <TextArea layoutX="252.0" layoutY="14.0" prefHeight="422.0" prefWidth="334.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="252.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-            <Button fx:id="importButton" layoutX="14.0" layoutY="409.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="110.0" text="Import" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
-            <Button fx:id="exportButton" layoutX="131.0" layoutY="409.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="110.0" text="Export" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" />
+             <!--<ListView fx:id="lView" layoutX="14.0" layoutY="41.0" minHeight="-Infinity" prefHeight="359.0" prefWidth="227.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="41.0" />
+             -->
+             <TableView fx:id="tView" layoutX="14.0" layoutY="41.0" prefHeight="359.0" prefWidth="300.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="41.0">
+                 <columns>
+                     <TableColumn fx:id="songTitleCol" minWidth="20.0" prefWidth="174.0" text="Song" />
+                     <TableColumn fx:id="composerCol" minWidth="20.0" prefWidth="124.0" text="Composer" />
+                 </columns>
+             </TableView>
+             <TextField fx:id="searchField" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="300.0" promptText="Search" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
+             <TextArea layoutX="326.0" layoutY="10.0" prefHeight="426.0" prefWidth="360.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="326.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0" />
+             <Button fx:id="importButton" layoutX="14.0" layoutY="409.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="110.0" text="Import" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+             <Button fx:id="exportButton" layoutX="131.0" layoutY="409.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="110.0" text="Export" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" />
          </children>
       </AnchorPane>
    </children>
