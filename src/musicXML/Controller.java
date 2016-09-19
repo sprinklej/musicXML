@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.Modality;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
@@ -33,7 +34,9 @@ import javax.swing.table.*;
 
 public class Controller {
     Database db;
-    MusicXMLFile crntSelection = null;
+    ArrayList<MusicXMLFile> currentList = null;
+
+
 
     @FXML
     private TextField searchField;
@@ -51,9 +54,7 @@ public class Controller {
     void initialize() {
         // load database
         db = new Database();
-
-        // tableview
-        assert tView != null : "fx:id=\"tView\" was not injected: check FXML file.";
+        currentList = db.getMXMLList();
         fillTableView();
 
         //http://code.makery.ch/blog/javafx-2-event-handlers-and-change-listeners/
@@ -61,7 +62,19 @@ public class Controller {
         searchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println("searchField changed - newValue: " + newValue);
+
+
+                if(newValue.length() == 0) {
+                    System.out.println("not searching for anything - repopulate the table");
+                    currentList = db.getMXMLList();
+                    fillTableView();
+                }
+
+                if(newValue.length() > 0) {
+                    System.out.println("search for: " + newValue);
+                    currentList = db.searchXMLList(newValue);
+                    fillTableView();
+                }
             }
         });
     }
@@ -115,10 +128,9 @@ public class Controller {
     // fill tableView
     private void fillTableView() {
         tView.getItems().clear(); // clear the table before filling
-
         songTitleCol.setCellValueFactory(new PropertyValueFactory<>("songTitle"));
         composerCol.setCellValueFactory(new PropertyValueFactory<>("composer"));
-        tView.getItems().addAll(db.getMXMLList());
+        tView.getItems().addAll(currentList);
     }
 
     // create song details window

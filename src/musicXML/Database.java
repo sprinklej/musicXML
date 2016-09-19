@@ -41,7 +41,7 @@ public class Database {
 
     public ArrayList<MusicXMLFile> getMXMLList() {
         ArrayList<MusicXMLFile> XMLList = new ArrayList<MusicXMLFile>();
-        String sqlQueryString = "select * from musicXMLFiles;";
+        String sqlQueryString = "SELECT * FROM musicXMLFiles;";
 
         try {
             ResultSet rs = stat.executeQuery(sqlQueryString);
@@ -51,6 +51,30 @@ public class Database {
                 System.out.println("composer: " + rs.getString("composer"));
                 System.out.println("filePath " + rs.getString("filePath"));*/
                 MusicXMLFile MXMLfile = new MusicXMLFile(rs.getInt("id"), rs.getString("songTitle"),rs.getString("composer"), rs.getString("filePath"));
+                XMLList.add(MXMLfile);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return XMLList;
+    }
+
+    public ArrayList<MusicXMLFile> searchXMLList(String searchTxt) {
+        ArrayList<MusicXMLFile> XMLList = new ArrayList<MusicXMLFile>();
+        String sqlQueryString = "SELECT * FROM musicXMLFiles WHERE songTitle like '%" + searchTxt +
+                "%' OR composer like '%" + searchTxt + "%';";
+
+        try {
+            ResultSet rs = stat.executeQuery(sqlQueryString);
+            while (rs.next()) {
+                /*System.out.println("id " + rs.getInt("id"));
+                System.out.println("songTitle " + rs.getString("songTitle"));
+                System.out.println("composer: " + rs.getString("composer"));
+                System.out.println("filePath " + rs.getString("filePath"));*/
+                MusicXMLFile MXMLfile = new MusicXMLFile(rs.getInt("id"), rs.getString("songTitle"), rs.getString("composer"), rs.getString("filePath"));
                 XMLList.add(MXMLfile);
             }
             rs.close();
