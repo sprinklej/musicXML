@@ -85,4 +85,29 @@ public class Database {
 
         return XMLList;
     }
+
+    public void addSong(MusicXMLFile newSong) {
+        String sqlQueryString = "INSERT INTO musicXMLFiles(songTitle, composer, filePath) VALUES ('"+ newSong.getSongTitle() +
+                "', '" + newSong.getComposer() + "', '" + newSong.getFilePath() + "');";
+
+        try {
+            stat.executeUpdate(sqlQueryString);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void updateSong(MusicXMLFile currentSong) {
+        String sqlQueryString = "UPDATE musicXMLFiles SET songTitle = '" + currentSong.getSongTitle() + "', composer = '" +
+                currentSong.getComposer() + "' WHERE id = " + currentSong.getId() + ";";
+
+        try {
+            stat.executeUpdate(sqlQueryString);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 }

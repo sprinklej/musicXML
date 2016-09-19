@@ -6,13 +6,16 @@ package musicXML;
 
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MXMLDetailsController {
-    MusicXMLFile data;
+    Database db;
+    MusicXMLFile currentSong;
 
     @FXML
     TextField songTitleField;
@@ -27,13 +30,27 @@ public class MXMLDetailsController {
     Button cancelButton;
 
     @FXML
-    void initialize() {}
+    void initialize() {
+    }
 
     @FXML
     private void handleOkButton(ActionEvent event) {
         System.out.println("clicked OK");
 
+        currentSong.setSongTitle(songTitleField.getText());
+        currentSong.setComposer(composerField.getText());
+        //currentSong.setFilePath(_____);
+
+        if(currentSong.getId() == -1) {
+            db.addSong(currentSong);
+        } else {
+            db.updateSong(currentSong);
+        }
+
+
         Stage stage = (Stage) okButton.getScene().getWindow();
+
+        //stage.getOnHidden().handle(new WindowEvent(stage, WindowEvent.WINDOW_HIDDEN));
         stage.close();
     }
 
@@ -45,17 +62,14 @@ public class MXMLDetailsController {
         stage.close();
     }
 
-    public void passData(MusicXMLFile aData) {
-        data = aData;
+    public void passData(Database adb, MusicXMLFile aData) {
+        db = adb;
+        currentSong = aData;
 
-        // display the data
-        if(data.getId() != -1) {
-            songTitleField.setText(data.getSongTitle());
-            composerField.setText(data.getComposer());
+        // display the data - not a new song
+        if(currentSong.getId() != -1) {
+            songTitleField.setText(currentSong.getSongTitle());
+            composerField.setText(currentSong.getComposer());
         }
-    }
-
-    private void setData() {
-
     }
 }

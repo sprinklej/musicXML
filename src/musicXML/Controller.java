@@ -9,6 +9,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
+import javafx.stage.WindowEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import javax.swing.table.*;
 
 public class Controller {
     Database db;
+    MusicXMLFile currentSong = null;
     ArrayList<MusicXMLFile> currentList = null;
 
 
@@ -62,8 +64,6 @@ public class Controller {
         searchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
-
                 if(newValue.length() == 0) {
                     System.out.println("not searching for anything - repopulate the table");
                     currentList = db.getMXMLList();
@@ -83,7 +83,7 @@ public class Controller {
     @FXML
     private void handleAddButton(ActionEvent event) {
         System.out.println("Add clicked");
-        songDetailsWindow(new MusicXMLFile(-1,"-1","-1","-1"));
+        songDetailsWindow(db, new MusicXMLFile(-1,"-1","-1","-1"));
     }
 
     @FXML
@@ -94,7 +94,7 @@ public class Controller {
             return;
         }
 
-        songDetailsWindow(tView.getSelectionModel().getSelectedItem());
+        songDetailsWindow(db, currentSong);
     }
 
     @FXML
@@ -108,17 +108,15 @@ public class Controller {
         if (tView.getSelectionModel().getSelectedItem() == null) {
             //System.out.println("Empty row");
             return;
+        } else {
+            currentSong = tView.getSelectionModel().getSelectedItem();
         }
 
         if(click.getButton().equals(MouseButton.PRIMARY) && click.getClickCount() == 1) {
-            //System.out.println("primary mouse button clicked");
-            //System.out.println(click.getTarget().toString());
-
-            MusicXMLFile file = tView.getSelectionModel().getSelectedItem();
-            txtArea.setText("id: " + file.getId());
-            txtArea.appendText("\nsongTitle: " + file.getSongTitle());
-            txtArea.appendText("\ncomposer: " + file.getComposer());
-            txtArea.appendText("\nfilePath: " + file.getFilePath());
+            txtArea.setText("id: " + currentSong.getId());
+            txtArea.appendText("\nsongTitle: " + currentSong.getSongTitle());
+            txtArea.appendText("\ncomposer: " + currentSong.getComposer());
+            txtArea.appendText("\nfilePath: " + currentSong.getFilePath());
         }
 
         //tView.getSelectionModel().clearSelection();
@@ -127,6 +125,7 @@ public class Controller {
 
     // fill tableView
     private void fillTableView() {
+        currentSong = null; // clear current song
         tView.getItems().clear(); // clear the table before filling
         songTitleCol.setCellValueFactory(new PropertyValueFactory<>("songTitle"));
         composerCol.setCellValueFactory(new PropertyValueFactory<>("composer"));
@@ -134,7 +133,7 @@ public class Controller {
     }
 
     // create song details window
-    private void songDetailsWindow(MusicXMLFile mXMLFile) {
+    private void songDetailsWindow(Database db, MusicXMLFile mXMLFile) {
         try {
             FXMLLoader root = new FXMLLoader(getClass().getResource("mXMLDetails.fxml"));
             Stage stage = new Stage();
@@ -143,15 +142,28 @@ public class Controller {
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(Main.primaryStage);
             stage.setTitle("Song Details");
+
+            // callback for when the window closes
+            //http://stackoverflow.com/questions/34590798/how-to-refresh-parent-window-after-closing-child-window-in-javafx
+            stage.setOnHidden(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    //System.out.println("REFRESH HERE");
+                    currentList = db.getMXMLList();
+                    Controller.this.fillTableView();
+
+                }
+            });
+
+
             stage.setScene(new Scene(root.load()));
             MXMLDetailsController controller = root.<MXMLDetailsController>getController();
-            controller.passData(mXMLFile);
+            controller.passData(db, mXMLFile);
+
             stage.show();
         } catch(Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-
 }
 
