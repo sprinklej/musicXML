@@ -1,10 +1,14 @@
 package musicXML;
 
+import com.sun.tools.javac.util.Name;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.input.MouseButton;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import javafx.stage.Modality;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,6 +28,7 @@ import javafx.beans.value.ChangeListener;
 
 import javax.swing.plaf.basic.BasicOptionPaneUI;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import javax.swing.table.*;
 
 
 public class Controller {
@@ -65,22 +70,18 @@ public class Controller {
     @FXML
     private void handleAddButton(ActionEvent event) {
         System.out.println("Add clicked");
-
-        // TODO move to its own class/function
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("mXMLDetails.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Song Details");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        songDetailsWindow(new MusicXMLFile(-1,"-1","-1","-1"));
     }
 
     @FXML
     private void handleEditButton(ActionEvent event) {
         System.out.println("Edit clicked");
+        //nothing to edit
+        if (tView.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+
+        songDetailsWindow(tView.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -92,32 +93,53 @@ public class Controller {
     private void handleTableViewClick(MouseEvent click) {
 
         if (tView.getSelectionModel().getSelectedItem() == null) {
-            System.out.println("null");
+            //System.out.println("Empty row");
             return;
         }
 
+        if(click.getButton().equals(MouseButton.PRIMARY) && click.getClickCount() == 1) {
+            //System.out.println("primary mouse button clicked");
+            //System.out.println(click.getTarget().toString());
 
-
-        MusicXMLFile test = tView.getSelectionModel().getSelectedItem();
-        txtArea.setText("id: " + test.getId());
-        txtArea.appendText("\nsongTitle: " + test.getSongTitle());
-        txtArea.appendText("\ncomposer: " + test.getComposer());
-        txtArea.appendText("\nfilePath: " + test.getFilePath());
-        System.out.println(test.toString());
-        /*if (click.getClickCount() == 2) {
-            System.out.println("doubleClick");
-        } else if (click.getClickCount() == 1) {
-            System.out.println("singleClick");
-        }*/
+            MusicXMLFile file = tView.getSelectionModel().getSelectedItem();
+            txtArea.setText("id: " + file.getId());
+            txtArea.appendText("\nsongTitle: " + file.getSongTitle());
+            txtArea.appendText("\ncomposer: " + file.getComposer());
+            txtArea.appendText("\nfilePath: " + file.getFilePath());
+        }
 
         //tView.getSelectionModel().clearSelection();
+        //tView.getSelectionModel().select(null);
     }
 
-    //fill tableView
+    // fill tableView
     private void fillTableView() {
-        // uses tableview
+        tView.getItems().clear(); // clear the table before filling
+
         songTitleCol.setCellValueFactory(new PropertyValueFactory<>("songTitle"));
         composerCol.setCellValueFactory(new PropertyValueFactory<>("composer"));
         tView.getItems().addAll(db.getMXMLList());
     }
+
+    // create song details window
+    private void songDetailsWindow(MusicXMLFile mXMLFile) {
+        try {
+            FXMLLoader root = new FXMLLoader(getClass().getResource("mXMLDetails.fxml"));
+            Stage stage = new Stage();
+            //http://stackoverflow.com/questions/19953306/block-parent-stage-until-child-stage-closes
+            // block/disable main window
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(Main.primaryStage);
+            stage.setTitle("Song Details");
+            stage.setScene(new Scene(root.load()));
+            MXMLDetailsController controller = root.<MXMLDetailsController>getController();
+            controller.passData(mXMLFile);
+            stage.show();
+        } catch(Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 }
+
