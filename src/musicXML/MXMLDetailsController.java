@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -28,6 +29,9 @@ public class MXMLDetailsController {
 
     @FXML
     TextField filePathField;
+
+    @FXML
+    Text warningText;
 
     @FXML
     Button confirmButton;
@@ -66,15 +70,17 @@ public class MXMLDetailsController {
     @FXML
     private void handleSelectFileButton(ActionEvent event) {
         System.out.println("Select File Clicked");
+        // create the filechooser
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
-        //Set extension filter
+        // set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
         fileChooser.getExtensionFilters().add(extFilter);
 
+        // display the filechooser
         fileChooser.setTitle("Select XML File");
         File file = fileChooser.showOpenDialog(stage);
-        if (file != null) { // makesure the user didnt press cancel
+        if (file != null) { // display the filepath if the user didnt hit cancel
             filePathField.setText(file.getPath());
         }
     }
@@ -82,11 +88,21 @@ public class MXMLDetailsController {
     @FXML
     private void handleConfirmButton(ActionEvent event) {
         System.out.println("Confirm Clicked");
+        warningText.setText("");
 
+        // check if all required fields filled in
+        if(!checkFields()) {
+            System.out.println("Empty text field");
+            warningText.setText("Field(s) Required");
+            return;
+        }
+
+        // get tect from text fields
         currentSong.setSongTitle(songTitleField.getText());
         currentSong.setComposer(composerField.getText());
         currentSong.setFilePath(filePathField.getText());
 
+        // add song to DB or update song in DB
         if(currentSong.getId() == -1) {
             db.addSong(currentSong);
         } else {
@@ -94,6 +110,7 @@ public class MXMLDetailsController {
         }
 
         //stage.getOnHidden().handle(new WindowEvent(stage, WindowEvent.WINDOW_HIDDEN));
+        // close the window
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();
     }
@@ -114,4 +131,12 @@ public class MXMLDetailsController {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
+
+    private boolean checkFields() {
+        if(songTitleField.getText().equals("") || filePathField.getText().equals("")) {
+            return false;
+        }
+        return true;
+    }
+
 }

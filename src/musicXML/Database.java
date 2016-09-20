@@ -95,7 +95,7 @@ public class Database {
             database.setAutoCommit(false);
             String sqlString = "INSERT INTO musicXMLFiles(songTitle, composer, filePath) VALUES (?, ?, ?);";
             PreparedStatement prep = database.prepareStatement(sqlString);
-            prep.setString(1, newSong.getSongTitle());
+            prep.setString(1, newSong.getSongTitle()); // handles .replaceAll("'", "''")) for you
             prep.setString(2, newSong.getComposer());
             prep.setString(3, newSong.getFilePath());
 
@@ -104,7 +104,7 @@ public class Database {
             database.setAutoCommit(true);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("ERROR: Failed to update the database :(");
+            System.out.println("ERROR: Failed to ADD to the database :(");
             // TODO Auto-generated catch block
         }
 
@@ -123,20 +123,40 @@ public class Database {
     }
 
     public void updateSong(MusicXMLFile currentSong) {
+        // using prepared statements
+        try {
+            database.setAutoCommit(false);
+            String sqlString = "UPDATE musicXMLFiles SET songTitle = ?, composer = ?, filePath = ? WHERE id = " +
+            currentSong.getId() + ";";
+            PreparedStatement prep = database.prepareStatement(sqlString);
+            prep.setString(1, currentSong.getSongTitle());
+            prep.setString(2, currentSong.getComposer());
+            prep.setString(3, currentSong.getFilePath());
 
-        String sqlQueryString = "UPDATE musicXMLFiles SET songTitle = '" +
+            prep.executeUpdate();
+            database.commit();
+            database.setAutoCommit(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("ERROR: Failed to update the database :(");
+            // TODO Auto-generated catch block
+        }
+
+        /*
+        // Not using prepared statements
+        String sqlString = "UPDATE musicXMLFiles SET songTitle = '" +
                 currentSong.getSongTitle().replaceAll("'", "''") + "', composer = '" +
                 currentSong.getComposer().replaceAll("'", "''") + "', filePath = '" +
                 currentSong.getFilePath().replaceAll("'", "''") + "' WHERE id = " + currentSong.getId() + ";";
 
-        System.out.println(sqlQueryString);
+        System.out.println(sqlString);
         try {
-            stat.executeUpdate(sqlQueryString);
+            stat.executeUpdate(sqlString);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+        */
     }
 
     public void deleteSong(MusicXMLFile currentSong) {

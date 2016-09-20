@@ -37,6 +37,11 @@
             <TextField fx:id="composerField" layoutX="14.0" layoutY="118.0" prefHeight="27.0" prefWidth="230.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
             <TextField fx:id="filePathField" layoutX="14.0" layoutY="174.0" prefHeight="27.0" prefWidth="261.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="100.0" />
             <Button fx:id="selectFileButton" layoutX="281.0" layoutY="174.0" mnemonicParsing="false" onAction="#handleSelectFileButton" prefHeight="27.0" prefWidth="80.0" text="Select file" AnchorPane.leftAnchor="281.0" AnchorPane.rightAnchor="14.0" />
+            <Text fx:id="warningText" fill="RED" layoutX="14.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="347.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </children>
