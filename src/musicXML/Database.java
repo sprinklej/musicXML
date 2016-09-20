@@ -1,5 +1,8 @@
 /**
  * Created by sprinklej on 2016-09-16.
+ * http://stackoverflow.com/questions/18497699/populate-a-tableview-using-database-in-javafx
+ * http://stackoverflow.com/questions/26980180/populating-a-tableview-with-data-from-database-javafx
+ * http://stackoverflow.com/questions/25651641/javafx-mysql-connection-example-please
  */
 
 
@@ -87,22 +90,46 @@ public class Database {
     }
 
     public void addSong(MusicXMLFile newSong) {
-        String sqlQueryString = "INSERT INTO musicXMLFiles(songTitle, composer, filePath) VALUES ('"+ newSong.getSongTitle() +
-                "', '" + newSong.getComposer() + "', '" + newSong.getFilePath() + "');";
-
+        // using prepared statements
         try {
-            stat.executeUpdate(sqlQueryString);
-        } catch (SQLException e) {
+            database.setAutoCommit(false);
+            String sqlString = "INSERT INTO musicXMLFiles(songTitle, composer, filePath) VALUES (?, ?, ?);";
+            PreparedStatement prep = database.prepareStatement(sqlString);
+            prep.setString(1, newSong.getSongTitle());
+            prep.setString(2, newSong.getComposer());
+            prep.setString(3, newSong.getFilePath());
+
+            prep.executeUpdate();
+            database.commit();
+            database.setAutoCommit(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("ERROR: Failed to update the database :(");
             // TODO Auto-generated catch block
+        }
+
+        /*
+        // Not using prepared statements
+        String sqlString = "INSERT INTO musicXMLFiles(songTitle, composer, filePath) VALUES ('"+
+                newSong.getSongTitle().replaceAll("'", "''") + "', '" + newSong.getComposer().replaceAll("'", "''") +
+                "', '" + newSong.getFilePath().replaceAll("'", "''") + "');";
+        System.out.println(sqlString);
+        try {
+            stat.executeUpdate(sqlString);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        */
     }
 
     public void updateSong(MusicXMLFile currentSong) {
-        String sqlQueryString = "UPDATE musicXMLFiles SET songTitle = '" + currentSong.getSongTitle() +
-                "', composer = '" + currentSong.getComposer() + "', filePath = '" + currentSong.getFilePath() +
-                "' WHERE id = " + currentSong.getId() + ";";
 
+        String sqlQueryString = "UPDATE musicXMLFiles SET songTitle = '" +
+                currentSong.getSongTitle().replaceAll("'", "''") + "', composer = '" +
+                currentSong.getComposer().replaceAll("'", "''") + "', filePath = '" +
+                currentSong.getFilePath().replaceAll("'", "''") + "' WHERE id = " + currentSong.getId() + ";";
+
+        System.out.println(sqlQueryString);
         try {
             stat.executeUpdate(sqlQueryString);
         } catch (SQLException e) {

@@ -1,6 +1,7 @@
 package musicXML;
 
 import com.sun.tools.javac.util.Name;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -114,23 +115,6 @@ public class Controller {
         System.out.println("Export clicked");
     }
 
-/*   @FXML
-    private void handleTableViewClick(MouseEvent click) {
-        if (tView.getSelectionModel().getSelectedItem() == null) {
-            //System.out.println("Empty row");
-            return;
-        } else {
-            currentSong = tView.getSelectionModel().getSelectedItem();
-        }
-
-        if(click.getButton().equals(MouseButton.PRIMARY) && click.getClickCount() == 1) {
-            txtArea.setText("id: " + currentSong.getId());
-            txtArea.appendText("\nsongTitle: " + currentSong.getSongTitle());
-            txtArea.appendText("\ncomposer: " + currentSong.getComposer());
-            txtArea.appendText("\nfilePath: " + currentSong.getFilePath());
-        }
-
-    } */
 
     // fill tableView
     private void fillTableView() {
@@ -159,14 +143,14 @@ public class Controller {
             //http://stackoverflow.com/questions/34590798/how-to-refresh-parent-window-after-closing-child-window-in-javafx
             stage.setOnHidden(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
-                    //System.out.println("REFRESH HERE");
                     currentList = db.getMXMLList();
-                    Controller.this.fillTableView();
+                    fillTableView();
 
                 }
             });
 
             stage.setScene(new Scene(root.load()));
+            //http://stackoverflow.com/questions/14187963/passing-parameters-javafx-fxml
             MXMLDetailsController controller = root.<MXMLDetailsController>getController();
             controller.passData(db, mXMLFile);
             stage.show();
@@ -175,5 +159,24 @@ public class Controller {
             e.printStackTrace();
         }
     }
+
+
+    /*   @FXML
+    private void handleTableViewClick(MouseEvent click) {
+        if (tView.getSelectionModel().getSelectedItem() == null) {
+            //System.out.println("Empty row");
+            return;
+        } else {
+            currentSong = tView.getSelectionModel().getSelectedItem();
+        }
+
+        if(click.getButton().equals(MouseButton.PRIMARY) && click.getClickCount() == 1) {
+            txtArea.setText("id: " + currentSong.getId());
+            txtArea.appendText("\nsongTitle: " + currentSong.getSongTitle());
+            txtArea.appendText("\ncomposer: " + currentSong.getComposer());
+            txtArea.appendText("\nfilePath: " + currentSong.getFilePath());
+        }
+
+    } */
 }
 

@@ -5,11 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.event.EventHandler;
+import javafx.stage.WindowEvent;
 import javafx.stage.Modality;
-
-//import java.sql.*;
-//import java.util.ArrayList;
-
 
 public class Main extends Application {
 
@@ -22,11 +20,9 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("musicXML.fxml"));
         primaryStage.setTitle("musicXML Viewer");
-        //primaryStage.setScene(new Scene(root, 600, 450));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
