@@ -99,8 +99,9 @@ public class Database {
     }
 
     public void updateSong(MusicXMLFile currentSong) {
-        String sqlQueryString = "UPDATE musicXMLFiles SET songTitle = '" + currentSong.getSongTitle() + "', composer = '" +
-                currentSong.getComposer() + "' WHERE id = " + currentSong.getId() + ";";
+        String sqlQueryString = "UPDATE musicXMLFiles SET songTitle = '" + currentSong.getSongTitle() +
+                "', composer = '" + currentSong.getComposer() + "', filePath = '" + currentSong.getFilePath() +
+                "' WHERE id = " + currentSong.getId() + ";";
 
         try {
             stat.executeUpdate(sqlQueryString);
@@ -109,5 +110,16 @@ public class Database {
             e.printStackTrace();
         }
 
+    }
+
+    public void deleteSong(MusicXMLFile currentSong) {
+        String sqlQueryString = "DELETE FROM musicXMLFiles WHERE id = " + currentSong.getId() + ";";
+
+        try {
+            stat.executeUpdate(sqlQueryString);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

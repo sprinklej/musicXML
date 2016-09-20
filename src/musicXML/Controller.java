@@ -24,13 +24,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-
 import javafx.beans.value.ChangeListener;
 
-import javax.swing.plaf.basic.BasicOptionPaneUI;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import javax.swing.table.*;
 
 
 public class Controller {
@@ -48,7 +43,6 @@ public class Controller {
     private TableColumn<MusicXMLFile, String> songTitleCol;
     @FXML
     private TableColumn<MusicXMLFile, String> composerCol;
-
     @FXML
     private TextArea txtArea;
 
@@ -77,13 +71,31 @@ public class Controller {
                 }
             }
         });
+
+        //http://stackoverflow.com/questions/26424769/javafx8-how-to-create-listener-for-selection-of-row-in-tableview
+        // listener for tableview
+        tView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MusicXMLFile>() {
+            @Override
+            public void changed(ObservableValue<? extends MusicXMLFile> observable, MusicXMLFile oldValue, MusicXMLFile newValue) {
+                if (newValue == null) {
+                    currentSong = null;
+                    return;
+                }
+                currentSong = newValue;
+
+                txtArea.setText("id: " + currentSong.getId());
+                txtArea.appendText("\nsongTitle: " + currentSong.getSongTitle());
+                txtArea.appendText("\ncomposer: " + currentSong.getComposer());
+                txtArea.appendText("\nfilePath: " + currentSong.getFilePath());
+            }
+        });
     }
 
 
     @FXML
     private void handleAddButton(ActionEvent event) {
         System.out.println("Add clicked");
-        songDetailsWindow(db, new MusicXMLFile(-1,"-1","-1","-1"));
+        songDetailsWindow(db, new MusicXMLFile(-1,"-1","-1", "-1"));
     }
 
     @FXML
@@ -102,9 +114,8 @@ public class Controller {
         System.out.println("Export clicked");
     }
 
-    @FXML
+/*   @FXML
     private void handleTableViewClick(MouseEvent click) {
-
         if (tView.getSelectionModel().getSelectedItem() == null) {
             //System.out.println("Empty row");
             return;
@@ -119,9 +130,7 @@ public class Controller {
             txtArea.appendText("\nfilePath: " + currentSong.getFilePath());
         }
 
-        //tView.getSelectionModel().clearSelection();
-        //tView.getSelectionModel().select(null);
-    }
+    } */
 
     // fill tableView
     private void fillTableView() {
@@ -137,6 +146,9 @@ public class Controller {
         try {
             FXMLLoader root = new FXMLLoader(getClass().getResource("mXMLDetails.fxml"));
             Stage stage = new Stage();
+
+
+
             //http://stackoverflow.com/questions/19953306/block-parent-stage-until-child-stage-closes
             // block/disable main window
             stage.initModality(Modality.WINDOW_MODAL);
@@ -154,11 +166,9 @@ public class Controller {
                 }
             });
 
-
             stage.setScene(new Scene(root.load()));
             MXMLDetailsController controller = root.<MXMLDetailsController>getController();
             controller.passData(db, mXMLFile);
-
             stage.show();
         } catch(Exception e) {
             // TODO Auto-generated catch block
