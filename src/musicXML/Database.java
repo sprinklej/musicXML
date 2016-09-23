@@ -24,11 +24,13 @@ public class Database {
             database = DriverManager.getConnection("jdbc:sqlite:database/musicXML.db");
             stat = database.createStatement();
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("FATAL ERROR: Could not find database class");
+            System.exit(1);
+            //e.printStackTrace();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("FATAL SQL/DATABASE ERROR: Could not load database");
+            System.exit(1);
+            //e.printStackTrace();
         }
     }
 
@@ -38,7 +40,8 @@ public class Database {
                 database.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("DATABASE ERROR: Could not close the database");
+            //e.printStackTrace();
         }
     }
 
@@ -49,17 +52,14 @@ public class Database {
         try {
             ResultSet rs = stat.executeQuery(sqlQueryString);
             while (rs.next()) {
-                /*System.out.println("id " + rs.getInt("id"));
-                System.out.println("songTitle " + rs.getString("songTitle"));
-                System.out.println("composer: " + rs.getString("composer"));
-                System.out.println("filePath " + rs.getString("filePath"));*/
-                MusicXMLFile MXMLfile = new MusicXMLFile(rs.getInt("id"), rs.getString("songTitle"),rs.getString("composer"), rs.getString("filePath"));
-                XMLList.add(MXMLfile);
+                MusicXMLFile mXMLFile = new MusicXMLFile(rs.getInt("id"), rs.getString("songTitle"),
+                        rs.getString("composer"), rs.getString("filePath"));
+                XMLList.add(mXMLFile);
             }
             rs.close();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("SQL ERROR: Could not return data from the database");
+            //e.printStackTrace();
         }
 
         return XMLList;
@@ -73,17 +73,14 @@ public class Database {
         try {
             ResultSet rs = stat.executeQuery(sqlQueryString);
             while (rs.next()) {
-                /*System.out.println("id " + rs.getInt("id"));
-                System.out.println("songTitle " + rs.getString("songTitle"));
-                System.out.println("composer: " + rs.getString("composer"));
-                System.out.println("filePath " + rs.getString("filePath"));*/
-                MusicXMLFile MXMLfile = new MusicXMLFile(rs.getInt("id"), rs.getString("songTitle"), rs.getString("composer"), rs.getString("filePath"));
-                XMLList.add(MXMLfile);
+                MusicXMLFile mXMLFile = new MusicXMLFile(rs.getInt("id"), rs.getString("songTitle"),
+                        rs.getString("composer"), rs.getString("filePath"));
+                XMLList.add(mXMLFile);
             }
             rs.close();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("SQL ERROR: Could not search the database");
+            //e.printStackTrace();
         }
 
         return XMLList;
@@ -103,9 +100,8 @@ public class Database {
             database.commit();
             database.setAutoCommit(true);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("ERROR: Failed to ADD to the database :(");
-            // TODO Auto-generated catch block
+            System.out.println("ERROR: Failed to ADD to the database");
+            //e.printStackTrace();
         }
 
         /*
@@ -137,9 +133,8 @@ public class Database {
             database.commit();
             database.setAutoCommit(true);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("ERROR: Failed to update the database :(");
-            // TODO Auto-generated catch block
+            System.out.println("SQL ERROR: Failed to update the database");
+            //e.printStackTrace();
         }
 
         /*
@@ -153,7 +148,6 @@ public class Database {
         try {
             stat.executeUpdate(sqlString);
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         */
@@ -165,8 +159,8 @@ public class Database {
         try {
             stat.executeUpdate(sqlQueryString);
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("SQL ERROR: Failed to DELETE from the database");
+            //e.printStackTrace();
         }
     }
 }

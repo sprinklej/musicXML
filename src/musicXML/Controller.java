@@ -30,9 +30,9 @@ import javafx.beans.value.ChangeListener;
 
 
 public class Controller {
-    Database db;
-    MusicXMLFile currentSong = null;
-    ArrayList<MusicXMLFile> currentList = null;
+    private Database db;
+    private MusicXMLFile currentSong = null;
+    private ArrayList<MusicXMLFile> currentList = null;
 
 
 
@@ -131,8 +131,6 @@ public class Controller {
             FXMLLoader root = new FXMLLoader(getClass().getResource("mXMLDetails.fxml"));
             Stage stage = new Stage();
 
-
-
             //http://stackoverflow.com/questions/19953306/block-parent-stage-until-child-stage-closes
             // block/disable main window
             stage.initModality(Modality.WINDOW_MODAL);
@@ -155,13 +153,14 @@ public class Controller {
             controller.passData(db, mXMLFile);
             stage.show();
         } catch(Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("ERROR: Failed to load song details window");
+            //e.printStackTrace();
         }
     }
 
 
-    /*   @FXML
+    /*
+    @FXML
     private void handleTableViewClick(MouseEvent click) {
         if (tView.getSelectionModel().getSelectedItem() == null) {
             //System.out.println("Empty row");

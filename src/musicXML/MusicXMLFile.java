@@ -13,14 +13,14 @@ public class MusicXMLFile {
     private Integer id;
     private String filePath;
 
-    private StringProperty songTitle; // = new SimpleStringProperty(this, "songTitle");
-    private StringProperty composer; // = new SimpleStringProperty(this, "composer");
-
+    //private StringProperty songTitle; // = new SimpleStringProperty(this, "songTitle");
+    //private StringProperty composer; // = new SimpleStringProperty(this, "composer");
+    private StringProperty songTitleProp = new SimpleStringProperty(this, "songTitleProp");
+    private StringProperty composerProp = new SimpleStringProperty(this, "composerProp");
 
     public MusicXMLFile(Integer aid, String aSongTitle,  String aComposer, String aFilePath){
-        songTitle = new SimpleStringProperty(this, "songTitle");
-        composer = new SimpleStringProperty(this, "composer");
-
+        //songTitle = new SimpleStringProperty(this, "songTitle");
+        //composer = new SimpleStringProperty(this, "composer");
         id = aid;
         setSongTitle(aSongTitle);
         setComposer(aComposer);
@@ -28,12 +28,10 @@ public class MusicXMLFile {
     }
 
     // string Properties
-    private final StringProperty songTitleProp = new SimpleStringProperty(this, "songTitleProp");
     public StringProperty songTitleProperty() {
         return songTitleProp;
     }
 
-    private final StringProperty composerProp = new SimpleStringProperty(this, "composerProp");
     public StringProperty composerProperty() {
         return composerProp;
     }

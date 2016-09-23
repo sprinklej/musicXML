@@ -18,8 +18,8 @@ import javafx.stage.WindowEvent;
 import java.io.File;
 
 public class MXMLDetailsController {
-    Database db;
-    MusicXMLFile currentSong;
+    private Database db;
+    private MusicXMLFile currentSong;
 
     @FXML
     TextField songTitleField;
