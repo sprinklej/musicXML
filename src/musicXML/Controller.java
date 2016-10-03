@@ -27,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.beans.value.ChangeListener;
 
+import javax.xml.stream.XMLStreamException;
 
 
 public class Controller {
@@ -88,6 +89,14 @@ public class Controller {
                 txtArea.appendText("\nsongTitle: " + currentSong.getSongTitle());
                 txtArea.appendText("\ncomposer: " + currentSong.getComposer());
                 txtArea.appendText("\nfilePath: " + currentSong.getFilePath());
+
+                XMLParser test = new XMLParser(currentSong);
+                //test.test2();
+                try {
+                    test.startParsing();
+                } catch (XMLStreamException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
