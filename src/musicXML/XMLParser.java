@@ -8,6 +8,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import javax.xml.validation.SchemaFactory;
 
+import com.sun.istack.internal.NotNull;
 import org.codehaus.stax2.XMLInputFactory2;
 import org.codehaus.stax2.XMLStreamReader2;
 
@@ -16,11 +17,15 @@ import org.codehaus.stax2.XMLStreamReader2;
 //http://stackoverflow.com/questions/4685563/how-to-pass-a-function-as-a-parameter-in-java
 //http://stackoverflow.com/questions/2186931/java-pass-method-as-parameter
 //http://stackoverflow.com/questions/4685435/what-is-the-cloest-thing-to-a-function-pointer-in-java
-interface I {
+
+/*
+@FunctionalInterface
+interface Interface {
     //Can only have 1 abstract method - therefore they must all return true/false
+    //http://stackoverflow.com/questions/23682243/lambda-can-only-be-used-with-functional-interface
     public boolean interfaceMethod();
 }
-
+*/
 
 /**
  * Created by sprinklej on 2016-09-23.
@@ -29,6 +34,7 @@ public class XMLParser {
     private MusicXMLFile currentSong = null;
     private Score currentScore = null;
     private XMLStreamReader2 xmlStreamReader = null;
+    private Score score = null;
 
     // constructor
     public XMLParser(MusicXMLFile aCurrentSong) {
@@ -36,6 +42,7 @@ public class XMLParser {
     }
 
     // Start Parsing
+
     public void startParsing() throws XMLStreamException {
         String xmlFileName = currentSong.getFilePath();
         InputStream xmlInputStream = getClass().getResourceAsStream(xmlFileName);
@@ -85,8 +92,9 @@ public class XMLParser {
         } */
     }
 
-//http://stackoverflow.com/questions/2671496/java-when-to-use-static-methods
-    public static void getElements(XMLStreamReader2 xmlStreamReader, I startMethod, I charMethod,I endMethod) {
+
+    //http://stackoverflow.com/questions/2671496/java-when-to-use-static-methods
+    public static void getElements(XMLStreamReader2 xmlStreamReader, Interface startMethod, Interface charMethod, Interface endMethod) {
         try {
            wLoop: while(xmlStreamReader.hasNext()){
                 int eventType = xmlStreamReader.next();
@@ -123,26 +131,24 @@ public class XMLParser {
 
 
     private Boolean scoreStart() {
-
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PARTWISE)) {
             // create part-wise score object
+            score = new Score(XMLConsts.PARTWISE);
         } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TIMEWISE)) {
             // create time-wise score object
+            score = new Score(XMLConsts.TIMEWISE);
         } else {
             // not error - just multiple loop throughs
         }
 
         parseHeader();
 
-        /*
-        if () {
+        if (score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
             parsePartwise();
         }
-        if () {
+        if (score.getScoreType().contentEquals(XMLConsts.TIMEWISE)) {
             parseTimewise();
         }
-        */
-
         return false;
     }
     private Boolean scoreChar() {
@@ -154,6 +160,15 @@ public class XMLParser {
 
 
 
+
+    /* Parse the header of the score - all elements are common between partwise and timewise
+     * 5 top-level elements:
+     * work
+     * movement-number
+     * movement-title
+     * identification
+     * part-list
+     */
     private void parseHeader() {
         ParseXMLHeader parseHeaderObj = new ParseXMLHeader();
 
@@ -210,38 +225,21 @@ public class XMLParser {
 
 
     /* parse score-partwise
-    Note: much more commonly used then timewise
-    Structure:
-    <score-partwise>
-        <work>{0,1}</work>
-        <movement-number>{0,1}</movement-number>
-        <movement-title>{0,1}</movement-title>
-        <identification>{0,1}</identification>
-        <defaults>{0,1}</defaults>
-        <credit page="">{0,unbounded}</credit>
-        <part-list>{1,1}</part-list>
-        <part id="">{1,unbounded}</part>
-    </score-partwise>
-    */
+     * Note: much more common then timewise
+     * Part->Measure
+     */
     private void parsePartwise() {
+        //System.out.println("finally made it");
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
 
+        }
     }
 
 
 
     /* parse score-timewise
-    Structure:
-    <score-timewise>
-        <work>{0,1}</work>
-        <movement-number>{0,1}</movement-number>
-        <movement-title>{0,1}</movement-title>
-        <identification>{0,1}</identification>
-        <defaults>{0,1}</defaults>
-        <credit page="">{0,unbounded}</credit>
-        <part-list>{1,1}</part-list>
-        <measure implicit="" non-controlling="" number="" width="">{1,unbounded}</measure>
-    </score-timewise>
-    */
+     * Measure->Part
+     */
     private void parseTimewise() {
 
     }

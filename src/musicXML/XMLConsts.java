@@ -45,6 +45,11 @@ public final class XMLConsts {
     public static final String GROUP_NAME = "group-name";
 
 
+    // PARTWISE
+    public static final String PART = "part";
+
+    // TIMEWISE
+
     private XMLConsts(){
         throw new AssertionError();
     }
