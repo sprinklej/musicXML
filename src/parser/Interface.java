@@ -1,4 +1,4 @@
-package musicXML;
+package parser;
 
 /*
  * Created by sprinklej on 2016-10-06.

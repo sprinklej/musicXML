@@ -1,14 +1,13 @@
-package musicXML;
+package parser;
 
 import java.io.*;
 
-import javax.swing.*;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
-import javax.xml.validation.SchemaFactory;
 
-import com.sun.istack.internal.NotNull;
+import musicXML.MusicXMLFile;
+import musicXML.Score;
 import org.codehaus.stax2.XMLInputFactory2;
 import org.codehaus.stax2.XMLStreamReader2;
 
@@ -62,6 +61,13 @@ public class XMLParser {
         }
 
         getElements(xmlStreamReader, () -> scoreStart(), () -> scoreChar(), () -> scoreEnd());
+
+        //temp
+        System.out.println(score.toString());
+        java.util.ArrayList<PartListWrapper> list = score.getPartList();
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getPart().toString());
+        }
         /*
         while(xmlStreamReader.hasNext()){
             int eventType = xmlStreamReader.next();
@@ -170,7 +176,7 @@ public class XMLParser {
      * part-list
      */
     private void parseHeader() {
-        ParseXMLHeader parseHeaderObj = new ParseXMLHeader();
+        ParseXMLHeader parseHeaderObj = new ParseXMLHeader(score);
 
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) { //work Subtree
             System.out.println("--Work SUBTREE start");
@@ -231,7 +237,8 @@ public class XMLParser {
     private void parsePartwise() {
         //System.out.println("finally made it");
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
-
+            // get part number
+            // get measures and sub-tree data from measures
         }
     }
 
@@ -241,6 +248,9 @@ public class XMLParser {
      * Measure->Part
      */
     private void parseTimewise() {
-
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
+            // get measure number
+            // get parts and sub-tree data from parts
+        }
     }
 }

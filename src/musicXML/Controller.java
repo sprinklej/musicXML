@@ -1,31 +1,23 @@
 package musicXML;
 
-import com.sun.tools.javac.util.Name;
-import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
-import javafx.scene.input.MouseButton;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
-import javafx.collections.*;
-import javafx.scene.input.KeyEvent;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.beans.value.ChangeListener;
+import parser.XMLParser;
 
 import javax.xml.stream.XMLStreamException;
 

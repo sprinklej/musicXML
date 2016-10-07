@@ -1,4 +1,4 @@
-package musicXML;
+package parser;
 
 
 /**
@@ -41,12 +41,17 @@ public final class XMLConsts {
     public static final String PART_LIST = "part-list";
     public static final String SCORE_PART = "score-part";
     public static final String PART_NAME = "part-name";
+    public static final String PART_ABBREV = "part-abbreviation";
     public static final String PART_GROUP = "part-group";
     public static final String GROUP_NAME = "group-name";
 
 
-    // PARTWISE
+    // PART
     public static final String PART = "part";
+
+
+    // MEASURE
+    public static final String MEASURE = "measure";
 
     // TIMEWISE
 

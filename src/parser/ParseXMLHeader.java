@@ -1,10 +1,10 @@
-package musicXML;
+package parser;
 
 import org.codehaus.stax2.XMLStreamReader2;
-
 import javax.xml.stream.XMLStreamException;
 
-
+import musicXML.Score;
+import musicXML.Part;
 /**
  * Created by sprinklej on 2016-10-02.
  *
@@ -20,6 +20,13 @@ import javax.xml.stream.XMLStreamException;
  */
 public class ParseXMLHeader {
 
+    private Score score;
+    private Part currentPart = null;
+
+    public ParseXMLHeader(Score aScore) {
+        score = aScore;
+    }
+
 
     // WORK SUBTREE
     public boolean workStart(XMLStreamReader2 xmlStreamReader) {
@@ -27,9 +34,12 @@ public class ParseXMLHeader {
             if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_NUM)) {
                     xmlStreamReader.next();
                 System.out.println("work-number: " + xmlStreamReader.getText());
+                score.setWorkNumber(xmlStreamReader.getText());
+
             } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_TITLE)) {
                 xmlStreamReader.next();
                 System.out.println("work-title: " + xmlStreamReader.getText());
+                score.setWorkTitle(xmlStreamReader.getText());
             }
 
         } catch (XMLStreamException e) {
@@ -54,6 +64,7 @@ public class ParseXMLHeader {
     }
     public boolean movementNumChar(XMLStreamReader2 xmlStreamReader) {
         System.out.println("movement-number: " + xmlStreamReader.getText());
+        score.setMovementNumber(xmlStreamReader.getText());
         return false;
     }
     public boolean movementNumEnd(XMLStreamReader2 xmlStreamReader) {
@@ -68,6 +79,7 @@ public class ParseXMLHeader {
     }
     public boolean movementTitleChar(XMLStreamReader2 xmlStreamReader) {
         System.out.println("movement-title: " + xmlStreamReader.getText());
+        score.setMovementTitle(xmlStreamReader.getText());
         return false;
     }
     public boolean movementTitleEnd(XMLStreamReader2 xmlStreamReader) {
@@ -83,8 +95,8 @@ public class ParseXMLHeader {
                     && (xmlStreamReader.getAttributeValue(0).contentEquals(XMLConsts.COMPOSER))) {
                 xmlStreamReader.next();
                 System.out.println("composer: " + xmlStreamReader.getText());
+                score.setCreatorComposer(xmlStreamReader.getText());
             }
-
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
@@ -132,13 +144,17 @@ public class ParseXMLHeader {
                 System.out.println("-*-part-group stop, num = " + num + "-*-");
             }
 
-            //System.out.println("num = " + num + " type = " + type);
         }
 
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PART)) {
            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
                 if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ID)) {
                     System.out.println("---score-part start, ID = " + xmlStreamReader.getAttributeValue(i));
+
+                    // create new part and wrapper object, add to score arraylist
+                    currentPart = new Part(xmlStreamReader.getAttributeValue(i));
+
+
                     XMLParser.getElements(xmlStreamReader, () -> scorePartStart(xmlStreamReader),
                             () -> scorePartChar(xmlStreamReader), () -> scorePartEnd(xmlStreamReader));
                     break; // found what we are looking for - also we cant loop anymore because the stream has moved on!
@@ -161,13 +177,18 @@ public class ParseXMLHeader {
 
     // SCORE-PART SUBTREE
     private boolean scorePartStart(XMLStreamReader2 xmlStreamReader) {
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_NAME)) {
-            try {
+        try {
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_NAME)) {
                 xmlStreamReader.next();
                 System.out.println("part-name: " + xmlStreamReader.getText());
-            } catch (XMLStreamException e) {
-                e.printStackTrace();
+                currentPart.setPartName(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_ABBREV)) {
+                xmlStreamReader.next();
+                System.out.println("part-abbrev: " + xmlStreamReader.getText());
+                currentPart.setPartAbbrev(xmlStreamReader.getText());
             }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -178,12 +199,15 @@ public class ParseXMLHeader {
     private boolean scorePartEnd(XMLStreamReader2 xmlStreamReader) {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PART)) {
             System.out.println("---score-part end");
+            PartListWrapper partListWrapper = new PartListWrapper(true, currentPart);
+            score.addToPartList(partListWrapper);
+            currentPart = null;
             return true;
         }
         return false;
     }
 
-    // PART-GROUP SUBTREE - only avaliable when type = "start"
+    // PART-GROUP SUBTREE - only available when type = "start"
     private boolean partGroupStart(XMLStreamReader2 xmlStreamReader) {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_NAME)) {
             try {
