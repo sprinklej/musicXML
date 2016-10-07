@@ -66,36 +66,12 @@ public class XMLParser {
         System.out.println(score.toString());
         java.util.ArrayList<PartListWrapper> list = score.getPartList();
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getPart().toString());
-        }
-        /*
-        while(xmlStreamReader.hasNext()){
-            int eventType = xmlStreamReader.next();
-            switch (eventType) {
-                case XMLEvent.START_ELEMENT:
-                    System.out.print("<" + xmlStreamReader.getName().toString() + ">");
-                    if ((xmlStreamReader.getName().toString() == XMLConsts.PARTWISE) ||
-                            (xmlStreamReader.getName().toString() == XMLConsts.TIMEWISE)) {
-                        parseScoreHeader(xmlStreamReader);
-                    }
-
-                    if (xmlStreamReader.getName().toString() == XMLConsts.PARTWISE) {
-                        System.out.println("PARTWISE!!!!!");
-                    } else if (xmlStreamReader.getName().toString() == XMLConsts.TIMEWISE) {
-                        System.out.println("TIMEWISE!!!!!");
-                    }
-                    break;
-                case XMLEvent.CHARACTERS:
-                    System.out.print(xmlStreamReader.getText());
-                    break;
-                case XMLEvent.END_ELEMENT:
-                    System.out.println("</"+xmlStreamReader.getName().toString()+">");
-                    break;
-                default:
-                    //do nothing
-                    break;
+            if (list.get(i).getIsPart() == true) {
+                System.out.println(list.get(i).getPart().toString());
+            } else {
+                System.out.println(list.get(i).getGroup().toString());
             }
-        } */
+        }
     }
 
 
@@ -129,9 +105,7 @@ public class XMLParser {
             }
         } catch (XMLStreamException e) {
             e.printStackTrace();
-            System.out.println("ERROR: Streaming file error");
-        //} catch (Exception e) {
-          //  e.printStackTrace();
+            System.out.println("ERROR: Stream Exception - Streaming file error");
         }
     }
 

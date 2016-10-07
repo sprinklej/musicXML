@@ -5,6 +5,7 @@ import javax.xml.stream.XMLStreamException;
 
 import musicXML.Score;
 import musicXML.Part;
+import musicXML.Group;
 /**
  * Created by sprinklej on 2016-10-02.
  *
@@ -22,6 +23,7 @@ public class ParseXMLHeader {
 
     private Score score;
     private Part currentPart = null;
+    private Group currentGroup = null;
 
     public ParseXMLHeader(Score aScore) {
         score = aScore;
@@ -122,6 +124,7 @@ public class ParseXMLHeader {
     // PART-LIST SUBTREE
     public boolean partListStart(XMLStreamReader2 xmlStreamReader) {
 
+        // PART-GROUP
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_GROUP)) {
             String num = "", type = "";
             for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
@@ -134,26 +137,32 @@ public class ParseXMLHeader {
                 }
             }
 
+            currentGroup = new Group(num, type);
+
             if (type.contentEquals(XMLConsts.START)) {
                 System.out.println("*-*part-group start, num = " + num + "*-*");
                 XMLParser.getElements(xmlStreamReader, () -> partGroupStart(xmlStreamReader),
                         () -> partGroupChar(xmlStreamReader), () -> partGroupEnd(xmlStreamReader));
             }
 
-            if (type.contentEquals(XMLConsts.STOP)) {
+            if (type.contentEquals(XMLConsts.STOP)) { // self closing tag - so nothing else to parse
                 System.out.println("-*-part-group stop, num = " + num + "-*-");
+
+                PartListWrapper partListWrapper = new PartListWrapper(false, currentGroup);
+                score.addToPartList(partListWrapper);
+                currentGroup = null;
             }
 
         }
 
+        // SCORE-PART
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PART)) {
            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
                 if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ID)) {
                     System.out.println("---score-part start, ID = " + xmlStreamReader.getAttributeValue(i));
 
-                    // create new part and wrapper object, add to score arraylist
+                    // create a new part object
                     currentPart = new Part(xmlStreamReader.getAttributeValue(i));
-
 
                     XMLParser.getElements(xmlStreamReader, () -> scorePartStart(xmlStreamReader),
                             () -> scorePartChar(xmlStreamReader), () -> scorePartEnd(xmlStreamReader));
@@ -207,26 +216,27 @@ public class ParseXMLHeader {
         return false;
     }
 
-    // PART-GROUP SUBTREE - only available when type = "start"
+    // PART-GROUP SUBTREE - is only available when type = "start"
     private boolean partGroupStart(XMLStreamReader2 xmlStreamReader) {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_NAME)) {
             try {
                 xmlStreamReader.next();
                 System.out.println("group-name: " + xmlStreamReader.getText());
+                currentGroup.setGroupName(xmlStreamReader.getText());
             } catch (XMLStreamException e) {
                 e.printStackTrace();
             }
         }
         return false;
     }
-
     private boolean partGroupChar(XMLStreamReader2 xmlStreamReader) {
         return false;
     }
-
     private boolean partGroupEnd(XMLStreamReader2 xmlStreamReader) {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_GROUP)) {
-            //System.out.println("---score-part end");
+            PartListWrapper partListWrapper = new PartListWrapper(false, currentGroup);
+            score.addToPartList(partListWrapper);
+            currentGroup = null;
             return true;
         }
         return false;
