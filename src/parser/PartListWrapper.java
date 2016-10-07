@@ -1,7 +1,7 @@
 package parser;
 
-import musicXML.Part;
-import musicXML.Group;
+import parsed.Part;
+import parsed.Group;
 
 /**
  * Created by sprinklej on 2016-10-06.

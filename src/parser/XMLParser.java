@@ -7,7 +7,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
 import musicXML.MusicXMLFile;
-import musicXML.Score;
+import parsed.Score;
 import org.codehaus.stax2.XMLInputFactory2;
 import org.codehaus.stax2.XMLStreamReader2;
 
@@ -62,7 +62,7 @@ public class XMLParser {
 
         getElements(xmlStreamReader, () -> scoreStart(), () -> scoreChar(), () -> scoreEnd());
 
-        //temp
+        // **TEMP**
         System.out.println(score.toString());
         java.util.ArrayList<PartListWrapper> list = score.getPartList();
         for (int i = 0; i < list.size(); i++) {
@@ -123,12 +123,15 @@ public class XMLParser {
 
         parseHeader();
 
+        parseBody();
+        /*
         if (score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
             parsePartwise();
         }
         if (score.getScoreType().contentEquals(XMLConsts.TIMEWISE)) {
             parseTimewise();
         }
+        */
         return false;
     }
     private Boolean scoreChar() {
@@ -150,8 +153,10 @@ public class XMLParser {
      * part-list
      */
     private void parseHeader() {
-        ParseXMLHeader parseHeaderObj = new ParseXMLHeader(score);
+        ParseXMLHeader parseHeaderObj = new ParseXMLHeader(xmlStreamReader, score);
+        parseHeaderObj.parseHeader();
 
+        /*
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) { //work Subtree
             System.out.println("--Work SUBTREE start");
             getElements(xmlStreamReader, () -> parseHeaderObj.workStart(xmlStreamReader),
@@ -159,11 +164,11 @@ public class XMLParser {
                     () -> parseHeaderObj.workEnd(xmlStreamReader));
         }
 
-        /* Could be completed using:
+         * Could be completed using:
          * xmlStreamReader.next();
          * xmlStreamReader.getText();
          * But done this way for consistency of keeping all header info in the ParseXMLHeader Class
-         */
+         *
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_NUM)) {
             System.out.println("--movement-number start");
             getElements(xmlStreamReader, () -> parseHeaderObj.movementNumStart(xmlStreamReader),
@@ -194,20 +199,30 @@ public class XMLParser {
                     () -> parseHeaderObj.partListChar(xmlStreamReader),
                     () -> parseHeaderObj.partListEnd(xmlStreamReader));
         }
+        */
+    }
+
+
+
+    private void parseBody() {
+        ParseXMLBody parseBodyObj = new ParseXMLBody(score);
+        if (score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
+            parseBodyObj.partwiseBody();
+        } else if (score.getScoreType().contentEquals(XMLConsts.TIMEWISE)) {
+            parseBodyObj.timewiseBody();
+        }
+
     }
 
 
 
 
 
+/*
+    //parse score-partwise
+    //Note: much more common then timewise
+    //Part->Measure
 
-
-
-
-    /* parse score-partwise
-     * Note: much more common then timewise
-     * Part->Measure
-     */
     private void parsePartwise() {
         //System.out.println("finally made it");
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
@@ -218,13 +233,14 @@ public class XMLParser {
 
 
 
-    /* parse score-timewise
-     * Measure->Part
-     */
+    //parse score-timewise
+    //Measure->Part
+
     private void parseTimewise() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
             // get measure number
             // get parts and sub-tree data from parts
         }
     }
+    */
 }

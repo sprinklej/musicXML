@@ -1,4 +1,4 @@
-package musicXML;
+package parsed;
 
 import parser.PartListWrapper;
 import parser.XMLConsts;

@@ -1,4 +1,6 @@
-package musicXML;
+package parsed;
+
+import java.util.ArrayList;
 
 /**
  * Created by sprinklej on 2016-10-06.
@@ -10,6 +12,8 @@ public class Part {
     private String partAbbrev;
     //score-instrument
     //midi-instrument
+
+    private ArrayList<Measure> measureList;
 
     public Part(String aPartID){
         partID = aPartID;
@@ -44,7 +48,7 @@ public class Part {
 
         string += "part-id: " + partID + "\n";
         string += "part-name: " + partName + "\n";
-        string += "part-abbreviation" + partAbbrev;
+        string += "part-abbreviation " + partAbbrev;
 
         return string;
     }

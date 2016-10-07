@@ -3,35 +3,106 @@ package parser;
 import org.codehaus.stax2.XMLStreamReader2;
 import javax.xml.stream.XMLStreamException;
 
-import musicXML.Score;
-import musicXML.Part;
-import musicXML.Group;
+import parsed.Score;
+import parsed.Part;
+import parsed.Group;
 /**
  * Created by sprinklej on 2016-10-02.
- *
  * The shared aspects of partwise and timewise scores
- * XML Structure:
- * <work>{0,1}</work>
- * <movement-number>{0,1}</movement-number>
- * <movement-title>{0,1}</movement-title>
- * <identification>{0,1}</identification>
- * <defaults>{0,1}</defaults>
- * <credit page="">{0,unbounded}</credit>
- * <part-list>{1,1}</part-list>
+ * -- XML Header Structure --
+ * work - {0,1}
+ *  work-number
+ *  work-title
+ *  opus
+ * movement-number - {0,1}
+ * movement-title - {0,1}
+ * identification - {0,1}
+ *  creator
+ *  rights
+ *  encoding
+ *  source
+ *  relation
+ *  miscellaneous
+ * defaults - {0,1}
+ *  scaling
+ *  page-layout
+ *  system-layout
+ *  staff-layout
+ *  appearance
+ *  music-font
+ *  word-font
+ *  lyric-font
+ *  lyric-language
+ * credit - {0,*}
+ *  credit-type
+ *  credit-words
+ * part-list - {1,1}
+ *  part-group
+ *  score-part
  */
 public class ParseXMLHeader {
 
+    private XMLStreamReader2 xmlStreamReader;
     private Score score;
     private Part currentPart = null;
     private Group currentGroup = null;
 
-    public ParseXMLHeader(Score aScore) {
+    public ParseXMLHeader(XMLStreamReader2 aXmlStreamReader, Score aScore) {
+        xmlStreamReader = aXmlStreamReader;
         score = aScore;
     }
 
 
+
+    public void parseHeader() {
+
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) { //work Subtree
+            System.out.println("--Work SUBTREE start");
+            XMLParser.getElements(xmlStreamReader, () -> workStart(), () -> workChar(), () -> workEnd());
+        }
+
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_NUM)) {
+            System.out.println("--movement-number start");
+            XMLParser.getElements(xmlStreamReader, () -> movementNumStart(), () -> movementNumChar(), () -> movementNumEnd());
+        }
+
+
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_TITLE)) {
+            System.out.println("--movement-title start");
+            XMLParser.getElements(xmlStreamReader, () -> movementTitleStart(), () -> movementTitleChar(), () -> movementTitleEnd());
+        }
+
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) { // identification subtree
+            System.out.println("--identification SUBTREE start");
+            XMLParser.getElements(xmlStreamReader, () -> identificationStart(), () -> identificationChar(),
+                    () -> identificationEnd());
+        }
+
+        // if... DEFAULT
+        // if... CREDIT
+
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_LIST)) {
+            System.out.println("--part-list SUBTREE start");
+            XMLParser.getElements(xmlStreamReader, () -> partListStart(), () -> partListChar(),
+                    () -> partListEnd());
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     // WORK SUBTREE
-    public boolean workStart(XMLStreamReader2 xmlStreamReader) {
+    private boolean workStart() {
         try {
             if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_NUM)) {
                     xmlStreamReader.next();
@@ -49,10 +120,10 @@ public class ParseXMLHeader {
         }
         return false;
     }
-    public boolean workChar(XMLStreamReader2 xmlStreamReader) {
+    private boolean workChar() {
         return false;
     }
-    public boolean workEnd(XMLStreamReader2 xmlStreamReader) {
+    private boolean workEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) {
             System.out.println("--Work end");
             return true;
@@ -60,38 +131,41 @@ public class ParseXMLHeader {
         return false;
     }
 
-    // MOVEMENT-NUMBER
-    public boolean movementNumStart(XMLStreamReader2 xmlStreamReader) {
+
+
+    // MOVEMENT-NUMBER  - no subtree just grab the characters
+    private boolean movementNumStart() {
         return false;
     }
-    public boolean movementNumChar(XMLStreamReader2 xmlStreamReader) {
+    private boolean movementNumChar() {
         System.out.println("movement-number: " + xmlStreamReader.getText());
         score.setMovementNumber(xmlStreamReader.getText());
         return false;
     }
-    public boolean movementNumEnd(XMLStreamReader2 xmlStreamReader) {
+    private boolean movementNumEnd() {
         System.out.println("--movement-number end");
         return true;
     }
 
 
-    // MOVEMENT-TITLE
-    public boolean movementTitleStart(XMLStreamReader2 xmlStreamReader) {
+
+    // MOVEMENT-TITLE  - no subtree just grab the characters
+    public boolean movementTitleStart() {
         return false;
     }
-    public boolean movementTitleChar(XMLStreamReader2 xmlStreamReader) {
+    public boolean movementTitleChar() {
         System.out.println("movement-title: " + xmlStreamReader.getText());
         score.setMovementTitle(xmlStreamReader.getText());
         return false;
     }
-    public boolean movementTitleEnd(XMLStreamReader2 xmlStreamReader) {
+    public boolean movementTitleEnd() {
         System.out.println("--movement-title end");
         return true;
     }
 
 
     // IDENTIFICATION SUBTREE
-    public boolean identificationStart(XMLStreamReader2 xmlStreamReader) {
+    private boolean identificationStart() {
         try {
             if ((xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREATOR))
                     && (xmlStreamReader.getAttributeValue(0).contentEquals(XMLConsts.COMPOSER))) {
@@ -109,10 +183,10 @@ public class ParseXMLHeader {
         // rights (copyright info)
         // encoding - SUBTREE: software, encoding date, supports
     }
-    public boolean identificationChar(XMLStreamReader2 xmlStreamReader) {
+    private boolean identificationChar() {
         return false;
     }
-    public boolean identificationEnd(XMLStreamReader2 xmlStreamReader) {
+    private boolean identificationEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
             System.out.println("--identification end");
             return true;
@@ -122,7 +196,7 @@ public class ParseXMLHeader {
 
 
     // PART-LIST SUBTREE
-    public boolean partListStart(XMLStreamReader2 xmlStreamReader) {
+    public boolean partListStart() {
 
         // PART-GROUP
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_GROUP)) {
@@ -141,8 +215,8 @@ public class ParseXMLHeader {
 
             if (type.contentEquals(XMLConsts.START)) {
                 System.out.println("*-*part-group start, num = " + num + "*-*");
-                XMLParser.getElements(xmlStreamReader, () -> partGroupStart(xmlStreamReader),
-                        () -> partGroupChar(xmlStreamReader), () -> partGroupEnd(xmlStreamReader));
+                XMLParser.getElements(xmlStreamReader, () -> partGroupStart(), () -> partGroupChar(),
+                        () -> partGroupEnd());
             }
 
             if (type.contentEquals(XMLConsts.STOP)) { // self closing tag - so nothing else to parse
@@ -164,18 +238,18 @@ public class ParseXMLHeader {
                     // create a new part object
                     currentPart = new Part(xmlStreamReader.getAttributeValue(i));
 
-                    XMLParser.getElements(xmlStreamReader, () -> scorePartStart(xmlStreamReader),
-                            () -> scorePartChar(xmlStreamReader), () -> scorePartEnd(xmlStreamReader));
+                    XMLParser.getElements(xmlStreamReader, () -> scorePartStart(), () -> scorePartChar(),
+                            () -> scorePartEnd());
                     break; // found what we are looking for - also we cant loop anymore because the stream has moved on!
                 }
             }
         }
         return false;
     }
-    public boolean partListChar(XMLStreamReader2 xmlStreamReader) {
+    public boolean partListChar() {
         return false;
     }
-    public boolean partListEnd(XMLStreamReader2 xmlStreamReader) {
+    public boolean partListEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_LIST)) {
             System.out.println("--part-list end");
             return true;
@@ -185,7 +259,7 @@ public class ParseXMLHeader {
 
 
     // SCORE-PART SUBTREE
-    private boolean scorePartStart(XMLStreamReader2 xmlStreamReader) {
+    private boolean scorePartStart() {
         try {
             if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_NAME)) {
                 xmlStreamReader.next();
@@ -201,11 +275,11 @@ public class ParseXMLHeader {
         }
         return false;
     }
-    private boolean scorePartChar(XMLStreamReader2 xmlStreamReader) {
+    private boolean scorePartChar() {
         //System.out.println("text = " + xmlStreamReader.getText());
         return false;
     }
-    private boolean scorePartEnd(XMLStreamReader2 xmlStreamReader) {
+    private boolean scorePartEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PART)) {
             System.out.println("---score-part end");
             PartListWrapper partListWrapper = new PartListWrapper(true, currentPart);
@@ -217,7 +291,7 @@ public class ParseXMLHeader {
     }
 
     // PART-GROUP SUBTREE - is only available when type = "start"
-    private boolean partGroupStart(XMLStreamReader2 xmlStreamReader) {
+    private boolean partGroupStart() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_NAME)) {
             try {
                 xmlStreamReader.next();
@@ -229,10 +303,10 @@ public class ParseXMLHeader {
         }
         return false;
     }
-    private boolean partGroupChar(XMLStreamReader2 xmlStreamReader) {
+    private boolean partGroupChar() {
         return false;
     }
-    private boolean partGroupEnd(XMLStreamReader2 xmlStreamReader) {
+    private boolean partGroupEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_GROUP)) {
             PartListWrapper partListWrapper = new PartListWrapper(false, currentGroup);
             score.addToPartList(partListWrapper);
