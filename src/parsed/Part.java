@@ -43,12 +43,18 @@ public class Part {
     }
 
 
+    // ADD TO MEASURE LIST
+    public void addToMeasureList(Measure aMeasure) {
+        measureList.add(aMeasure);
+    }
+
+
     public String toString() {
         String string = "";
 
         string += "part-id: " + partID + "\n";
         string += "part-name: " + partName + "\n";
-        string += "part-abbreviation " + partAbbrev;
+        string += "part-abbreviation: " + partAbbrev;
 
         return string;
     }

@@ -7,7 +7,8 @@ public class Measure {
     private String number;
     private String width;
 
-    public void Measure(String aNumber, String aWidth) {
+
+    public Measure(String aNumber, String aWidth) {
         number = aNumber;
         width = aWidth;
     }

@@ -121,17 +121,12 @@ public class XMLParser {
             // not error - just multiple loop throughs
         }
 
+        // parse xml header info
         parseHeader();
 
+        // parse xml body info
         parseBody();
-        /*
-        if (score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
-            parsePartwise();
-        }
-        if (score.getScoreType().contentEquals(XMLConsts.TIMEWISE)) {
-            parseTimewise();
-        }
-        */
+
         return false;
     }
     private Boolean scoreChar() {
@@ -144,103 +139,19 @@ public class XMLParser {
 
 
 
-    /* Parse the header of the score - all elements are common between partwise and timewise
-     * 5 top-level elements:
-     * work
-     * movement-number
-     * movement-title
-     * identification
-     * part-list
-     */
+    // Parse the header of the score - all elements are common between partwise and timewise scores
     private void parseHeader() {
         ParseXMLHeader parseHeaderObj = new ParseXMLHeader(xmlStreamReader, score);
         parseHeaderObj.parseHeader();
-
-        /*
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) { //work Subtree
-            System.out.println("--Work SUBTREE start");
-            getElements(xmlStreamReader, () -> parseHeaderObj.workStart(xmlStreamReader),
-                    () -> parseHeaderObj.workChar(xmlStreamReader),
-                    () -> parseHeaderObj.workEnd(xmlStreamReader));
-        }
-
-         * Could be completed using:
-         * xmlStreamReader.next();
-         * xmlStreamReader.getText();
-         * But done this way for consistency of keeping all header info in the ParseXMLHeader Class
-         *
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_NUM)) {
-            System.out.println("--movement-number start");
-            getElements(xmlStreamReader, () -> parseHeaderObj.movementNumStart(xmlStreamReader),
-                    () -> parseHeaderObj.movementNumChar(xmlStreamReader),
-                    () -> parseHeaderObj.movementNumEnd(xmlStreamReader));
-        }
-
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_TITLE)) {
-            System.out.println("--movement-title start");
-            getElements(xmlStreamReader, () -> parseHeaderObj.movementTitleStart(xmlStreamReader),
-                    () -> parseHeaderObj.movementTitleChar(xmlStreamReader),
-                    () -> parseHeaderObj.movementTitleEnd(xmlStreamReader));
-        }
-
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) { // identification subtree
-            System.out.println("--identification SUBTREE start");
-            getElements(xmlStreamReader, () -> parseHeaderObj.identificationStart(xmlStreamReader),
-                    () -> parseHeaderObj.identificationChar(xmlStreamReader),
-                    () -> parseHeaderObj.identificationEnd(xmlStreamReader));
-        }
-
-        // if... DEFAULT
-        // if... CREDIT
-
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_LIST)) {
-            System.out.println("--part-list SUBTREE start");
-            getElements(xmlStreamReader, () -> parseHeaderObj.partListStart(xmlStreamReader),
-                    () -> parseHeaderObj.partListChar(xmlStreamReader),
-                    () -> parseHeaderObj.partListEnd(xmlStreamReader));
-        }
-        */
     }
 
-
-
+    // Parse the body of the score
     private void parseBody() {
-        ParseXMLBody parseBodyObj = new ParseXMLBody(score);
+        ParseXMLBody parseBodyObj = new ParseXMLBody(xmlStreamReader, score);
         if (score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
             parseBodyObj.partwiseBody();
         } else if (score.getScoreType().contentEquals(XMLConsts.TIMEWISE)) {
             parseBodyObj.timewiseBody();
         }
-
     }
-
-
-
-
-
-/*
-    //parse score-partwise
-    //Note: much more common then timewise
-    //Part->Measure
-
-    private void parsePartwise() {
-        //System.out.println("finally made it");
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
-            // get part number
-            // get measures and sub-tree data from measures
-        }
-    }
-
-
-
-    //parse score-timewise
-    //Measure->Part
-
-    private void parseTimewise() {
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
-            // get measure number
-            // get parts and sub-tree data from parts
-        }
-    }
-    */
 }

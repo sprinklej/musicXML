@@ -94,7 +94,7 @@ public class Score {
     public String toString() {
         String string = "";
 
-        string += "Score-Type: " + scoreType + "\n";
+        string += "****Score-Type: " + scoreType + "****\n";
         string += "work-number: " + workNumber + "\n";
         string += "work-Title: " + workTitle + "\n";
         string += "movement-number: " + movementNumber + "\n";
