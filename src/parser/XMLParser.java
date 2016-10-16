@@ -60,37 +60,39 @@ public class XMLParser {
             return;
         }
 
-        getElements(xmlStreamReader, () -> scoreStart(), () -> scoreChar(), () -> scoreEnd());
+        getElements(xmlStreamReader, () -> scoreStart(), () -> scoreEnd());
 
-        // **TEMP**
+        // *****TEMP******
         System.out.println(score.toString());
-        java.util.ArrayList<PartListWrapper> list = score.getPartList();
+        /*java.util.ArrayList<PartListWrapper> list = score.getPartList();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getIsPart() == true) {
                 System.out.println(list.get(i).getPart().toString());
             } else {
                 System.out.println(list.get(i).getGroup().toString());
             }
-        }
+        }*/
     }
 
 
     //http://stackoverflow.com/questions/2671496/java-when-to-use-static-methods
-    public static void getElements(XMLStreamReader2 xmlStreamReader, Interface startMethod, Interface charMethod, Interface endMethod) {
+    public static void getElements(XMLStreamReader2 xmlStreamReader, Interface startMethod, Interface endMethod) {
         try {
            wLoop: while(xmlStreamReader.hasNext()){
                 int eventType = xmlStreamReader.next();
                 switch (eventType) {
                     case XMLEvent.START_ELEMENT:
                         //System.out.print("<" + xmlStreamReader.getName().toString() + ">");
-                        startMethod.interfaceMethod();
+                        if (startMethod.interfaceMethod()) {
+                            break wLoop;
+                        }
                         break;
-
+/*
                     case XMLEvent.CHARACTERS:
                         //System.out.print(xmlStreamReader.getText());
                         charMethod.interfaceMethod();
                         break;
-
+*/
                     case XMLEvent.END_ELEMENT:
                         //System.out.println("</"+xmlStreamReader.getName().toString()+">");
                         if (endMethod.interfaceMethod()) {
@@ -117,19 +119,14 @@ public class XMLParser {
         } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TIMEWISE)) {
             // create time-wise score object
             score = new Score(XMLConsts.TIMEWISE);
-        } else {
-            // not error - just multiple loop throughs
         }
 
         // parse xml header info
         parseHeader();
 
         // parse xml body info
-        parseBody();
+        //parseBody();
 
-        return false;
-    }
-    private Boolean scoreChar() {
         return false;
     }
     private Boolean scoreEnd() {

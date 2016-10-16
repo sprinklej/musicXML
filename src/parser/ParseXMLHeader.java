@@ -1,11 +1,11 @@
 package parser;
 
 import org.codehaus.stax2.XMLStreamReader2;
+
+import javax.swing.plaf.synth.SynthTabbedPaneUI;
 import javax.xml.stream.XMLStreamException;
 
-import parsed.Score;
-import parsed.Part;
-import parsed.Group;
+import parsed.*;
 /**
  * Created by sprinklej on 2016-10-02.
  * The shared aspects of partwise and timewise scores
@@ -44,49 +44,68 @@ public class ParseXMLHeader {
 
     private XMLStreamReader2 xmlStreamReader;
     private Score score;
+    //header subtrees
+    private Work work;
+    private Identification identification;
+
+
     private Part currentPart = null;
     private Group currentGroup = null;
 
+
+
+    // CONSTRUCTOR
     public ParseXMLHeader(XMLStreamReader2 aXmlStreamReader, Score aScore) {
         xmlStreamReader = aXmlStreamReader;
         score = aScore;
     }
 
 
-    // MAIN PARSER FOR THE HEADER
+    // MAIN PARSER FOR THE HEADER PART OF THE XML
     public void parseHeader() {
+        // work subtree
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) { //work Subtree
-            //System.out.println("--Work SUBTREE start");
-            XMLParser.getElements(xmlStreamReader, () -> workStart(), () -> workChar(), () -> workEnd());
+            work = new Work();
+            XMLParser.getElements(xmlStreamReader, () -> workStart(), () -> workEnd());
         }
-
+        // movement number
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_NUM)) {
-            //System.out.println("--movement-number start");
-            XMLParser.getElements(xmlStreamReader, () -> movementNumStart(), () -> movementNumChar(), () -> movementNumEnd());
+            try {
+                xmlStreamReader.next();
+                score.setMovementNumber(xmlStreamReader.getText());
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            }
         }
-
-
+        // movement title
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_TITLE)) {
-            //System.out.println("--movement-title start");
-            XMLParser.getElements(xmlStreamReader, () -> movementTitleStart(), () -> movementTitleChar(), () -> movementTitleEnd());
+            try {
+                xmlStreamReader.next();
+                score.setMovementTitle(xmlStreamReader.getText());
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            }
         }
-
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) { // identification subtree
-            //System.out.println("--identification SUBTREE start");
-            XMLParser.getElements(xmlStreamReader, () -> identificationStart(), () -> identificationChar(),
-                    () -> identificationEnd());
+        // identification subtree
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
+            identification = new Identification();
+            XMLParser.getElements(xmlStreamReader, () -> identificationStart(), () -> identificationEnd());
         }
-
+        // defaults
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DEFAULTS)) {
+            //TODO - create object etc...
+            XMLParser.getElements(xmlStreamReader, () -> defaultsStart(), () -> defaultsEnd());
+        }
+        // credit
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT)) {
+            //TODO - create object etc...
+            XMLParser.getElements(xmlStreamReader, () -> creditStart(), () -> creditEnd());
+        }
+        // partList subtree
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_LIST)) {
-            //System.out.println("--part-list SUBTREE start");
-            XMLParser.getElements(xmlStreamReader, () -> partListStart(), () -> partListChar(),
-                    () -> partListEnd());
+            XMLParser.getElements(xmlStreamReader, () -> partListStart(), () -> partListEnd());
         }
-        // if... DEFAULT
-        // if... CREDIT
     }
-
-
 
 
 
@@ -96,25 +115,24 @@ public class ParseXMLHeader {
             if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_NUM)) {
                     xmlStreamReader.next();
                 //System.out.println("work-number: " + xmlStreamReader.getText());
-                score.setWorkNumber(xmlStreamReader.getText());
+                work.setWorkNumber(xmlStreamReader.getText());
 
             } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_TITLE)) {
                 xmlStreamReader.next();
                 //System.out.println("work-title: " + xmlStreamReader.getText());
-                score.setWorkTitle(xmlStreamReader.getText());
-            }
+                work.setWorkTitle(xmlStreamReader.getText());
 
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.OPUS)) {
+                work.setWorkOpus(xmlStreamReader.getText());
+            }
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
         return false;
     }
-    private boolean workChar() {
-        return false;
-    }
     private boolean workEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) {
-            //System.out.println("--Work end");
+            score.setWork(work);
             return true;
         }
         return false;
@@ -122,62 +140,105 @@ public class ParseXMLHeader {
 
 
 
-    // MOVEMENT-NUMBER  - no subtree just grab the characters
-    private boolean movementNumStart() {
-        return false;
-    }
-    private boolean movementNumChar() {
-        //System.out.println("movement-number: " + xmlStreamReader.getText());
-        score.setMovementNumber(xmlStreamReader.getText());
-        return false;
-    }
-    private boolean movementNumEnd() {
-        //System.out.println("--movement-number end");
-        return true;
-    }
-
-
-
-    // MOVEMENT-TITLE  - no subtree just grab the characters
-    public boolean movementTitleStart() {
-        return false;
-    }
-    public boolean movementTitleChar() {
-        //System.out.println("movement-title: " + xmlStreamReader.getText());
-        score.setMovementTitle(xmlStreamReader.getText());
-        return false;
-    }
-    public boolean movementTitleEnd() {
-        //System.out.println("--movement-title end");
-        return true;
-    }
-
-
     // IDENTIFICATION SUBTREE
     private boolean identificationStart() {
         try {
-            if ((xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREATOR))
-                    && (xmlStreamReader.getAttributeValue(0).contentEquals(XMLConsts.COMPOSER))) {
+            // creator
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREATOR)) {
+
+                identification.addTocType(xmlStreamReader.getAttributeValue(0).toString()); // only attribute is "Type"
                 xmlStreamReader.next();
-                //System.out.println("composer: " + xmlStreamReader.getText());
-                score.setCreatorComposer(xmlStreamReader.getText());
+                identification.addToCreator(xmlStreamReader.getText());
             }
+            // rights
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHTS)) {
+                xmlStreamReader.next();
+                identification.addToRights(xmlStreamReader.getText());
+            }
+            // encoding
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING)) {
+                XMLParser.getElements(xmlStreamReader, () -> encodingStart(), () -> encodingEnd());
+            }
+            //source
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOURCE)) {
+                xmlStreamReader.next();
+                identification.setSource(xmlStreamReader.getText());
+            }
+            // relation
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RELATION)) {
+                xmlStreamReader.next();
+                identification.addToRelation(xmlStreamReader.getText());
+            }
+            //TODO MISCELLANEOUS
+
+
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
-        return false;
-
-        // OTHER PARTS OF SUBTREE:
-        // creator - lyricist
-        // rights (copyright info)
-        // encoding - SUBTREE: software, encoding date, supports
-    }
-    private boolean identificationChar() {
         return false;
     }
     private boolean identificationEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
             //System.out.println("--identification end");
+            return true;
+        }
+        return false;
+    }
+
+
+    // ENCODING SUBTREE
+    private boolean encodingStart() {
+        // encoder
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODER)) {
+            //TODO
+        }
+        // encoding-date
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DATE)) {
+            //TODO
+        }
+        // encoding-description
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DESCRIPTION)) {
+            //TODO
+        }
+        // software
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOFTWARE)) {
+            //TODO
+        }
+        // supports - self closing tag
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SUPPORTS)) {
+            //TODO
+        }
+        return false;
+    }
+
+    private boolean encodingEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING)) {
+            return true;
+        }
+        return false;
+    }
+
+
+    // DEFAULTS SUBTREE
+    private boolean defaultsStart() {
+        //TODO
+        return false;
+    }
+    private boolean defaultsEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DEFAULTS)) {
+            return true;
+        }
+        return false;
+    }
+
+
+    // CREDIT SUBTREE
+    private boolean creditStart() {
+        //TODO
+        return false;
+    }
+    private boolean creditEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT)) {
             return true;
         }
         return false;
@@ -204,8 +265,7 @@ public class ParseXMLHeader {
 
             if (type.contentEquals(XMLConsts.START)) {
                 //System.out.println("*-*part-group start, num = " + num + "*-*");
-                XMLParser.getElements(xmlStreamReader, () -> partGroupStart(), () -> partGroupChar(),
-                        () -> partGroupEnd());
+                XMLParser.getElements(xmlStreamReader, () -> partGroupStart(), () -> partGroupEnd());
             }
 
             if (type.contentEquals(XMLConsts.STOP)) { // self closing tag - so nothing else to parse
@@ -227,15 +287,11 @@ public class ParseXMLHeader {
                     // create a new part object
                     currentPart = new Part(xmlStreamReader.getAttributeValue(i));
 
-                    XMLParser.getElements(xmlStreamReader, () -> scorePartStart(), () -> scorePartChar(),
-                            () -> scorePartEnd());
+                    XMLParser.getElements(xmlStreamReader, () -> scorePartStart(), () -> scorePartEnd());
                     break; // found what we are looking for - also we cant loop anymore because the stream has moved on!
                 }
             }
         }
-        return false;
-    }
-    public boolean partListChar() {
         return false;
     }
     public boolean partListEnd() {
@@ -264,10 +320,6 @@ public class ParseXMLHeader {
         }
         return false;
     }
-    private boolean scorePartChar() {
-        //System.out.println("text = " + xmlStreamReader.getText());
-        return false;
-    }
     private boolean scorePartEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PART)) {
             //System.out.println("---score-part end");
@@ -290,9 +342,6 @@ public class ParseXMLHeader {
                 e.printStackTrace();
             }
         }
-        return false;
-    }
-    private boolean partGroupChar() {
         return false;
     }
     private boolean partGroupEnd() {

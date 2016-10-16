@@ -8,36 +8,53 @@ package parser;
  */
 public final class XMLConsts {
 
-    // TYPE
+    //TYPE
     public static final String PARTWISE = "score-partwise";
     public static final String TIMEWISE = "score-timewise";
 
-    // GENERAL
+
+    //GENERAL
     public static final String ID = "id";
     public static final String NUMBER = "number";
     public static final String TYPE = "type";
     public static final String START = "start";
     public static final String STOP = "stop";
 
-    //HEADER
+
+    //**HEADER-INFO**
+    //WORK
     public static final String WORK = "work";
     public static final String WORK_NUM = "work-number";
     public static final String WORK_TITLE = "work-title";
+    public static final String OPUS = "opus";
 
+    //MOVEMENT
     public static final String MOVEMENT_NUM = "movement-number";
     public static final String MOVEMENT_TITLE = "movement-title";
 
+    //IDENTIFICATION
     public static final String IDENTIFICATION = "identification";
     public static final String CREATOR = "creator";
-    public static final String COMPOSER = "composer";
-    //RIGHTS
-    //ENCODING SUBTREE-> ENCODING-DATE, ENCODER, SOFTWARE, ENCODING-DESCRIPTION
-    //SOURCE
+    public static final String RIGHTS = "rights";
+    public static final String ENCODING = "encoding";
+    public static final String ENCODER = "encoder";
+    public static final String ENCODING_DATE = "encoding-date";
+    public static final String SOFTWARE = "software";
+    public static final String SUPPORTS = "supports";
+    public static final String ELEMENT = "element";
+    public static final String ATTRIBUTE = "attribute";
+    public static final String VALUE = "value";
+    public static final String ENCODING_DESCRIPTION = "encoding-description";
+    public static final String SOURCE = "source";
+    public static final String RELATION = "relation";
 
     //DEFAULTS
-    //CREDIT
+    public static final String DEFAULTS = "defaults";
 
-    //HEADER - PART-LIST
+    //CREDIT
+    public static final String CREDIT = "credit";
+
+    //PART-LIST
     public static final String PART_LIST = "part-list";
     public static final String SCORE_PART = "score-part";
     public static final String PART_NAME = "part-name";
@@ -46,15 +63,16 @@ public final class XMLConsts {
     public static final String GROUP_NAME = "group-name";
 
 
-    // PART
+    //**BODY**
+    //PART
     public static final String PART = "part";
 
 
-    // MEASURE
+    //MEASURE
     public static final String MEASURE = "measure";
     public static final String WIDTH = "width";
 
-    // BODY
+    //BODY
     public static final String PRINT = "print";
 
     public static final String PAGE_LAYOUT = "page-layout";

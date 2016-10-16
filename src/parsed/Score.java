@@ -9,12 +9,11 @@ import java.util.ArrayList;
  * Created by sprinklej on 2016-10-02.
  */
 public class Score {
-    private String scoreType;
-    private String workNumber;
-    private String workTitle;
-    private String movementNumber;
-    private String movementTitle;
-    private String creatorComposer;
+    private String scoreType; //TODO - Attributes
+    private Work work;
+    private String movementNumber; // NO Attributes
+    private String movementTitle;  // NO Attributes
+   // private String creatorComposer;
     private ArrayList<PartListWrapper> partList;
 
 
@@ -29,12 +28,8 @@ public class Score {
         return scoreType;
     }
 
-    public String getWorkNumber() {
-        return workNumber;
-    }
-
-    public String getWorkTitle() {
-        return workTitle;
+    public Work getWork() {
+        return work;
     }
 
     public String getMovementNumber() {
@@ -43,10 +38,6 @@ public class Score {
 
     public String getMovementTitle() {
         return movementTitle;
-    }
-
-    public String getCreatorComposer() {
-        return creatorComposer;
     }
 
     public ArrayList<PartListWrapper> getPartList() {
@@ -65,12 +56,8 @@ public class Score {
         }
     }
 
-    public void setWorkNumber(String aWorkNumber) {
-        workNumber = aWorkNumber;
-    }
-
-    public void setWorkTitle(String aWorkTitle) {
-        workTitle = aWorkTitle;
+    public void setWork(Work aWork) {
+        work = aWork;
     }
 
     public void setMovementNumber(String aMovementNumber) {
@@ -81,10 +68,6 @@ public class Score {
         movementTitle = aMovementTitle;
     }
 
-    public void setCreatorComposer(String aCreatorComposer) {
-        creatorComposer = aCreatorComposer;
-    }
-
 
     // ADD TO PART-LIST
     public void addToPartList(PartListWrapper aPartListWrapper) {
@@ -93,14 +76,9 @@ public class Score {
 
     public String toString() {
         String string = "";
-
         string += "****Score-Type: " + scoreType + "****\n";
-        string += "work-number: " + workNumber + "\n";
-        string += "work-Title: " + workTitle + "\n";
         string += "movement-number: " + movementNumber + "\n";
-        string += "movement-title: " + movementTitle + "\n";
-        string += "creator-composer: " + creatorComposer;
-
+        string += "movement-title: " + movementTitle;
         return string;
     }
 }

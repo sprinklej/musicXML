@@ -86,8 +86,7 @@ public class ParseXMLBody {
             }
 
             System.out.println("PART: " + num + " -START-");
-            XMLParser.getElements(xmlStreamReader, () -> partwisePartStart(), () -> partwisePartChar(),
-                    () -> partwisePartEnd());
+            XMLParser.getElements(xmlStreamReader, () -> partwisePartStart(), () -> partwisePartEnd());
         }
     }
 
@@ -132,13 +131,8 @@ public class ParseXMLBody {
             //currentMeasure = new Measure(num, width);
         }
 
-        XMLParser.getElements(xmlStreamReader, () -> partwiseMeasureStart(), () -> partwiseMeasureChar(),
-                () -> partwiseMeasureEnd());
+        XMLParser.getElements(xmlStreamReader, () -> partwiseMeasureStart(), () -> partwiseMeasureEnd());
 
-        return false;
-    }
-
-    private boolean partwisePartChar() {
         return false;
     }
 
@@ -154,10 +148,6 @@ public class ParseXMLBody {
     // -- TIMEWISE SPECIFIC --
     // PARTWISE MEASURE
     private boolean partwiseMeasureStart() {
-        return false;
-    }
-
-    private boolean partwiseMeasureChar() {
         return false;
     }
 
