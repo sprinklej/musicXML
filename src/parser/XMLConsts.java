@@ -50,9 +50,23 @@ public final class XMLConsts {
 
     //DEFAULTS
     public static final String DEFAULTS = "defaults";
+    public static final String SCALING = "scaling";
+    public static final String STAFF_LAYOUT = "staff-layout";
+    public static final String APPEARANCE = "appearance";
+    public static final String MUSIC_FONT = "music-font";
+    public static final String WORD_FONT = "word-font";
+    public static final String LYRIC_FONT = "lyric-font";
+    public static final String LYRIC_LANGUAGE = "lyric-language";
+
+
 
     //CREDIT
     public static final String CREDIT = "credit";
+    public static final String CREDIT_TYPE = "credit-type";
+    public static final String LINK = "link";
+    public static final String BOOKMARK = "bookmark";
+    public static final String CREDIT_IMAGE = "credit-image";
+    public static final String CREDIT_WORDS = "credit-words";
 
     //PART-LIST
     public static final String PART_LIST = "part-list";

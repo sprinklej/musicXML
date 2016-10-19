@@ -47,6 +47,8 @@ public class ParseXMLHeader {
     //header subtrees
     private Work work;
     private Identification identification;
+    private Defaults defaults;
+    private Credit credit;
 
 
     private Part currentPart = null;
@@ -93,12 +95,13 @@ public class ParseXMLHeader {
         }
         // defaults
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DEFAULTS)) {
-            //TODO - create object etc...
+            defaults = new Defaults();
             XMLParser.getElements(xmlStreamReader, () -> defaultsStart(), () -> defaultsEnd());
         }
         // credit
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT)) {
-            //TODO - create object etc...
+            String page = xmlStreamReader.getAttributeValue(0).toString(); //page is only attribute
+            credit = new Credit(page);
             XMLParser.getElements(xmlStreamReader, () -> creditStart(), () -> creditEnd());
         }
         // partList subtree
@@ -145,10 +148,12 @@ public class ParseXMLHeader {
         try {
             // creator
             if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREATOR)) {
-
-                identification.addTocType(xmlStreamReader.getAttributeValue(0).toString()); // only attribute is "Type"
+                String type = xmlStreamReader.getAttributeValue(0).toString(); // only attribute is "Type"
                 xmlStreamReader.next();
-                identification.addToCreator(xmlStreamReader.getText());
+                String creator = xmlStreamReader.getText();
+
+                Creator creatorObj = new Creator(type, creator);
+                identification.addToCreator(creatorObj);
             }
             // rights
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHTS)) {
@@ -169,7 +174,7 @@ public class ParseXMLHeader {
                 xmlStreamReader.next();
                 identification.addToRelation(xmlStreamReader.getText());
             }
-            //TODO MISCELLANEOUS
+            //TODO MISCELLANEOUS **************************************************************
 
 
         } catch (XMLStreamException e) {
@@ -179,7 +184,7 @@ public class ParseXMLHeader {
     }
     private boolean identificationEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
-            //System.out.println("--identification end");
+            score.setIdentification(identification);
             return true;
         }
         return false;
@@ -188,25 +193,30 @@ public class ParseXMLHeader {
 
     // ENCODING SUBTREE
     private boolean encodingStart() {
-        // encoder
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODER)) {
-            //TODO
-        }
-        // encoding-date
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DATE)) {
-            //TODO
-        }
-        // encoding-description
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DESCRIPTION)) {
-            //TODO
-        }
-        // software
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOFTWARE)) {
-            //TODO
-        }
-        // supports - self closing tag
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SUPPORTS)) {
-            //TODO
+        try {
+            // encoder
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODER)) {
+                xmlStreamReader.next();
+                //identification.set(xmlStreamReader.getText());
+            }
+            // encoding-date
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DATE)) {
+                //TODO
+            }
+            // encoding-description
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DESCRIPTION)) {
+                //TODO
+            }
+            // software
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOFTWARE)) {
+                //TODO
+            }
+            // supports - self closing tag
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SUPPORTS)) {
+                //TODO
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -221,11 +231,49 @@ public class ParseXMLHeader {
 
     // DEFAULTS SUBTREE
     private boolean defaultsStart() {
-        //TODO
+        // TODO
+        // scaling
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCALING)) {
+            // TODO
+        }
+        // page-layout
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_LAYOUT)) {
+            // TODO
+        }
+        // system-layout
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_LAYOUT)) {
+            // TODO
+        }
+        // staff-layout 0..*
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.STAFF_LAYOUT)) {
+            // TODO
+        }
+        // appearance
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.APPEARANCE)) {
+            // TODO
+        }
+        // music-font
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MUSIC_FONT)) {
+            // TODO
+        }
+        // word-font
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORD_FONT)) {
+            // TODO
+        }
+        // lyric-font 0..*
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LYRIC_FONT)) {
+            // TODO
+        }
+        // lyric-language 0..*
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LYRIC_LANGUAGE)) {
+            // TODO
+        }
+
         return false;
     }
     private boolean defaultsEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DEFAULTS)) {
+            score.setDefaults(defaults);
             return true;
         }
         return false;
@@ -235,10 +283,24 @@ public class ParseXMLHeader {
     // CREDIT SUBTREE
     private boolean creditStart() {
         //TODO
+        // credit-type
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT_TYPE)) {
+            // TODO
+        }
+        // link
+        // bookmark
+
+        //????
+        // credit-image
+        // credit-words
+        // link
+        // bookmark
+        // credit-words
         return false;
     }
     private boolean creditEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT)) {
+            score.addToCredit(credit);
             return true;
         }
         return false;

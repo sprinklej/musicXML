@@ -13,12 +13,15 @@ public class Score {
     private Work work;
     private String movementNumber; // NO Attributes
     private String movementTitle;  // NO Attributes
-   // private String creatorComposer;
+    private Identification identification; // NO Attributes
+    private Defaults defaults;
+    private ArrayList<Credit> credit;
     private ArrayList<PartListWrapper> partList;
 
 
     public Score(String aScoreType){
         scoreType = aScoreType;
+        credit = new ArrayList<Credit>();
         partList = new ArrayList<PartListWrapper>();
     }
 
@@ -38,6 +41,14 @@ public class Score {
 
     public String getMovementTitle() {
         return movementTitle;
+    }
+
+    public Identification getIdentification() {
+        return identification;
+    }
+
+    public Defaults getDefaults() {
+        return defaults;
     }
 
     public ArrayList<PartListWrapper> getPartList() {
@@ -68,12 +79,25 @@ public class Score {
         movementTitle = aMovementTitle;
     }
 
+    public void setIdentification(Identification aIdentification) {
+        identification = aIdentification;
+    }
 
-    // ADD TO PART-LIST
+    public void setDefaults(Defaults aDefaults) {
+        defaults = aDefaults;
+    }
+
+    // ADD TO ARRAYLIST
+    public void addToCredit(Credit aCredit) {
+        credit.add(aCredit);
+    }
+
     public void addToPartList(PartListWrapper aPartListWrapper) {
         partList.add(aPartListWrapper);
     }
 
+
+    // TOSTRING
     public String toString() {
         String string = "";
         string += "****Score-Type: " + scoreType + "****\n";
