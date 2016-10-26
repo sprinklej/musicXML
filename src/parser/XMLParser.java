@@ -30,6 +30,8 @@ interface Interface {
  * Created by sprinklej on 2016-09-23.
  */
 public class XMLParser {
+    private String xmlVersDocType;
+
     private MusicXMLFile currentSong = null;
     private Score currentScore = null;
     private XMLStreamReader2 xmlStreamReader = null;
@@ -40,20 +42,44 @@ public class XMLParser {
         currentSong = aCurrentSong;
     }
 
-    // Start Parsing
+    // GETTERS
+    public Score getScore(){
+        return score;
+    }
 
+    // Start Parsing
     public void startParsing() throws XMLStreamException {
         String xmlFileName = currentSong.getFilePath();
+
+        // XML parser works weird to get doctype info
+        //http://stackoverflow.com/questions/24666805/java-only-read-first-line-of-a-file
+        //http://stackoverflow.com/questions/2312756/how-to-read-a-specific-line-using-the-specific-line-number-from-a-file-in-java
+        BufferedReader bReader = null;
+        try {
+            bReader = new BufferedReader(new FileReader(xmlFileName));
+            xmlVersDocType = bReader.readLine();
+            xmlVersDocType += "\n" + bReader.readLine();
+            bReader.close();
+            //System.out.println(text);
+        //} catch (FileNotFoundException e) {
+            //e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         InputStream xmlInputStream = getClass().getResourceAsStream(xmlFileName);
         XMLInputFactory2 xmlInputFactory = (XMLInputFactory2)XMLInputFactory.newInstance();
         xmlInputFactory.setProperty(XMLInputFactory2.SUPPORT_DTD, false);   //do not read DTD - TODO read local copy
         //xmlInputFactory.setProperty(XMLInputFactory2.P_DTD_OVERRIDE,
         //SchemaFactory.newInstance("/Users/sprinklej/Downloads/MusicXML/musicxml30/musicxml.xsd"));
 
-        //XMLStreamReader2 xmlStreamReader = null;
+
+
         try {
             xmlStreamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(xmlFileName, new FileInputStream(xmlFileName));
-            //xmlStreamReader.validateAgainst(schemaFromDTD);
+            //System.out.println(xmlStreamReader.getVersion());
+            //System.out.println(xmlStreamReader.getEncoding());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("ERROR: File not found");
@@ -112,13 +138,14 @@ public class XMLParser {
     }
 
 
+    //
     private Boolean scoreStart() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PARTWISE)) {
             // create part-wise score object
-            score = new Score(XMLConsts.PARTWISE);
+            score = new Score(xmlVersDocType, XMLConsts.PARTWISE);
         } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TIMEWISE)) {
             // create time-wise score object
-            score = new Score(XMLConsts.TIMEWISE);
+            score = new Score(xmlVersDocType, XMLConsts.TIMEWISE);
         }
 
         // parse xml header info

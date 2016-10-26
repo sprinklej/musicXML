@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Created by sprinklej on 2016-10-02.
  */
 public class Score {
+    private String xmlVersDocType;
     private String scoreType; //TODO - Attributes
     private Work work;
     private String movementNumber; // NO Attributes
@@ -19,7 +20,8 @@ public class Score {
     private ArrayList<PartListWrapper> partList;
 
 
-    public Score(String aScoreType){
+    public Score(String axmlVersDocType, String aScoreType){
+        xmlVersDocType = axmlVersDocType;
         scoreType = aScoreType;
         credit = new ArrayList<Credit>();
         partList = new ArrayList<PartListWrapper>();

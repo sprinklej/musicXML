@@ -24,6 +24,8 @@ import javax.xml.stream.XMLStreamException;
 
 public class Controller {
     private Database db;
+    private XMLParser parser;
+    private ExportXML exporter;
     private MusicXMLFile currentSong = null;
     private ArrayList<MusicXMLFile> currentList = null;
 
@@ -82,10 +84,9 @@ public class Controller {
                 txtArea.appendText("\ncomposer: " + currentSong.getComposer());
                 txtArea.appendText("\nfilePath: " + currentSong.getFilePath());
 
-                XMLParser test = new XMLParser(currentSong);
-                //test.test2();
+                parser = new XMLParser(currentSong);
                 try {
-                    test.startParsing();
+                    parser.startParsing();
                 } catch (XMLStreamException e) {
                     e.printStackTrace();
                 }
@@ -97,7 +98,7 @@ public class Controller {
     @FXML
     private void handleAddButton(ActionEvent event) {
         System.out.println("Add clicked");
-        songDetailsWindow(db, new MusicXMLFile(-1,"-1","-1", "-1"));
+        songDetailsWindow(db, new MusicXMLFile(-1,"-1","-1","-1"));
     }
 
     @FXML
@@ -107,13 +108,16 @@ public class Controller {
         if (tView.getSelectionModel().getSelectedItem() == null) {
             return;
         }
-
         songDetailsWindow(db, currentSong);
     }
 
     @FXML
     private void handleExportButton(ActionEvent event) {
         System.out.println("Export clicked");
+        if (tView.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        exporter = new ExportXML(parser.getScore());
     }
 
 

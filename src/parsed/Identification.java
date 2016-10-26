@@ -8,13 +8,13 @@ import java.util.ArrayList;
 public class Identification {
     private ArrayList<Creator> creator; //0..*
     private ArrayList<String> rights; //0..*
-    // ENCODING SUBTREE private String encoding;
+    // ENCODING SUBTREE
     private String eEncoder;
     private String eDate;   // yyyy-mm-dd
     private String eDescription;
-    private String eSoftware;
+    private ArrayList<String> eSoftware; // documentation says {1,1} but most  have multiple
     // TODO SUPPORTS is its own subtree ***************************************
-    //private String eSupports;
+    private String eSupports;
     //private String esType; // supports attributes
     //private String esElement;
     //private String esAttribute;
@@ -29,6 +29,7 @@ public class Identification {
         creator = new ArrayList<Creator>();
         rights = new ArrayList<String>();
         relation = new ArrayList<String>();
+        eSoftware = new ArrayList<String>();
     }
 
     // GETTERS
@@ -40,9 +41,6 @@ public class Identification {
         return rights;
     }
 
-    /*public String getEncoding() {
-        return encoding;
-    }*/
     public String geteEncoder() {
         return eEncoder;
     }
@@ -55,7 +53,7 @@ public class Identification {
         return eDescription;
     }
 
-    public String geteSoftware() {
+    public ArrayList<String> geteSoftware() {
         return eSoftware;
     }
 
@@ -82,11 +80,6 @@ public class Identification {
         eDescription = aeDescription;
     }
 
-    public void seteSoftware(String aeSoftware) {
-        eSoftware = aeSoftware;
-    }
-
-
     public void setSource(String aSource) {
         source = aSource;
     }
@@ -103,6 +96,10 @@ public class Identification {
 
     public void addToRelation(String aRelation) {
         relation.add(aRelation);
+    }
+
+    public void addToeSoftware(String aeSoftware) {
+        eSoftware.add(aeSoftware);
     }
 
 

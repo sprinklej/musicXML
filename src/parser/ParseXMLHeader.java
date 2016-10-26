@@ -113,6 +113,7 @@ public class ParseXMLHeader {
 
 
     // WORK SUBTREE
+    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean workStart() {
         try {
             if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_NUM)) {
@@ -144,6 +145,7 @@ public class ParseXMLHeader {
 
 
     // IDENTIFICATION SUBTREE
+    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean identificationStart() {
         try {
             // creator
@@ -194,26 +196,30 @@ public class ParseXMLHeader {
     // ENCODING SUBTREE
     private boolean encodingStart() {
         try {
-            // encoder
+            // encoding-encoder
             if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODER)) {
                 xmlStreamReader.next();
-                //identification.set(xmlStreamReader.getText());
+                identification.seteEncoder(xmlStreamReader.getText());
             }
             // encoding-date
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DATE)) {
-                //TODO
+                xmlStreamReader.next();
+                identification.seteDate(xmlStreamReader.getText());
             }
             // encoding-description
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DESCRIPTION)) {
-                //TODO
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DESCRIPTION)) {
+                xmlStreamReader.next();
+                identification.seteDescription(xmlStreamReader.getText());
             }
             // software
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOFTWARE)) {
-                //TODO
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOFTWARE)) {
+                xmlStreamReader.next();
+                identification.addToeSoftware(xmlStreamReader.getText());
             }
             // supports - self closing tag
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SUPPORTS)) {
-                //TODO
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SUPPORTS)) {
+                //TODO - selfclosing tag
+                //<supports attribute="new-system" element="print" type="yes" value="yes"/>
             }
         } catch (XMLStreamException e) {
             e.printStackTrace();
@@ -230,8 +236,8 @@ public class ParseXMLHeader {
 
 
     // DEFAULTS SUBTREE
+    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean defaultsStart() {
-        // TODO
         // scaling
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCALING)) {
             // TODO
@@ -279,8 +285,21 @@ public class ParseXMLHeader {
         return false;
     }
 
+    // SCALING SUBTREE
+    private boolean scalingStart() {
+        //TODO
+        return false;
+    }
+
+    private boolean scalingEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCALING)) {
+            return true;
+        }
+        return false;
+    }
 
     // CREDIT SUBTREE
+    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean creditStart() {
         //TODO
         // credit-type
@@ -308,6 +327,7 @@ public class ParseXMLHeader {
 
 
     // PART-LIST SUBTREE
+    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     public boolean partListStart() {
 
         // PART-GROUP
