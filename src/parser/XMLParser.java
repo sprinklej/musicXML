@@ -51,7 +51,7 @@ public class XMLParser {
     public void startParsing() throws XMLStreamException {
         String xmlFileName = currentSong.getFilePath();
 
-        // XML parser works weird to get doctype info
+        // XML parser skips right to the start of the xml
         //http://stackoverflow.com/questions/24666805/java-only-read-first-line-of-a-file
         //http://stackoverflow.com/questions/2312756/how-to-read-a-specific-line-using-the-specific-line-number-from-a-file-in-java
         BufferedReader bReader = null;
@@ -60,9 +60,6 @@ public class XMLParser {
             xmlVersDocType = bReader.readLine();
             xmlVersDocType += "\n" + bReader.readLine();
             bReader.close();
-            //System.out.println(text);
-        //} catch (FileNotFoundException e) {
-            //e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,9 +140,15 @@ public class XMLParser {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PARTWISE)) {
             // create part-wise score object
             score = new Score(xmlVersDocType, XMLConsts.PARTWISE);
+            if (xmlStreamReader.getAttributeCount() == 1) { // only has one option attribute - version
+                score.setScoreVersion(xmlStreamReader.getAttributeValue(0));
+            }
         } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TIMEWISE)) {
             // create time-wise score object
             score = new Score(xmlVersDocType, XMLConsts.TIMEWISE);
+            if (xmlStreamReader.getAttributeCount() == 1) { // only has one option attribute - version
+                score.setScoreVersion(xmlStreamReader.getAttributeValue(0));
+            }
         }
 
         // parse xml header info

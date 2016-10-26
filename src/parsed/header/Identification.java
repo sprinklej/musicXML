@@ -1,16 +1,22 @@
-package parsed;
+package parsed.header;
+
+import parsed.Creator;
+import parsed.TypedText;
 
 import java.util.ArrayList;
 
 /**
  * Created by sprinklej on 2016-10-15.
+ * FROM XSD: Identification contains basic metadata about the score. It includes the information in MuseData headers
+ * that may apply at a score-wide, movement-wide, or part-wide level. The creator, rights, source, and relation
+ * elements are based on Dublin Core.
  */
 public class Identification {
-    private ArrayList<Creator> creator; //0..*
-    private ArrayList<String> rights; //0..*
+    private ArrayList<TypedText> creator; // minOccurs=0 maxOccurs="unbounded"
+    private ArrayList<TypedText> rights;     // minOccurs=0 maxOccurs="unbounded"
     // ENCODING SUBTREE
     private String eEncoder;
-    private String eDate;   // yyyy-mm-dd
+    private String eDate;                 // yyyy-mm-dd
     private String eDescription;
     private ArrayList<String> eSoftware; // documentation says {1,1} but most  have multiple
     // TODO SUPPORTS is its own subtree ***************************************
@@ -26,18 +32,18 @@ public class Identification {
 
     // CONSTRUCTOR
     public Identification() {
-        creator = new ArrayList<Creator>();
-        rights = new ArrayList<String>();
+        creator = new ArrayList<TypedText>();
+        rights = new ArrayList<TypedText>();
         relation = new ArrayList<String>();
         eSoftware = new ArrayList<String>();
     }
 
     // GETTERS
-    public ArrayList<Creator> getCreator() {
+    public ArrayList<TypedText> getCreator() {
         return creator;
     }
 
-    public ArrayList<String> getRights() {
+    public ArrayList<TypedText> getRights() {
         return rights;
     }
 
@@ -86,11 +92,11 @@ public class Identification {
 
 
     // ADD TO
-    public void addToCreator(Creator aCreator) {
+    public void addToCreator(TypedText aCreator) {
         creator.add(aCreator);
     }
 
-    public void addToRights(String aRights) {
+    public void addToRights(TypedText aRights) {
         rights.add(aRights);
     }
 

@@ -1,5 +1,7 @@
 package parsed;
 
+import parsed.header.Identification;
+import parsed.header.Work;
 import parser.PartListWrapper;
 import parser.XMLConsts;
 
@@ -7,17 +9,24 @@ import java.util.ArrayList;
 
 /**
  * Created by sprinklej on 2016-10-02.
+ * FROM XSD: The score-partwise element is the root element for a partwise MusicXML score. It includes a score-header
+ * group followed by a series of parts with measures inside. The document-attributes attribute group includes
+ * the version attribute.
+ * FROM XSD: The score-timewise element is the root element for a timewise MusicXML score. It includes a score-header
+ * group followed by a series of measures with parts inside. The document-attributes attribute group includes
+ * the version attribute.
  */
 public class Score {
-    private String xmlVersDocType;
-    private String scoreType; //TODO - Attributes
-    private Work work;
-    private String movementNumber; // NO Attributes
-    private String movementTitle;  // NO Attributes
-    private Identification identification; // NO Attributes
-    private Defaults defaults;
-    private ArrayList<Credit> credit;
-    private ArrayList<PartListWrapper> partList;
+    private String xmlVersDocType;              // comes before the <score-partwise/timewise>
+    private String scoreType;                   // partwise or timewise
+    private String scoreVersion;                // Optional - The musicxml version
+    private Work work;                          // minOccurs=0
+    private String movementNumber;              // minOccurs=0
+    private String movementTitle;               // minOccurs=0
+    private Identification identification;      // minOccurs=0
+    private Defaults defaults;                  // minOccurs=0
+    private ArrayList<Credit> credit;           // minOccurs=0 maxOccurs="unbounded"
+    private ArrayList<PartListWrapper> partList;// minOccurs=1 maxOccurs=1
 
 
     public Score(String axmlVersDocType, String aScoreType){
@@ -29,8 +38,16 @@ public class Score {
 
 
     // GETTERS
+    public String getxmlVersDocType() {
+        return xmlVersDocType;
+    }
+
     public String getScoreType() {
         return scoreType;
+    }
+
+    public String getScoreVersion() {
+        return scoreVersion;
     }
 
     public Work getWork() {
@@ -53,6 +70,10 @@ public class Score {
         return defaults;
     }
 
+    public ArrayList<Credit> getCredit() {
+        return credit;
+    }
+
     public ArrayList<PartListWrapper> getPartList() {
         return partList;
     }
@@ -60,6 +81,10 @@ public class Score {
 
 
     // SETTERS
+    public void setXmlVersDocType(String aXmlVerDocType) {
+        xmlVersDocType = aXmlVerDocType;
+    }
+
     public void setScoreType(String aScoreType){
         if (aScoreType != XMLConsts.PARTWISE || aScoreType != XMLConsts.TIMEWISE) {
             System.out.println("ERROR: Could not change score type");
@@ -68,6 +93,11 @@ public class Score {
             scoreType = aScoreType;
         }
     }
+
+    public void setScoreVersion(String aVersion) {
+        scoreVersion = aVersion;
+    }
+
 
     public void setWork(Work aWork) {
         work = aWork;

@@ -2,10 +2,12 @@ package parser;
 
 import org.codehaus.stax2.XMLStreamReader2;
 
-import javax.swing.plaf.synth.SynthTabbedPaneUI;
 import javax.xml.stream.XMLStreamException;
 
 import parsed.*;
+import parsed.header.Identification;
+import parsed.header.Work;
+
 /**
  * Created by sprinklej on 2016-10-02.
  * The shared aspects of partwise and timewise scores
@@ -63,7 +65,7 @@ public class ParseXMLHeader {
     }
 
 
-    // MAIN PARSER FOR THE HEADER PART OF THE XML
+    // ------------------------- MAIN PARSER FOR THE HEADER PART OF THE XML -------------------------
     public void parseHeader() {
         // work subtree
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) { //work Subtree
@@ -127,7 +129,26 @@ public class ParseXMLHeader {
                 work.setWorkTitle(xmlStreamReader.getText());
 
             } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.OPUS)) {
-                work.setWorkOpus(xmlStreamReader.getText());
+                work.setOpus(true);
+                LinkAttributes la = new LinkAttributes();
+                for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_HREF)) {
+                        la.setHref(xmlStreamReader.getAttributeValue(i));
+                    }
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_ROLE)) {
+                        la.setRole(xmlStreamReader.getAttributeValue(i));
+                    }
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_TITLE)) {
+                        la.setTitle(xmlStreamReader.getAttributeValue(i));
+                    }
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_SHOW)) {
+                        la.setShow(xmlStreamReader.getAttributeValue(i));
+                    }
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_ACTUATE)) {
+                        la.setActuate(xmlStreamReader.getAttributeValue(i));
+                    }
+                }
+                work.setOpusAttributes(la);
             }
         } catch (XMLStreamException e) {
             e.printStackTrace();
@@ -150,17 +171,25 @@ public class ParseXMLHeader {
         try {
             // creator
             if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREATOR)) {
-                String type = xmlStreamReader.getAttributeValue(0).toString(); // only attribute is "Type"
-                xmlStreamReader.next();
-                String creator = xmlStreamReader.getText();
+                String typeText = null;
+                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
+                    typeText = xmlStreamReader.getAttributeValue(0).toString();
+                }
 
-                Creator creatorObj = new Creator(type, creator);
+                xmlStreamReader.next();
+                TypedText creatorObj = new TypedText(XMLConsts.CREATOR, typeText, xmlStreamReader.getText());
                 identification.addToCreator(creatorObj);
             }
             // rights
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHTS)) {
+                String typeText = null;
+                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
+                    typeText = xmlStreamReader.getAttributeValue(0).toString();
+                }
+
                 xmlStreamReader.next();
-                identification.addToRights(xmlStreamReader.getText());
+                TypedText rightsObj = new TypedText(XMLConsts.RIGHTS, typeText, xmlStreamReader.getText());
+                identification.addToRights(rightsObj);
             }
             // encoding
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING)) {
