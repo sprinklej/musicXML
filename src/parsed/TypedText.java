@@ -13,7 +13,6 @@ package parsed;
     rights
     encoder
     relation
-    rights
  */
 public class TypedText {
     private String elementName;

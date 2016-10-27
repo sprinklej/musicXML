@@ -158,11 +158,13 @@ public class ExportXML {
             writer.println("      <source>" + score.getIdentification().getSource() + "</source>");
         }
         // relation - minOccurs=0 maxOccurs="unbounded"
+        /*
         if (score.getIdentification().getRelation() != null) {
             for (String s:score.getIdentification().getRelation()) {
                 writer.println("      <relation>" + s + "</relation>");
             }
         }
+        */
         // miscellaneous - minOccurs=0
         // TODO
 

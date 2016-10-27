@@ -1,8 +1,6 @@
 package parsed.header;
 
-import parsed.Creator;
 import parsed.TypedText;
-
 import java.util.ArrayList;
 
 /**
@@ -12,31 +10,22 @@ import java.util.ArrayList;
  * elements are based on Dublin Core.
  */
 public class Identification {
-    private ArrayList<TypedText> creator; // minOccurs=0 maxOccurs="unbounded"
-    private ArrayList<TypedText> rights;     // minOccurs=0 maxOccurs="unbounded"
-    // ENCODING SUBTREE
-    private String eEncoder;
-    private String eDate;                 // yyyy-mm-dd
-    private String eDescription;
-    private ArrayList<String> eSoftware; // documentation says {1,1} but most  have multiple
-    // TODO SUPPORTS is its own subtree ***************************************
-    private String eSupports;
-    //private String esType; // supports attributes
-    //private String esElement;
-    //private String esAttribute;
-    //private String esValue;
-
-    private String source;
-    private ArrayList<String> relation; //0..*
-    //private String miscellaneous; //TODO add Support 0..1
+    private ArrayList<TypedText> creator;            // minOccurs=0 maxOccurs="unbounded"
+    private ArrayList<TypedText> rights;             // minOccurs=0 maxOccurs="unbounded"
+    private Encoding encoding;                       // minOccurs=0
+    private String source;                           // minOccurs=0
+    private ArrayList<TypedText> relation;           // minOccurs=0 maxOccurs="unbounded"
+    //private boolean miscellaneous;                   // minOccurs=0 - miscellaneous could be anything
+    private ArrayList<MiscellaneousField> miscField; // minOccurs=0 maxOccurs="unbounded"
 
     // CONSTRUCTOR
     public Identification() {
         creator = new ArrayList<TypedText>();
         rights = new ArrayList<TypedText>();
-        relation = new ArrayList<String>();
-        eSoftware = new ArrayList<String>();
+        relation = new ArrayList<TypedText>();
+        miscField = new ArrayList<MiscellaneousField>();
     }
+
 
     // GETTERS
     public ArrayList<TypedText> getCreator() {
@@ -47,49 +36,40 @@ public class Identification {
         return rights;
     }
 
-    public String geteEncoder() {
-        return eEncoder;
-    }
-
-    public String geteDate() {
-        return eDate;
-    }
-
-    public String geteDescription() {
-        return eDescription;
-    }
-
-    public ArrayList<String> geteSoftware() {
-        return eSoftware;
+    public Encoding getEncoding() {
+        return encoding;
     }
 
     public String getSource() {
         return source;
     }
 
-    public ArrayList<String> getRelation() {
+    public ArrayList<TypedText> getRelation() {
         return relation;
     }
-
+/*
+    public boolean getMiscellaneous() {
+        return miscellaneous;
+    }
+*/
+    public ArrayList<MiscellaneousField> getMiscField() {
+        return miscField;
+    }
 
 
     //SETTERS
-    public void seteEncoder(String aeEncoder) {
-        eEncoder = aeEncoder;
-    }
-
-    public void seteDate(String aeDate) {
-        eDate = aeDate;
-    }
-
-    public void seteDescription(String aeDescription) {
-        eDescription = aeDescription;
+    public void setEncoding(Encoding aEncoding) {
+        encoding = aEncoding;
     }
 
     public void setSource(String aSource) {
         source = aSource;
     }
-
+/*
+    public void setMiscellaneous(boolean aMisc) {
+        miscellaneous = aMisc;
+    }
+*/
 
     // ADD TO
     public void addToCreator(TypedText aCreator) {
@@ -100,26 +80,12 @@ public class Identification {
         rights.add(aRights);
     }
 
-    public void addToRelation(String aRelation) {
+    public void addToRelation(TypedText aRelation) {
         relation.add(aRelation);
     }
 
-    public void addToeSoftware(String aeSoftware) {
-        eSoftware.add(aeSoftware);
+    public void addToMiscField(MiscellaneousField aMiscField) {
+        miscField.add(aMiscField);
     }
-
-
-    // TOSTRING
-    public String toString() {
-        String string = "";
-        //string += "cTypes: " + cType + "\n";
-        //string += "creators: " + creator + "\n";
-        //string += "encoding: " + encoding + "\n";
-        string += "rights: " + rights + "\n";
-        string += "source: " + source + "\n";
-        string += "relation: " + relation;
-        return string;
-    }
-
-
 }
+

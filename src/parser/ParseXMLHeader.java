@@ -3,10 +3,12 @@ package parser;
 import org.codehaus.stax2.XMLStreamReader2;
 
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
 
 import parsed.*;
-import parsed.header.Identification;
-import parsed.header.Work;
+import parsed.header.*;
+//import parsed.header.Identification;
+//import parsed.header.Work;
 
 /**
  * Created by sprinklej on 2016-10-02.
@@ -49,9 +51,10 @@ public class ParseXMLHeader {
     //header subtrees
     private Work work;
     private Identification identification;
+    private Encoding encoding; // identification subtree
+    private Supports supports; // identification subtree
     private Defaults defaults;
     private Credit credit;
-
 
     private Part currentPart = null;
     private Group currentGroup = null;
@@ -193,6 +196,7 @@ public class ParseXMLHeader {
             }
             // encoding
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING)) {
+                encoding = new Encoding();
                 XMLParser.getElements(xmlStreamReader, () -> encodingStart(), () -> encodingEnd());
             }
             //source
@@ -202,12 +206,46 @@ public class ParseXMLHeader {
             }
             // relation
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RELATION)) {
+                String typeText = null;
+                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
+                    typeText = xmlStreamReader.getAttributeValue(0).toString();
+                }
+
                 xmlStreamReader.next();
-                identification.addToRelation(xmlStreamReader.getText());
+                TypedText RelationObj = new TypedText(XMLConsts.RELATION, typeText, xmlStreamReader.getText());
+                identification.addToRelation(RelationObj);
             }
-            //TODO MISCELLANEOUS **************************************************************
+            // miscellaneous
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS)) {
+                XMLParser.getElements(xmlStreamReader, () -> miscellaneousStart(), () -> miscellaneousEnd());
 
-
+                /*String misc = "<" + XMLConsts.MISCELLANEOUS + ">\n";
+                // MISCELLANEOUS could have anything in it - gets its own loop
+                try {
+                    wLoop: while(xmlStreamReader.hasNext()){
+                        int eventType = xmlStreamReader.next();
+                        switch (eventType) {
+                            case XMLEvent.START_ELEMENT:
+                                misc += "<" + xmlStreamReader.getName().toString() + ">";
+                                break;
+                            case XMLEvent.CHARACTERS:
+                                misc += xmlStreamReader.getText();
+                                break;
+                            case XMLEvent.END_ELEMENT:
+                                misc += "</" + xmlStreamReader.getName().toString() + ">\n";
+                                if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS)) {
+                                    break wLoop;
+                                }
+                                break;
+                            default: //do nothing
+                                break;
+                        }
+                    }
+                } catch (XMLStreamException e) {
+                    e.printStackTrace();
+                    System.out.println("ERROR: Stream Exception - Streaming file error");
+                } */
+            }
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
@@ -225,30 +263,54 @@ public class ParseXMLHeader {
     // ENCODING SUBTREE
     private boolean encodingStart() {
         try {
-            // encoding-encoder
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODER)) {
-                xmlStreamReader.next();
-                identification.seteEncoder(xmlStreamReader.getText());
-            }
             // encoding-date
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DATE)) {
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DATE)) {
                 xmlStreamReader.next();
-                identification.seteDate(xmlStreamReader.getText());
+                encoding.addToEncodingDate(xmlStreamReader.getText());
             }
-            // encoding-description
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DESCRIPTION)) {
+            // encoder
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODER)) {
+                String typeText = null;
+                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
+                    typeText = xmlStreamReader.getAttributeValue(0).toString();
+                }
+
                 xmlStreamReader.next();
-                identification.seteDescription(xmlStreamReader.getText());
+                TypedText encoderObj = new TypedText(XMLConsts.CREATOR, typeText, xmlStreamReader.getText());
+                encoding.addToEncoder(encoderObj);
             }
             // software
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOFTWARE)) {
                 xmlStreamReader.next();
-                identification.addToeSoftware(xmlStreamReader.getText());
+                encoding.addToSoftware(xmlStreamReader.getText());
             }
-            // supports - self closing tag
+            // encoding-description
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DESCRIPTION)) {
+                xmlStreamReader.next();
+                encoding.addToEncodDescription(xmlStreamReader.getText());
+            }
+            // supports - self closing tag - <supports attribute="new-system" element="print" type="yes" value="yes"/>
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SUPPORTS)) {
-                //TODO - selfclosing tag
-                //<supports attribute="new-system" element="print" type="yes" value="yes"/>
+                supports = new Supports();
+                for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) { // get attributes
+                    // type
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.TYPE)) {
+                        supports.setTypeAttribute(xmlStreamReader.getAttributeValue(i));
+                    }
+                    // element
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ELEMENT)) {
+                        supports.setElementAttribute(xmlStreamReader.getAttributeValue(i));
+                    }
+                    // attribute
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ATTRIBUTE)) {
+                        supports.setAttributeAttribute(xmlStreamReader.getAttributeValue(i));
+                    }
+                    // value
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.VALUE)) {
+                        supports.setValueAttribute(xmlStreamReader.getAttributeValue(i));
+                    }
+                }
+                encoding.addToSupports(supports);
             }
         } catch (XMLStreamException e) {
             e.printStackTrace();
@@ -258,6 +320,31 @@ public class ParseXMLHeader {
 
     private boolean encodingEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING)) {
+            identification.setEncoding(encoding);
+            return true;
+        }
+        return false;
+    }
+
+
+    // MISCELLANEOUS
+    private boolean miscellaneousStart() {
+        // miscellaneous-field
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS_FIELD)) {
+            MiscellaneousField miscField = new MiscellaneousField(xmlStreamReader.getAttributeValue(0)); // only has 1 attribute "name" which is required
+            try {
+                xmlStreamReader.next();
+                miscField.setText(xmlStreamReader.getText());
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            }
+            identification.addToMiscField(miscField);
+        }
+        return false;
+    }
+
+    private boolean miscellaneousEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS)) {
             return true;
         }
         return false;

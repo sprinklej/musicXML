@@ -43,6 +43,8 @@ public final class XMLConsts {
     public static final String ENCODING_DESCRIPTION = "encoding-description";
     //public static final String SOURCE = "source";
     public static final String RELATION = "relation";
+    public static final String MISCELLANEOUS = "miscellaneous";
+    public static final String MISCELLANEOUS_FIELD = "miscellaneous-field";
 
     //DEFAULTS
     public static final String DEFAULTS = "defaults";
