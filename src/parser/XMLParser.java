@@ -30,11 +30,11 @@ interface Interface {
  * Created by sprinklej on 2016-09-23.
  */
 public class XMLParser {
-    private String xmlVersDocType;
+    //private String xmlVersDocType;
 
     private MusicXMLFile currentSong = null;
     private Score currentScore = null;
-    private XMLStreamReader2 xmlStreamReader = null;
+    private XMLStreamReader2 xmlStreamReader;
     private Score score = null;
 
     // constructor
@@ -50,7 +50,7 @@ public class XMLParser {
     // Start Parsing
     public void startParsing() throws XMLStreamException {
         String xmlFileName = currentSong.getFilePath();
-
+/*
         // XML parser skips right to the start of the xml
         //http://stackoverflow.com/questions/24666805/java-only-read-first-line-of-a-file
         //http://stackoverflow.com/questions/2312756/how-to-read-a-specific-line-using-the-specific-line-number-from-a-file-in-java
@@ -63,7 +63,7 @@ public class XMLParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+*/
 
         InputStream xmlInputStream = getClass().getResourceAsStream(xmlFileName);
         XMLInputFactory2 xmlInputFactory = (XMLInputFactory2)XMLInputFactory.newInstance();
@@ -137,15 +137,15 @@ public class XMLParser {
 
     //
     private Boolean scoreStart() {
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PARTWISE)) {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PARTWISE)) {
             // create part-wise score object
-            score = new Score(xmlVersDocType, XMLConsts.PARTWISE);
+            score = new Score(XMLConsts.PARTWISE);
             if (xmlStreamReader.getAttributeCount() == 1) { // only has one option attribute - version
                 score.setScoreVersion(xmlStreamReader.getAttributeValue(0));
             }
-        } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TIMEWISE)) {
+        } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_TIMEWISE)) {
             // create time-wise score object
-            score = new Score(xmlVersDocType, XMLConsts.TIMEWISE);
+            score = new Score(XMLConsts.TIMEWISE);
             if (xmlStreamReader.getAttributeCount() == 1) { // only has one option attribute - version
                 score.setScoreVersion(xmlStreamReader.getAttributeValue(0));
             }

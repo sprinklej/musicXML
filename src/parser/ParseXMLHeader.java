@@ -294,11 +294,11 @@ public class ParseXMLHeader {
                 supports = new Supports();
                 for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) { // get attributes
                     // type
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.TYPE)) {
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.TYPE)) { // required
                         supports.setTypeAttribute(xmlStreamReader.getAttributeValue(i));
                     }
                     // element
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ELEMENT)) {
+                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ELEMENT)) { // required
                         supports.setElementAttribute(xmlStreamReader.getAttributeValue(i));
                     }
                     // attribute

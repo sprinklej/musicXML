@@ -13,7 +13,7 @@ public class LinkAttributes {
     private String title;
     private String show = "replace"; // default value
     private String actuate = "onRequest"; // default value
-    private String xmlns = "xmlns:xlink=\"http://www.w3.org/1999/xlink\""; //required in opus or one of its parents to use xlink
+    private String xmlnsLink = "http://www.w3.org/1999/xlink"; //required in opus or one of its parents to use xlink
 
     // CONSTRUCTOR
     public LinkAttributes() {}
@@ -44,8 +44,8 @@ public class LinkAttributes {
         return actuate;
     }
 
-    public String getXmlns() {
-        return xmlns;
+    public String getXmlnsLink() {
+        return xmlnsLink;
     }
 
 

@@ -11,7 +11,7 @@ import sun.awt.image.ImageWatched;
 public class Work {
     private String workNumber;    //type="xs:string"
     private String workTitle;     //type="xs:string"
-    private boolean opus = false; //type="opus" - self-closing element
+    private boolean opus = false; //type="opus" - Is a self closing tag that is all attributes
     private LinkAttributes opusAttributes;
 
     // CONSTRUCTOR

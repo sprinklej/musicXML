@@ -8,8 +8,10 @@ package parser;
  */
 public final class XMLConsts {
     //TYPE
-    public static final String PARTWISE = "score-partwise";
-    public static final String TIMEWISE = "score-timewise";
+    public static final String PARTWISE = "partwise";
+    public static final String TIMEWISE = "timewise";
+    public static final String SCORE_PARTWISE = "score-partwise";
+    public static final String SCORE_TIMEWISE = "score-timewise";
 
 
     //GENERAL
@@ -319,6 +321,7 @@ public final class XMLConsts {
     public static final String WINGED = "winged";
 
     //LINK ATTRIBUTES
+    public static final String XMLNS = "xmlns";
     public static final String XLINK = "xlink";
     public static final String XLINK_HREF = "href";       // use is required - the URL
     public static final String XLINK_TYPE = "type";       // the value is fixed to "simple"

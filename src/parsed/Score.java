@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * the version attribute.
  */
 public class Score {
-    private String xmlVersDocType;              // comes before the <score-partwise/timewise>
     private String scoreType;                   // partwise or timewise
     private String scoreVersion;                // Optional - The musicxml version
     private Work work;                          // minOccurs=0
@@ -29,8 +28,7 @@ public class Score {
     private ArrayList<PartListWrapper> partList;// minOccurs=1 maxOccurs=1
 
 
-    public Score(String axmlVersDocType, String aScoreType){
-        xmlVersDocType = axmlVersDocType;
+    public Score(String aScoreType){
         scoreType = aScoreType;
         credit = new ArrayList<Credit>();
         partList = new ArrayList<PartListWrapper>();
@@ -38,10 +36,6 @@ public class Score {
 
 
     // GETTERS
-    public String getxmlVersDocType() {
-        return xmlVersDocType;
-    }
-
     public String getScoreType() {
         return scoreType;
     }
@@ -81,10 +75,6 @@ public class Score {
 
 
     // SETTERS
-    public void setXmlVersDocType(String aXmlVerDocType) {
-        xmlVersDocType = aXmlVerDocType;
-    }
-
     public void setScoreType(String aScoreType){
         if (aScoreType != XMLConsts.PARTWISE || aScoreType != XMLConsts.TIMEWISE) {
             System.out.println("ERROR: Could not change score type");
