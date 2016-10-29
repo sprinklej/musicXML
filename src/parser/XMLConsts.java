@@ -17,6 +17,10 @@ public final class XMLConsts {
     //GENERAL
     public static final String START = "start";
     public static final String STOP = "stop";
+    public static final String NAMESPACE = "namespace";
+    public static final String NAMESPACEURL = "http://www.w3.org/XML/1998/namespace";
+    public static final String XMLLANG = "xml:lang";
+    public static final String XML = "xml";
 
 
     //**HEADER-INFO**
@@ -39,11 +43,8 @@ public final class XMLConsts {
     public static final String ENCODING_DATE = "encoding-date";
     public static final String SOFTWARE = "software";
     public static final String SUPPORTS = "supports";
-    //public static final String ELEMENT = "element";
-    //public static final String ATTRIBUTE = "attribute";
-    //public static final String VALUE = "value";
     public static final String ENCODING_DESCRIPTION = "encoding-description";
-    //public static final String SOURCE = "source";
+    public static final String SOURCE = "source";
     public static final String RELATION = "relation";
     public static final String MISCELLANEOUS = "miscellaneous";
     public static final String MISCELLANEOUS_FIELD = "miscellaneous-field";
@@ -51,12 +52,49 @@ public final class XMLConsts {
     //DEFAULTS
     public static final String DEFAULTS = "defaults";
     public static final String SCALING = "scaling";
-    public static final String STAFF_LAYOUT = "staff-layout";
+    public static final String MILLIMETERS = "millimeters";
+    public static final String TENTHS = "tenths";
     public static final String APPEARANCE = "appearance";
+    public static final String LINE_WIDTH = "line-width";
+    public static final String NOTE_SIZE = "note-size";
+    public static final String DISTANCE = "distance";
+    public static final String OTHER_APPEARANCE = "other-appearance";
     public static final String MUSIC_FONT = "music-font";
     public static final String WORD_FONT = "word-font";
     public static final String LYRIC_FONT = "lyric-font";
     public static final String LYRIC_LANGUAGE = "lyric-language";
+
+
+
+
+
+    //PAGE-LAYOUT
+    public static final String PAGE_LAYOUT = "page-layout";
+    public static final String PAGE_HEIGHT = "page-height";
+    public static final String PAGE_WIDTH = "page-width";
+
+    //PAGE-MARGINS
+    public static final String PAGE_MARGINS = "page-margins";
+    public static final String LEFT_MARGIN = "left-margin";
+    public static final String RIGHT_MARGIN = "right-margin";
+    public static final String TOP_MARGIN = "top-margin";
+    public static final String BOTTOM_MARGIN = "bottom-margin";
+
+
+    //SYSTEM-LAYOUT
+    public static final String SYSTEM_LAYOUT = "system-layout";
+    public static final String SYSTEM_MARGINS = "system-margins";
+    public static final String SYSTEM_DISTANCE = "system-distance";
+    public static final String TOP_SYSTEM_DISTANCE = "top-system-distance";
+    public static final String SYSTEM_DIVIDERS = "system-dividers";
+    public static final String LEFT_DIVIDER = "left-divider";
+    public static final String RIGHT_DIVIDER = "right-divider";
+
+    // STAFF-LAYOUT
+    public static final String STAFF_LAYOUT = "staff-layout";
+    public static final String STAFF_DISTANCE = "staff-distance";
+
+
 
 
 
@@ -89,20 +127,9 @@ public final class XMLConsts {
     //BODY
     public static final String PRINT = "print";
 
-    public static final String PAGE_LAYOUT = "page-layout";
-    public static final String PAGE_HEIGHT = "page-height";
-    public static final String PAGE_WIDTH = "page-width";
 
-    public static final String PAGE_MARGINS = "page-margins";
-    public static final String LEFT_MARGIN = "left-margin";
-    public static final String RIGHT_MARGIN = "right-margin";
-    public static final String TOP_MARGIN = "top-margin";
-    public static final String BOTTOM_MARGIN = "bottom-margin";
 
-    public static final String SYSTEM_LAYOUT = "system-layout";
-    //public static final String LEFT_MARGIN = "left-margin";
-    //public static final String RIGHT_MARGIN = "right-margin";
-    public static final String TOP_SYSTEM_DISTANCE = "top-system-distance";
+
     public static final String MEASURE_NUMBERING = "measure-numbering";
 
     public static final String ATTRIBUTES = "attributes";
@@ -282,7 +309,7 @@ public final class XMLConsts {
     public static final String SOFT_PEDAL = "soft-pedal";
     public static final String SOSTENUTO_PEDAL = "sostenuto-pedal";
     public static final String SOUND = "sound";
-    public static final String SOURCE = "source";
+    //public static final String SOURCE = "source"; - also an element
     public static final String SPACE_LENGTH = "space-length";
     public static final String SPREAD = "spread";
     public static final String STACK_DEGREES = "stack-degrees";
@@ -321,6 +348,7 @@ public final class XMLConsts {
     public static final String WINGED = "winged";
 
     //LINK ATTRIBUTES
+    public static final String XLINKHREF = "http://www.w3.org/1999/xlink";
     public static final String XMLNS = "xmlns";
     public static final String XLINK = "xlink";
     public static final String XLINK_HREF = "href";       // use is required - the URL

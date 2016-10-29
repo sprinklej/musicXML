@@ -50,20 +50,6 @@ public class XMLParser {
     // Start Parsing
     public void startParsing() throws XMLStreamException {
         String xmlFileName = currentSong.getFilePath();
-/*
-        // XML parser skips right to the start of the xml
-        //http://stackoverflow.com/questions/24666805/java-only-read-first-line-of-a-file
-        //http://stackoverflow.com/questions/2312756/how-to-read-a-specific-line-using-the-specific-line-number-from-a-file-in-java
-        BufferedReader bReader = null;
-        try {
-            bReader = new BufferedReader(new FileReader(xmlFileName));
-            xmlVersDocType = bReader.readLine();
-            xmlVersDocType += "\n" + bReader.readLine();
-            bReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-*/
 
         InputStream xmlInputStream = getClass().getResourceAsStream(xmlFileName);
         XMLInputFactory2 xmlInputFactory = (XMLInputFactory2)XMLInputFactory.newInstance();
@@ -85,7 +71,7 @@ public class XMLParser {
 
         getElements(xmlStreamReader, () -> scoreStart(), () -> scoreEnd());
 
-        // *****TEMP******
+        // *************TEMP**************
         System.out.println(score.toString());
         /*java.util.ArrayList<PartListWrapper> list = score.getPartList();
         for (int i = 0; i < list.size(); i++) {

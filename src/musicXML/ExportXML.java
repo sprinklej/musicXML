@@ -1,13 +1,15 @@
 package musicXML;
 
 import parsed.*;
-import parsed.header.MiscellaneousField;
-import parsed.header.Supports;
+import parsed.header.credit.Credit;
+import parsed.header.identification.MiscellaneousField;
+import parsed.header.TypedText;
+import parsed.header.defaults.PageMargins;
+import parsed.header.defaults.StaffLayout;
+import parsed.header.identification.Supports;
 import parser.XMLConsts;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -132,7 +134,7 @@ public class ExportXML {
 
         // credit
         if (score.getCredit() != null) {
-            // TODO
+            writeCredit();
         }
 
         // part-list - REQUIRED
@@ -276,11 +278,274 @@ public class ExportXML {
     // DEFAULTS
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private void writeDefaults() {
-        //TODO
+        try {
+            xmlStreamWriter.writeStartElement(XMLConsts.DEFAULTS);
+            // scaling
+            if (score.getDefaults().getScaling() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.SCALING);
+
+                // millimeters - must occur
+                xmlStreamWriter.writeStartElement(XMLConsts.MILLIMETERS);
+                xmlStreamWriter.writeCharacters(score.getDefaults().getScalingMillimeters());
+                xmlStreamWriter.writeEndElement();
+                // tenths - must occur
+                xmlStreamWriter.writeStartElement(XMLConsts.TENTHS);
+                xmlStreamWriter.writeCharacters(score.getDefaults().getScalingTenths());
+                xmlStreamWriter.writeEndElement();
+
+                xmlStreamWriter.writeEndElement();
+            }
+            // page-layout - minOccurs=0
+            if (score.getDefaults().getPageLayout() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.PAGE_LAYOUT);
+                // page-height
+                if (score.getDefaults().getPageHeight() != null) {
+                    xmlStreamWriter.writeStartElement(XMLConsts.PAGE_HEIGHT);
+                    xmlStreamWriter.writeCharacters(score.getDefaults().getPageHeight());
+                    xmlStreamWriter.writeEndElement();
+                }
+                // page-width
+                if (score.getDefaults().getPageWidth() != null) {
+                    xmlStreamWriter.writeStartElement(XMLConsts.PAGE_WIDTH);
+                    xmlStreamWriter.writeCharacters(score.getDefaults().getPageWidth());
+                    xmlStreamWriter.writeEndElement();
+                }
+                // page-margins
+                if (score.getDefaults().getPageMargins() != null) {
+                    for (PageMargins pm:score.getDefaults().getPageMargins()) {
+                        xmlStreamWriter.writeStartElement(XMLConsts.PAGE_MARGINS);
+                        if(pm.getTypeAttribute() != null) {
+                            xmlStreamWriter.writeAttribute(pm.getTypeAttribute().getAttributeName(),
+                                    pm.getTypeAttribute().getAttributeText());
+                        }
+                        // left
+                        if (pm.getLeft() != null) {
+                            xmlStreamWriter.writeStartElement(XMLConsts.LEFT_MARGIN);
+                            xmlStreamWriter.writeCharacters(pm.getLeft());
+                            xmlStreamWriter.writeEndElement();
+                        }
+                        // right
+                        if (pm.getRight() != null) {
+                            xmlStreamWriter.writeStartElement(XMLConsts.RIGHT_MARGIN);
+                            xmlStreamWriter.writeCharacters(pm.getRight());
+                            xmlStreamWriter.writeEndElement();
+                        }
+                        // top
+                        if (pm.getTop() != null) {
+                            xmlStreamWriter.writeStartElement(XMLConsts.TOP_MARGIN);
+                            xmlStreamWriter.writeCharacters(pm.getTop());
+                            xmlStreamWriter.writeEndElement();
+                        }
+                        // bottom
+                        if (pm.getBottom() != null) {
+                            xmlStreamWriter.writeStartElement(XMLConsts.BOTTOM_MARGIN);
+                            xmlStreamWriter.writeCharacters(pm.getBottom());
+                            xmlStreamWriter.writeEndElement();
+                        }
+
+                        xmlStreamWriter.writeEndElement();
+                    }
+                }
+
+                xmlStreamWriter.writeEndElement();
+            }
+            // system-layout
+            if (score.getDefaults().getSystemLayout() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.SYSTEM_LAYOUT);
+                // system-margins
+                if (score.getDefaults().getSystemMargins() == true) {
+                    xmlStreamWriter.writeStartElement(XMLConsts.SYSTEM_MARGINS);
+                    // left-margin - required
+                    xmlStreamWriter.writeStartElement(XMLConsts.LEFT_MARGIN);
+                    xmlStreamWriter.writeCharacters(score.getDefaults().getLeftSysMargin());
+                    xmlStreamWriter.writeEndElement();
+                    // right-margin - required
+                    xmlStreamWriter.writeStartElement(XMLConsts.RIGHT_MARGIN);
+                    xmlStreamWriter.writeCharacters(score.getDefaults().getRightSysMargin());
+                    xmlStreamWriter.writeEndElement();
+
+                    xmlStreamWriter.writeEndElement();
+                }
+                // system-distance
+                if (score.getDefaults().getSystemDistance() != null) {
+                    xmlStreamWriter.writeStartElement(XMLConsts.SYSTEM_DISTANCE);
+                    xmlStreamWriter.writeCharacters(score.getDefaults().getSystemDistance());
+                    xmlStreamWriter.writeEndElement();
+                }
+                // top-system-distance
+                if (score.getDefaults().getTopSysDistance() != null) {
+                    xmlStreamWriter.writeStartElement(XMLConsts.TOP_SYSTEM_DISTANCE);
+                    xmlStreamWriter.writeCharacters(score.getDefaults().getTopSysDistance());
+                    xmlStreamWriter.writeEndElement();
+                }
+                // system-dividers
+                if (score.getDefaults().getSystemDividers() == true) {
+                    xmlStreamWriter.writeStartElement(XMLConsts.SYSTEM_DIVIDERS);
+                    // left-divider - required
+                    xmlStreamWriter.writeStartElement(XMLConsts.LEFT_DIVIDER);
+                    for (Attribute a:score.getDefaults().getLeftDivider()) {
+                        xmlStreamWriter.writeAttribute(a.getAttributeName(), a.getAttributeText());
+                    }
+                    xmlStreamWriter.writeEndElement();
+                    // right-divider -required
+                    xmlStreamWriter.writeStartElement(XMLConsts.RIGHT_DIVIDER);
+                    for (Attribute a:score.getDefaults().getRightDivider()) {
+                        xmlStreamWriter.writeAttribute(a.getAttributeName(), a.getAttributeText());
+                    }
+                    xmlStreamWriter.writeEndElement();
+
+                    xmlStreamWriter.writeEndElement();
+                }
+
+
+                xmlStreamWriter.writeEndElement();
+            }
+            // staff-layout
+            if (score.getDefaults().getStaffLayout() != null) {
+                for(StaffLayout sl:score.getDefaults().getStaffLayout()) {
+                    xmlStreamWriter.writeStartElement(XMLConsts.STAFF_LAYOUT);
+                    if(sl.getAttribute() != null) {
+                        xmlStreamWriter.writeAttribute(sl.getAttribute().getAttributeName(),
+                                sl.getAttribute().getAttributeText());
+                    }
+                    xmlStreamWriter.writeStartElement(XMLConsts.STAFF_DISTANCE);
+                    xmlStreamWriter.writeCharacters(sl.getStaffDistance());
+                    xmlStreamWriter.writeEndElement();
+
+                    xmlStreamWriter.writeEndElement();
+                }
+
+            }
+            // appearance
+            if (score.getDefaults().getAppearance() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.APPEARANCE);
+                // line-width
+                if (score.getDefaults().getLineWidth() != null) {
+                    writeElementsWithAttributes(score.getDefaults().getLineWidth());
+                }
+                // note-size
+                if (score.getDefaults().getNoteSize() != null) {
+                    writeElementsWithAttributes(score.getDefaults().getNoteSize());
+                }
+                // distance
+                if (score.getDefaults().getDistance() != null) {
+                    writeElementsWithAttributes(score.getDefaults().getDistance());
+                }
+                // other-appearance
+                if (score.getDefaults().getOtherAppearance() != null) {
+                    writeElementsWithAttributes(score.getDefaults().getOtherAppearance());
+                }
+
+                xmlStreamWriter.writeEndElement();
+            }
+            // music-font
+            if (score.getDefaults().getMusicFont() != null) {
+                writeSingleElementwithAtts(score.getDefaults().getMusicFont());
+            }
+            // word-font
+            if (score.getDefaults().getWordFont() != null) {
+                writeSingleElementwithAtts(score.getDefaults().getWordFont());
+            }
+            // lyric-font
+            if (score.getDefaults().getLyricFont() != null) {
+                writeElementsWithAttributes(score.getDefaults().getLyricFont());
+            }
+            // lyric-language
+            if (score.getDefaults().getLyricLanguage() != null) {
+                writeElementsWithAttributes(score.getDefaults().getLyricLanguage());
+            }
+
+            xmlStreamWriter.writeEndElement();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+
     }
+
+
+    // write a single element with attributes
+    private void writeSingleElementwithAtts(Element element) {
+        try {
+            xmlStreamWriter.writeStartElement(element.getElementName());
+            if (element.getAttribute() != null) {
+                ArrayList<Attribute> attributes = element.getAttribute();
+                for (Attribute a : attributes) {
+                    xmlStreamWriter.writeAttribute(a.getAttributeName(), a.getAttributeText());
+                }
+            }
+            if (element.getData() != null) {
+                xmlStreamWriter.writeCharacters(element.getData());
+            }
+            xmlStreamWriter.writeEndElement();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // write and Array of element with attributes
+    private void writeElementsWithAttributes(ArrayList<Element> elements) {
+        for (Element el:elements) {
+            writeSingleElementwithAtts(el);
+        }
+    }
+
+
+
 
     // CREDIT
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
+    private void writeCredit() {
+        try {
+            for (Credit credit:score.getCredit()) {
+                xmlStreamWriter.writeStartElement(XMLConsts.CREDIT);
+                // page attribute
+                if (credit.getPageAttribute() != null) {
+                    xmlStreamWriter.writeAttribute(credit.getPageAttribute().getAttributeName(),
+                            credit.getPageAttribute().getAttributeText());
+                }
+
+                // credit-type
+                if (credit.getCreditType() != null) {
+                    for (String s:credit.getCreditType()) {
+                        xmlStreamWriter.writeStartElement(XMLConsts.CREDIT_TYPE);
+                        xmlStreamWriter.writeCharacters(s);
+                        xmlStreamWriter.writeEndElement();
+                    }
+                }
+                // link
+                if (credit.getLink() != null) {
+                    writeElementsWithAttributes(credit.getLink());
+                }
+                // bookmark
+                if (credit.getLink() != null) {
+                    writeElementsWithAttributes(credit.getBookmark());
+                }
+                // credit-image
+                if (credit.getCreditImage() != null) {
+                    writeSingleElementwithAtts(credit.getCreditImage());
+                }
+                // credit-words
+                if (credit.getCreditWords() != null) {
+                    writeSingleElementwithAtts(credit.getCreditWords());
+                }
+
+
+                // link
+                // TODO
+                // bookmark
+                // TODO
+                // credit-words
+
+
+
+
+
+                xmlStreamWriter.writeEndElement();
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
 
     // PART-LIST
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------

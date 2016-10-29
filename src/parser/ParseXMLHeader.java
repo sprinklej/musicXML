@@ -7,8 +7,20 @@ import javax.xml.stream.events.XMLEvent;
 
 import parsed.*;
 import parsed.header.*;
-//import parsed.header.Identification;
-//import parsed.header.Work;
+import parsed.header.credit.Credit;
+import parsed.header.defaults.Defaults;
+import parsed.header.defaults.PageMargins;
+import parsed.header.defaults.StaffLayout;
+import parsed.header.identification.Encoding;
+import parsed.header.identification.Identification;
+import parsed.header.identification.MiscellaneousField;
+import parsed.header.identification.Supports;
+import parsed.header.work.LinkAttributes;
+import parsed.header.work.Work;
+
+import java.util.ArrayList;
+//import parsed.header.identification.Identification;
+//import parsed.header.work.Work;
 
 /**
  * Created by sprinklej on 2016-10-02.
@@ -54,6 +66,9 @@ public class ParseXMLHeader {
     private Encoding encoding; // identification subtree
     private Supports supports; // identification subtree
     private Defaults defaults;
+    private PageMargins pageMargins; // default subtree
+    private StaffLayout staffLayout; // deafult subtree
+
     private Credit credit;
 
     private Part currentPart = null;
@@ -105,8 +120,12 @@ public class ParseXMLHeader {
         }
         // credit
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT)) {
-            String page = xmlStreamReader.getAttributeValue(0).toString(); //page is only attribute
-            credit = new Credit(page);
+            credit = new Credit();
+            if (xmlStreamReader.getAttributeCount() == 1) { // page only has 1 attribute
+                Attribute a = new Attribute(xmlStreamReader.getAttributeName(0).toString(),
+                        xmlStreamReader.getAttributeValue(0).toString());
+                credit.setPageAttribute(a);
+            }
             XMLParser.getElements(xmlStreamReader, () -> creditStart(), () -> creditEnd());
         }
         // partList subtree
@@ -218,33 +237,6 @@ public class ParseXMLHeader {
             // miscellaneous
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS)) {
                 XMLParser.getElements(xmlStreamReader, () -> miscellaneousStart(), () -> miscellaneousEnd());
-
-                /*String misc = "<" + XMLConsts.MISCELLANEOUS + ">\n";
-                // MISCELLANEOUS could have anything in it - gets its own loop
-                try {
-                    wLoop: while(xmlStreamReader.hasNext()){
-                        int eventType = xmlStreamReader.next();
-                        switch (eventType) {
-                            case XMLEvent.START_ELEMENT:
-                                misc += "<" + xmlStreamReader.getName().toString() + ">";
-                                break;
-                            case XMLEvent.CHARACTERS:
-                                misc += xmlStreamReader.getText();
-                                break;
-                            case XMLEvent.END_ELEMENT:
-                                misc += "</" + xmlStreamReader.getName().toString() + ">\n";
-                                if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS)) {
-                                    break wLoop;
-                                }
-                                break;
-                            default: //do nothing
-                                break;
-                        }
-                    }
-                } catch (XMLStreamException e) {
-                    e.printStackTrace();
-                    System.out.println("ERROR: Stream Exception - Streaming file error");
-                } */
             }
         } catch (XMLStreamException e) {
             e.printStackTrace();
@@ -327,7 +319,7 @@ public class ParseXMLHeader {
     }
 
 
-    // MISCELLANEOUS
+    // MISCELLANEOUS SUBTREE
     private boolean miscellaneousStart() {
         // miscellaneous-field
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS_FIELD)) {
@@ -356,39 +348,55 @@ public class ParseXMLHeader {
     private boolean defaultsStart() {
         // scaling
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCALING)) {
-            // TODO
+            defaults.setScaling(true);
+            XMLParser.getElements(xmlStreamReader, () -> scalingStart(), () -> scalingEnd());
         }
         // page-layout
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_LAYOUT)) {
-            // TODO
+            defaults.setPageLayout(true);
+            XMLParser.getElements(xmlStreamReader, () -> pageLayoutStart(), () -> pageLayoutEnd());
         }
         // system-layout
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_LAYOUT)) {
-            // TODO
+            defaults.setSystemLayout(true);
+            XMLParser.getElements(xmlStreamReader, () -> systemLayoutStart(), () -> systemLayoutEnd());
         }
         // staff-layout 0..*
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.STAFF_LAYOUT)) {
-            // TODO
+            staffLayout = new StaffLayout();
+            if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
+                Attribute a = new Attribute(xmlStreamReader.getAttributeName(0).toString(),
+                        xmlStreamReader.getAttributeValue(0).toString());
+                staffLayout.setAttribute(a);
+            }
+            XMLParser.getElements(xmlStreamReader, () -> staffLayoutStart(), () -> staffLayoutEnd());
         }
         // appearance
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.APPEARANCE)) {
-            // TODO
+            defaults.setAppearance(true);
+            XMLParser.getElements(xmlStreamReader, () -> appearanceStart(), () -> appearanceEnd());
         }
         // music-font
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MUSIC_FONT)) {
-            // TODO
+            defaults.setMusicFont(getElement());
         }
         // word-font
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORD_FONT)) {
-            // TODO
+            defaults.setWordFont(getElement());
         }
         // lyric-font 0..*
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LYRIC_FONT)) {
-            // TODO
+            defaults.addTolyricFont(getElement());
         }
         // lyric-language 0..*
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LYRIC_LANGUAGE)) {
-            // TODO
+            Element e = getElement();
+            for(Attribute a:e.getAttribute()) {
+                if (a.getAttributeName().contains(XMLConsts.NAMESPACE)) {
+                    a.setAttributeName(XMLConsts.XMLLANG);
+                }
+            }
+            defaults.addToLyricLanguage(e);
         }
 
         return false;
@@ -403,10 +411,19 @@ public class ParseXMLHeader {
 
     // SCALING SUBTREE
     private boolean scalingStart() {
-        //TODO
+        try {
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MILLIMETERS)) {
+                xmlStreamReader.next();
+                defaults.setScalingMillimeters(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TENTHS)) {
+                xmlStreamReader.next();
+                defaults.setScalingTenths(xmlStreamReader.getText());
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
         return false;
     }
-
     private boolean scalingEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCALING)) {
             return true;
@@ -414,23 +431,238 @@ public class ParseXMLHeader {
         return false;
     }
 
+    // PAGE-LAYOUT SUBTREE
+    private boolean pageLayoutStart() {
+        try {
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_HEIGHT)) {
+                xmlStreamReader.next();
+                defaults.setPageHeight(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_WIDTH)) {
+                xmlStreamReader.next();
+                defaults.setPageWidth(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_MARGINS)) {
+                pageMargins = new PageMargins();
+                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute
+                    Attribute a = new Attribute(xmlStreamReader.getAttributeName(0).toString(),
+                            xmlStreamReader.getAttributeValue(0).toString());
+                    pageMargins.setAttribute(a);
+                }
+                XMLParser.getElements(xmlStreamReader, () -> pageMarginsStart(), () -> pageMarginsEnd());
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    private boolean pageLayoutEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_LAYOUT)) {
+            return true;
+        }
+        return false;
+    }
+
+    // PAGE-MARGINS SUBTREE
+    private boolean pageMarginsStart() {
+        try {
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LEFT_MARGIN)) {
+                xmlStreamReader.next();
+                pageMargins.setLeft(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHT_MARGIN)) {
+                xmlStreamReader.next();
+                pageMargins.setRight(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TOP_MARGIN)) {
+                xmlStreamReader.next();
+                pageMargins.setTop(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BOTTOM_MARGIN)) {
+                xmlStreamReader.next();
+                pageMargins.setBottom(xmlStreamReader.getText());
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    private boolean pageMarginsEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_MARGINS)) {
+            defaults.addToPageMargins(pageMargins);
+            return true;
+        }
+        return false;
+    }
+
+    // SYSTEM-LAYOUT SUBTREE
+    private boolean systemLayoutStart() {
+        try {
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_MARGINS)) {
+                defaults.setSystemMargins(true);
+                XMLParser.getElements(xmlStreamReader, () -> systemMarginsStart(), () -> systemMarginsEnd());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_DISTANCE)) {
+                xmlStreamReader.next();
+                defaults.setSystemDistance(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TOP_SYSTEM_DISTANCE)) {
+                xmlStreamReader.next();
+                defaults.setTopSysDistance(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_DIVIDERS)) {
+                defaults.setSystemDividers(true);
+                XMLParser.getElements(xmlStreamReader, () -> systemDividersStart(), () -> systemDividersEnd());
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    private boolean systemLayoutEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_LAYOUT)) {
+            return true;
+        }
+        return false;
+    }
+
+    // SYSTEM-MARGINS SUBTREE
+    private boolean systemMarginsStart() {
+        try {
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LEFT_MARGIN)) {
+                xmlStreamReader.next();
+                defaults.setLeftSysMargin(xmlStreamReader.getText());
+            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHT_MARGIN)) {
+                xmlStreamReader.next();
+                defaults.setRightSysMargin(xmlStreamReader.getText());
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    private boolean systemMarginsEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_MARGINS)) {
+            return true;
+        }
+        return false;
+    }
+
+    // SYSTEM-DIVIDERS SUBTREE
+    private boolean systemDividersStart() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LEFT_DIVIDER)) { // self closing element
+            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
+                Attribute a = new Attribute(xmlStreamReader.getAttributeName(i).toString(),
+                        xmlStreamReader.getAttributeValue(i).toString());
+                defaults.addToLeftDivider(a);
+            }
+        } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHT_DIVIDER)) { // self closing element
+            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
+                Attribute a = new Attribute(xmlStreamReader.getAttributeName(i).toString(),
+                        xmlStreamReader.getAttributeValue(i).toString());
+                defaults.addToRightDivider(a);
+            }
+        }
+        return false;
+    }
+    private boolean systemDividersEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_DIVIDERS)) {
+            return true;
+        }
+        return false;
+    }
+
+
+    // STAFF-LAYOUT SUBTREE
+    private boolean staffLayoutStart() {
+        try {
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.STAFF_DISTANCE)) {
+                xmlStreamReader.next();
+                staffLayout.setStaffDistance(xmlStreamReader.getText());
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    private boolean staffLayoutEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.STAFF_LAYOUT)) {
+            defaults.addToStaffLayout(staffLayout);
+            return true;
+        }
+        return false;
+    }
+
+
+    // APPEARANCE SUBTREE
+    private boolean appearanceStart() {
+        // line-width
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LINE_WIDTH)) {
+            defaults.addToLineWidth(getElement());
+        }
+        // note-size
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.NOTE_SIZE)) {
+            defaults.addToNoteSize(getElement());
+        }
+        // distance
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DISTANCE)) {
+            defaults.addToDistance(getElement());
+        }
+        // other-appearance
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.OTHER_APPEARANCE)) {
+            defaults.addToOtherAppearance(getElement());
+        }
+        return false;
+    }
+    private boolean appearanceEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.APPEARANCE)) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
     // CREDIT SUBTREE
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean creditStart() {
-        //TODO
-        // credit-type
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT_TYPE)) {
-            // TODO
-        }
-        // link
-        // bookmark
+        try {
+            // credit-type
+            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT_TYPE)) {
+                xmlStreamReader.next();
+                credit.addToCreditType(xmlStreamReader.getText());
+            }
+            // link
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LINK)) {
+                Element e = getElement();
+                for (Attribute a:e.getAttribute()) {
+                    a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.XLINKHREF + "}", XMLConsts.XLINK + ":"));
+                }
+                Attribute att =  new Attribute(XMLConsts.XMLNS + ":" + XMLConsts.XLINK, XMLConsts.XLINKHREF);
+                e.addToAttribute(att);
 
-        //????
-        // credit-image
-        // credit-words
-        // link
-        // bookmark
-        // credit-words
+                credit.addToLink(e);
+            }
+            // bookmark
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BOOKMARK)) {
+                credit.addToBookmark(getElement());
+            }
+            // credit-image
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT_IMAGE)) {
+                credit.setCreditImage(getElement());
+            }
+            // credit-words
+            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT_WORDS)) {
+                Element e = getElement();
+                for (Attribute a:e.getAttribute()) {
+                    a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.NAMESPACEURL + "}", XMLConsts.XML + ":"));
+                }
+                credit.setCreditWords(e);
+            }
+            // TODO link,bookmark,credit-words???
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+    }
         return false;
     }
     private boolean creditEnd() {
@@ -440,6 +672,11 @@ public class ParseXMLHeader {
         }
         return false;
     }
+
+
+
+
+
 
 
     // PART-LIST SUBTREE
@@ -550,5 +787,35 @@ public class ParseXMLHeader {
             return true;
         }
         return false;
+    }
+
+
+
+
+
+
+
+
+
+
+    // gets the attributes and the text-data for an element
+    // then returns the element
+    private Element getElement(){
+        Element element = new Element();
+        try {
+            element.setElementName(xmlStreamReader.getName().toString());
+            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
+                Attribute a = new Attribute(xmlStreamReader.getAttributeName(i).toString(),
+                        xmlStreamReader.getAttributeValue(i));
+                element.addToAttribute(a);
+            }
+            int eventType = xmlStreamReader.next();
+            if (eventType != XMLEvent.END_ELEMENT) {
+                element.setData(xmlStreamReader.getText());
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+        return element;
     }
 }

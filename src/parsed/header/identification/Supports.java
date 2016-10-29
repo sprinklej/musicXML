@@ -1,4 +1,4 @@
-package parsed.header;
+package parsed.header.identification;
 
 /**
  * Created by sprinklej on 2016-10-26.
@@ -12,6 +12,8 @@ package parsed.header;
  * for example, that all system and/or page breaks are contained in the MusicXML file.
  */
 public class Supports {
+    // TODO GET RID OF - MOVE TO ATTRIBUTE MODEL
+
     private String typeAttribute;      // Required, type = yes|no
     private String elementAttribute;   // Required
     private String attributeAttribute;
@@ -52,7 +54,7 @@ public class Supports {
         attributeAttribute = aAttributeAtt;
     }
 
-    public void  setValueAttribute(String aValueAtt) {
+    public void setValueAttribute(String aValueAtt) {
         valueAttribute = aValueAtt;
     }
 }

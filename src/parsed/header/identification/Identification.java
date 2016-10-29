@@ -1,6 +1,7 @@
-package parsed.header;
+package parsed.header.identification;
 
-import parsed.TypedText;
+import parsed.header.TypedText;
+
 import java.util.ArrayList;
 
 /**
@@ -15,7 +16,7 @@ public class Identification {
     private Encoding encoding;                       // minOccurs=0
     private String source;                           // minOccurs=0
     private ArrayList<TypedText> relation;           // minOccurs=0 maxOccurs="unbounded"
-    //private boolean miscellaneous;                   // minOccurs=0 - miscellaneous could be anything
+    //private boolean miscellaneous;                 // minOccurs=0 - miscellaneous could be anything
     private ArrayList<MiscellaneousField> miscField; // minOccurs=0 maxOccurs="unbounded"
 
     // CONSTRUCTOR

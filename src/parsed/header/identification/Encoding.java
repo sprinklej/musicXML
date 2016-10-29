@@ -1,6 +1,7 @@
-package parsed.header;
+package parsed.header.identification;
 
-import parsed.TypedText;
+import parsed.Attribute;
+import parsed.header.TypedText;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ public class Encoding {
     private ArrayList<String> software;        // minOccurs=0 maxOccurs="unbounded"
     private ArrayList<String> encodDescription;// minOccurs=0 maxOccurs="unbounded"
     private ArrayList<Supports> supports;      // minOccurs=0 maxOccurs="unbounded" - gets its own class as it has lots of values
+
 
     // CONSTRUCTOR
     public Encoding() {
@@ -47,6 +49,7 @@ public class Encoding {
     public ArrayList<Supports> getSupports() {
         return supports;
     }
+
 
 
     // ADD TO

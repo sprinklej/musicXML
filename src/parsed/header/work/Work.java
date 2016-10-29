@@ -1,7 +1,4 @@
-package parsed.header;
-
-import parsed.LinkAttributes;
-import sun.awt.image.ImageWatched;
+package parsed.header.work;
 
 /**
  * Created by sprinklej on 2016-10-15.

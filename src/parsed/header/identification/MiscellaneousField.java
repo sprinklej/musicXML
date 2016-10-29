@@ -1,4 +1,4 @@
-package parsed.header;
+package parsed.header.identification;
 
 import parser.XMLConsts;
 

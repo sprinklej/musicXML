@@ -1,7 +1,9 @@
 package parsed;
 
-import parsed.header.Identification;
-import parsed.header.Work;
+import parsed.header.credit.Credit;
+import parsed.header.defaults.Defaults;
+import parsed.header.identification.Identification;
+import parsed.header.work.Work;
 import parser.PartListWrapper;
 import parser.XMLConsts;
 
