@@ -6,19 +6,15 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
 import parsed.*;
-import parsed.header.*;
 import parsed.header.credit.Credit;
 import parsed.header.defaults.Defaults;
 import parsed.header.defaults.PageMargins;
 import parsed.header.defaults.StaffLayout;
-import parsed.header.identification.Encoding;
-import parsed.header.identification.Identification;
-import parsed.header.identification.MiscellaneousField;
-import parsed.header.identification.Supports;
+import parsed.header.identification.*;
+import parsed.header.partlist.Group;
+import parsed.header.partlist.MidiInstrument;
 import parsed.header.work.LinkAttributes;
 import parsed.header.work.Work;
-
-import java.util.ArrayList;
 //import parsed.header.identification.Identification;
 //import parsed.header.work.Work;
 
@@ -72,6 +68,7 @@ public class ParseXMLHeader {
     private Credit credit;
 
     private Part currentPart = null;
+    private MidiInstrument midiInst;
     private Group currentGroup = null;
 
 
@@ -246,6 +243,15 @@ public class ParseXMLHeader {
     private boolean identificationEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
             score.setIdentification(identification);
+            identification = null;
+            return true;
+        }
+        return false;
+    }
+    private boolean identificationScorePartEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
+            currentPart.setIdentification(identification);
+            identification = null;
             return true;
         }
         return false;
@@ -268,7 +274,7 @@ public class ParseXMLHeader {
                 }
 
                 xmlStreamReader.next();
-                TypedText encoderObj = new TypedText(XMLConsts.CREATOR, typeText, xmlStreamReader.getText());
+                TypedText encoderObj = new TypedText(XMLConsts.ENCODER, typeText, xmlStreamReader.getText());
                 encoding.addToEncoder(encoderObj);
             }
             // software
@@ -391,11 +397,6 @@ public class ParseXMLHeader {
         // lyric-language 0..*
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LYRIC_LANGUAGE)) {
             Element e = getElement();
-            for(Attribute a:e.getAttribute()) {
-                if (a.getAttributeName().contains(XMLConsts.NAMESPACE)) {
-                    a.setAttributeName(XMLConsts.XMLLANG);
-                }
-            }
             defaults.addToLyricLanguage(e);
         }
 
@@ -615,14 +616,6 @@ public class ParseXMLHeader {
 
 
 
-
-
-
-
-
-
-
-
     // CREDIT SUBTREE
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean creditStart() {
@@ -654,9 +647,6 @@ public class ParseXMLHeader {
             // credit-words
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT_WORDS)) {
                 Element e = getElement();
-                for (Attribute a:e.getAttribute()) {
-                    a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.NAMESPACEURL + "}", XMLConsts.XML + ":"));
-                }
                 credit.setCreditWords(e);
             }
             // TODO link,bookmark,credit-words???
@@ -675,63 +665,46 @@ public class ParseXMLHeader {
 
 
 
-
-
-
-
     // PART-LIST SUBTREE
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     public boolean partListStart() {
-
         // PART-GROUP
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_GROUP)) {
-            String num = "", type = "";
+            currentGroup = new Group();
+            String type = "";
             for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-                if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.NUMBER)) {
-                    num = xmlStreamReader.getAttributeValue(i);
-                }
+                Attribute a = new Attribute(xmlStreamReader.getAttributeLocalName(i).toString(),
+                        xmlStreamReader.getAttributeValue(i));
+                currentGroup.addToGroupAttributes(a);
 
                 if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.TYPE)) {
                     type = xmlStreamReader.getAttributeValue(i);
                 }
             }
-
-            currentGroup = new Group(num, type);
-
+            // determine if it is the "start" or "stop" of a group
             if (type.contentEquals(XMLConsts.START)) {
-                //System.out.println("*-*part-group start, num = " + num + "*-*");
                 XMLParser.getElements(xmlStreamReader, () -> partGroupStart(), () -> partGroupEnd());
             }
-
             if (type.contentEquals(XMLConsts.STOP)) { // self closing tag - so nothing else to parse
-                //System.out.println("-*-part-group stop, num = " + num + "-*-");
-
                 PartListWrapper partListWrapper = new PartListWrapper(false, currentGroup);
                 score.addToPartList(partListWrapper);
                 currentGroup = null;
             }
-
         }
-
         // SCORE-PART
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PART)) {
-           for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-                if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ID)) {
-                    //System.out.println("---score-part start, ID = " + xmlStreamReader.getAttributeValue(i));
-
-                    // create a new part object
-                    currentPart = new Part(xmlStreamReader.getAttributeValue(i));
-
-                    XMLParser.getElements(xmlStreamReader, () -> scorePartStart(), () -> scorePartEnd());
-                    break; // found what we are looking for - also we cant loop anymore because the stream has moved on!
-                }
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PART)) {
+            currentPart = new Part();
+            if (xmlStreamReader.getAttributeCount() == 1) { // only has 1 attribute that is mandatory
+                Attribute a = new Attribute(xmlStreamReader.getAttributeLocalName(0).toString(),
+                        xmlStreamReader.getAttributeValue(0));
+                currentPart.setPartIDAttribute(a);
             }
+            XMLParser.getElements(xmlStreamReader, () -> scorePartStart(), () -> scorePartEnd());
         }
         return false;
     }
     public boolean partListEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_LIST)) {
-            //System.out.println("--part-list end");
             return true;
         }
         return false;
@@ -740,24 +713,72 @@ public class ParseXMLHeader {
 
     // SCORE-PART SUBTREE
     private boolean scorePartStart() {
-        try {
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_NAME)) {
-                xmlStreamReader.next();
-                //System.out.println("part-name: " + xmlStreamReader.getText());
-                currentPart.setPartName(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_ABBREV)) {
-                xmlStreamReader.next();
-                //System.out.println("part-abbrev: " + xmlStreamReader.getText());
-                currentPart.setPartAbbrev(xmlStreamReader.getText());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
+        // identification
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
+            identification = new Identification();
+            XMLParser.getElements(xmlStreamReader, () -> identificationStart(), () -> identificationScorePartEnd());
         }
+        // part-name - must occur
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_NAME)) {
+            currentPart.setPartName(getElement());
+        }
+        // part-name-display
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_NAME_DISPLAY)) {
+            currentPart.setPartNameDisplay(true);
+            if (xmlStreamReader.getAttributeCount() == 1) {
+                Attribute a = new Attribute(xmlStreamReader.getAttributeLocalName(0).toString(),
+                        xmlStreamReader.getAttributeValue(0));
+                currentPart.setPartNameDispAttribute(a);
+            }
+            XMLParser.getElements(xmlStreamReader, () -> partNameDisplayStart(), () -> partNameDisplayEnd());
+        }
+        // part-abbreviation
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_ABBREVIATION)) {
+            currentPart.setPartAbbreviation(getElement());
+        }
+        // part-abbreviation-display
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_ABBREVIATION_DISPLAY)) {
+            currentPart.setPartAbbreviationDisplay(true);
+            if (xmlStreamReader.getAttributeCount() == 1) { // set attribute
+                Attribute a = new Attribute(xmlStreamReader.getAttributeLocalName(0).toString(),
+                        xmlStreamReader.getAttributeValue(0));
+                currentPart.setPartAbbrevDispAttribute(a);
+            }
+            XMLParser.getElements(xmlStreamReader, () -> partAbbrevDisplayStart(), () -> partAbbrevDisplayEnd());
+        }
+        // group
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP)) {
+            currentPart.addToGroup(getElement());
+        }
+        // score-instrument
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_INSTRUMENT)) {
+            currentPart.setScoreInstrument(true);
+            if (xmlStreamReader.getAttributeCount() == 1) { // set attribute
+                Attribute a = new Attribute(xmlStreamReader.getAttributeLocalName(0).toString(),
+                        xmlStreamReader.getAttributeValue(0));
+                currentPart.setScoreInstAttribute(a);
+            }
+            XMLParser.getElements(xmlStreamReader, () -> scoreInstrumentStart(), () -> scoreInstrumentEnd());
+        }
+        // midi-device
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MIDI_DEVICE)) {
+            currentPart.addToMidiDevice(getElement());
+        }
+        // midi-instrument
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MIDI_INSTRUMENT)) {
+            midiInst = new MidiInstrument();
+            if (xmlStreamReader.getAttributeCount() == 1) { // set attribute
+                Attribute a = new Attribute(xmlStreamReader.getAttributeLocalName(0).toString(),
+                        xmlStreamReader.getAttributeValue(0));
+                midiInst.setMidiAttribute(a);
+            }
+            XMLParser.getElements(xmlStreamReader, () -> midiInstrumentStart(), () -> midiInstrumentEnd());
+        }
+
         return false;
     }
     private boolean scorePartEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PART)) {
-            //System.out.println("---score-part end");
             PartListWrapper partListWrapper = new PartListWrapper(true, currentPart);
             score.addToPartList(partListWrapper);
             currentPart = null;
@@ -766,17 +787,125 @@ public class ParseXMLHeader {
         return false;
     }
 
+    // PART-NAME-DISPLAY SUBTREE
+    private boolean partNameDisplayStart() {
+        currentPart.addToPartNameDispElements(getElement());
+        return false;
+    }
+    private boolean partNameDisplayEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_NAME_DISPLAY)) {
+            return true;
+        }
+        return false;
+    }
+
+    // PART-ABBREVIATION-DISPLAY SUBTREE
+    private boolean partAbbrevDisplayStart() {
+        currentPart.addToPartAbbrevDispElements(getElement());
+        return false;
+    }
+    private boolean partAbbrevDisplayEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_ABBREVIATION_DISPLAY)) {
+            return true;
+        }
+        return false;
+    }
+
+    // PART SCORE-INSTRUMENT SUBTREE
+    private boolean scoreInstrumentStart() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.VIRTUAL_INSTRUMENT)) { // NO attributes
+            currentPart.setVirtualInstrument(true);
+            XMLParser.getElements(xmlStreamReader, () -> virtualInstrumentStart(), () -> virtualInstrumentEnd());
+        } else {
+            currentPart.addToScoreInstElements(getElement());
+        }
+        return false;
+    }
+    private boolean scoreInstrumentEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_INSTRUMENT)) {
+            return true;
+        }
+        return false;
+    }
+
+    // PART VIRTUAL-INSTRUMENT SUBTREE
+    private boolean virtualInstrumentStart() {
+        currentPart.addToVirtualInstElements(getElement());
+        return false;
+    }
+    private boolean virtualInstrumentEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.VIRTUAL_INSTRUMENT)) {
+            return true;
+        }
+        return false;
+    }
+
+    // PART MIDI-INSTRUMENTS SUBTREE
+    private boolean midiInstrumentStart() {
+        midiInst.addToMidiInstrumentElements(getElement());
+        return false;
+    }
+    private boolean midiInstrumentEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MIDI_INSTRUMENT)) {
+            currentPart.addToMidiInstruments(midiInst);
+            midiInst = null;
+            return true;
+        }
+        return false;
+    }
+
+
     // PART-GROUP SUBTREE - is only available when type = "start"
     private boolean partGroupStart() {
+        // group-name
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_NAME)) {
-            try {
-                xmlStreamReader.next();
-                //System.out.println("group-name: " + xmlStreamReader.getText());
-                currentGroup.setGroupName(xmlStreamReader.getText());
-            } catch (XMLStreamException e) {
-                e.printStackTrace();
-            }
+            currentGroup.setGroupName(getElement());
         }
+        // group-name-display
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_NAME_DISPLAY)) {
+            currentGroup.setGroupNameDisplay(true);
+            if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute
+                Attribute a = new Attribute(xmlStreamReader.getAttributeLocalName(0).toString(),
+                        xmlStreamReader.getAttributeValue(0));
+                currentGroup.setGroupNameDispAttribute(a);
+            }
+            XMLParser.getElements(xmlStreamReader, () -> groupNameDisplayStart(), () -> groupNameDisplayEnd());
+        }
+        // group-abbreviation
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_ABBREVIATION)) {
+            currentGroup.setGroupAbbreviation(getElement());
+        }
+        // group-abbreviation-display
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_ABBREVIATION_DISPLAY)) {
+            currentGroup.setGroupAbbreviationDisplay(true);
+            if (xmlStreamReader.getAttributeCount() == 1) {
+                Attribute a = new Attribute(xmlStreamReader.getAttributeLocalName(0).toString(),
+                        xmlStreamReader.getAttributeValue(0));
+                currentGroup.setGroupAbbrevDispAttribute(a);
+            }
+            XMLParser.getElements(xmlStreamReader, () -> groupAbbreviationDisplayStart(), () -> groupAbbreviationDisplayEnd());
+        }
+        // group-symbol
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_SYMBOL)) {
+            currentGroup.setGroupSymbol(getElement());
+        }
+        // group-barline
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_BARLINE)) {
+            currentGroup.setGroupBarline(getElement());
+        }
+        // group-time
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_TIME)) {
+            currentGroup.setGroupTime(getElement());
+        }
+        // footnote
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FOOTNOTE)) {
+            currentGroup.setFootnote(getElement());
+        }
+        // level
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LEVEL)) {
+            currentGroup.setLevel(getElement());
+        }
+
         return false;
     }
     private boolean partGroupEnd() {
@@ -790,13 +919,49 @@ public class ParseXMLHeader {
     }
 
 
+    // GROUP-NAME-DISPLAY SUBTREE
+    private boolean groupNameDisplayStart() {
+        // accidental-text
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ACCIDENTAL_TEXT)) {
+            currentGroup.addToAcdntlORDsplyText(getElement());
+        }
+        // display-text
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DISPLAY_TEXT)) {
+            currentGroup.addToAcdntlORDsplyText(getElement());
+        }
+        return  false;
+    }
+    private boolean groupNameDisplayEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_NAME_DISPLAY)) {
+            return true;
+        }
+        return false;
+    }
+
+
+    // GROUP-ABBREVIATION-DISPLAY
+    private boolean groupAbbreviationDisplayStart() {
+        // accidental-text
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ACCIDENTAL_TEXT)) {
+            currentGroup.addToGroupAbbrevElements(getElement());
+        }
+        // display-text
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DISPLAY_TEXT)) {
+            currentGroup.addToGroupAbbrevElements(getElement());
+        }
+        return false;
+    }
+    private boolean groupAbbreviationDisplayEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUP_ABBREVIATION_DISPLAY)) {
+            return true;
+        }
+        return false;
+    }
 
 
 
 
-
-
-
+    // HELPER FUNCTIONS
 
     // gets the attributes and the text-data for an element
     // then returns the element
@@ -807,6 +972,7 @@ public class ParseXMLHeader {
             for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
                 Attribute a = new Attribute(xmlStreamReader.getAttributeName(i).toString(),
                         xmlStreamReader.getAttributeValue(i));
+                a = checkAttribute(a);
                 element.addToAttribute(a);
             }
             int eventType = xmlStreamReader.next();
@@ -817,5 +983,12 @@ public class ParseXMLHeader {
             e.printStackTrace();
         }
         return element;
+    }
+
+    // checks an attribute to see if "xml:"
+    // has been replaced by a url by the parser and set it back.
+    private Attribute checkAttribute(Attribute a) {
+        a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.NAMESPACEURL + "}", XMLConsts.XML + ":"));
+        return a;
     }
 }

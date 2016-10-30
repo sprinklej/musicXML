@@ -2,11 +2,16 @@ package musicXML;
 
 import parsed.*;
 import parsed.header.credit.Credit;
+import parsed.header.identification.Encoding;
+import parsed.header.identification.Identification;
 import parsed.header.identification.MiscellaneousField;
-import parsed.header.TypedText;
+import parsed.header.identification.TypedText;
 import parsed.header.defaults.PageMargins;
 import parsed.header.defaults.StaffLayout;
 import parsed.header.identification.Supports;
+import parsed.header.partlist.Group;
+import parsed.header.partlist.MidiInstrument;
+import parser.PartListWrapper;
 import parser.XMLConsts;
 
 import java.io.*;
@@ -124,7 +129,7 @@ public class ExportXML {
 
         // identification
         if (score.getIdentification() != null) {
-            writeIdentification();
+            writeIdentification(score.getIdentification());
         }
 
         // defaults
@@ -138,8 +143,7 @@ public class ExportXML {
         }
 
         // part-list - REQUIRED
-        // TODO
-
+        writePartList();
     }
 
 
@@ -183,39 +187,39 @@ public class ExportXML {
     }
 
 
-    // IDENTIFICATION
+    // IDENTIFICATION - pass Identification object because its used multiple times
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
-    private void writeIdentification() {
+    private void writeIdentification(Identification id) {
         try {
             xmlStreamWriter.writeStartElement(XMLConsts.IDENTIFICATION);
             // creator
-            if (score.getIdentification().getCreator() != null) {
-                typedTextLoop(score.getIdentification().getCreator());
+            if (id.getCreator() != null) {
+                typedTextLoop(id.getCreator());
             }
             // rights
-            if (score.getIdentification().getRights() != null) {
-                typedTextLoop(score.getIdentification().getRights());
+            if (id.getRights() != null) {
+                typedTextLoop(id.getRights());
             }
             // encoding
-            if (score.getIdentification().getEncoding() != null) {
+            if (id.getEncoding() != null) {
                 xmlStreamWriter.writeStartElement(XMLConsts.ENCODING);
-                writeEncoding();
+                writeEncoding(id.getEncoding());
                 xmlStreamWriter.writeEndElement();
             }
             // source
-            if (score.getIdentification().getSource() != null) {
+            if (id.getSource() != null) {
                 xmlStreamWriter.writeStartElement(XMLConsts.SOURCE);
-                xmlStreamWriter.writeCharacters(score.getIdentification().getSource());
+                xmlStreamWriter.writeCharacters(id.getSource());
                 xmlStreamWriter.writeEndElement();
             }
             // relation
-            if (score.getIdentification().getRelation() != null) {
-                typedTextLoop(score.getIdentification().getRelation());
+            if (id.getRelation() != null) {
+                typedTextLoop(id.getRelation());
             }
             // miscellaneous - special case
-            if (score.getIdentification().getMiscField() != null) {
+            if (id.getMiscField() != null) {
                 xmlStreamWriter.writeStartElement(XMLConsts.MISCELLANEOUS);
-                for (MiscellaneousField mf:score.getIdentification().getMiscField()) {
+                for (MiscellaneousField mf:id.getMiscField()) {
                     xmlStreamWriter.writeStartElement(XMLConsts.MISCELLANEOUS_FIELD);
                     xmlStreamWriter.writeAttribute(XMLConsts.NAME, mf.getNameAttribue());
                     xmlStreamWriter.writeCharacters(mf.getText());
@@ -232,27 +236,27 @@ public class ExportXML {
 
 
     // ENCODING - SUBTREE OF IDENTIFICATION
-    private void writeEncoding() {
+    private void writeEncoding(Encoding encoding) {
         // encoding-date
-        if (score.getIdentification().getEncoding().getEncodingDate() != null) {
-            stringLoop(score.getIdentification().getEncoding().getEncodingDate(), XMLConsts.ENCODING_DATE);
+        if (encoding.getEncodingDate() != null) {
+            stringLoop(encoding.getEncodingDate(), XMLConsts.ENCODING_DATE);
         }
         // encoder
-        if (score.getIdentification().getEncoding().getEncoder() != null) {
-                typedTextLoop(score.getIdentification().getEncoding().getEncoder());
+        if (encoding.getEncoder() != null) {
+                typedTextLoop(encoding.getEncoder());
         }
         // software
-        if (score.getIdentification().getEncoding().getSoftware() != null) {
-            stringLoop(score.getIdentification().getEncoding().getSoftware(), XMLConsts.SOFTWARE);
+        if (encoding.getSoftware() != null) {
+            stringLoop(encoding.getSoftware(), XMLConsts.SOFTWARE);
         }
         // encoding-description
-        if (score.getIdentification().getEncoding().getEncodDescription() != null) {
-            stringLoop(score.getIdentification().getEncoding().getEncodDescription(), XMLConsts.ENCODING_DESCRIPTION);
+        if (encoding.getEncodDescription() != null) {
+            stringLoop(encoding.getEncodDescription(), XMLConsts.ENCODING_DESCRIPTION);
         }
         // supports - self closing tag
-        if (score.getIdentification().getEncoding().getSupports() != null) {
+        if (encoding.getSupports() != null) {
             try {
-                for (Supports s:score.getIdentification().getEncoding().getSupports()) {
+                for (Supports s:encoding.getSupports()) {
                     xmlStreamWriter.writeStartElement(XMLConsts.SUPPORTS);
                     // type - REQUIRED
                     xmlStreamWriter.writeAttribute(XMLConsts.TYPE, s.getTypeAttribute());
@@ -529,16 +533,7 @@ public class ExportXML {
                     writeSingleElementwithAtts(credit.getCreditWords());
                 }
 
-
-                // link
-                // TODO
-                // bookmark
-                // TODO
-                // credit-words
-
-
-
-
+                // TODO link,bookmark,credit-words???
 
                 xmlStreamWriter.writeEndElement();
             }
@@ -547,8 +542,194 @@ public class ExportXML {
         }
     }
 
+
+
     // PART-LIST
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
+    private void writePartList() {
+        try {
+            xmlStreamWriter.writeStartElement(XMLConsts.PART_LIST);
+            for (PartListWrapper plw: score.getPartList()) {
+                if (plw.getIsPart() == true) {  // is a part
+                    writePart(plw.getPart());
+                } else {                        // is a group
+                    writeGroup(plw.getGroup());
+                }
+            }
+            xmlStreamWriter.writeEndElement();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // PART-GROUP IN PART-LIST
+    private void writeGroup(Group group) {
+        try {
+            xmlStreamWriter.writeStartElement(XMLConsts.PART_GROUP);
+            // write attributes
+            if (group.getGroupAttributes() != null) {
+                writeAttributesArray(group.getGroupAttributes());
+            }
+            // group-name
+            if (group.getGroupName() != null) {
+                writeElement(group.getGroupName());
+            }
+            // group-name-display
+            if (group.getGroupNameDisplay() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.GROUP_NAME_DISPLAY);
+                // write attribute
+                if (group.getGroupNameDispAttribute() != null) {
+                    xmlStreamWriter.writeAttribute(group.getGroupNameDispAttribute().getAttributeName(),
+                            group.getGroupNameDispAttribute().getAttributeText());
+                }
+                // write accidental-text OR display-text elements
+                if (group.getAccidentalORDisplayText() != null) {
+                    writeElementArray(group.getAccidentalORDisplayText());
+                }
+
+                xmlStreamWriter.writeEndElement();
+            }
+            // group-abbreviation
+            if (group.getGroupAbbreviation() != null) {
+                writeElement(group.getGroupAbbreviation());
+            }
+            // group-abbreviation-display
+            if (group.getGroupAbbreviationDisplay() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.GROUP_ABBREVIATION_DISPLAY);
+                // write attribute
+                if (group.getGroupAbbrevDispAttribute() != null) {
+                    xmlStreamWriter.writeAttribute(group.getGroupAbbrevDispAttribute().getAttributeName(),
+                            group.getGroupAbbrevDispAttribute().getAttributeText());
+                }
+                // write elements of group-abbreviation-display
+                if (group.getGroupAbbrevDispElements() != null) {
+                    writeElementArray(group.getGroupAbbrevDispElements());
+                }
+
+                xmlStreamWriter.writeEndElement();
+            }
+            // group-symbol
+            if (group.getGroupSymbol() != null) {
+                writeElement(group.getGroupSymbol());
+            }
+            // group-barline
+            if (group.getGroupBarline() != null) {
+                writeElement(group.getGroupBarline());
+            }
+            // group-time
+            if (group.getGroupTime() != null) {
+                writeElement(group.getGroupTime());
+            }
+            // footnote
+            if (group.getFootnote() != null) {
+                writeElement(group.getFootnote());
+            }
+            // level
+            if (group.getLevel() != null) {
+                writeElement(group.getLevel());
+            }
+
+            xmlStreamWriter.writeEndElement();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // SCORE-PART IN PART-LIST
+    private void writePart(Part part) {
+        try {
+            xmlStreamWriter.writeStartElement(XMLConsts.SCORE_PART);
+            // write attributes
+            if (part.getPartIDAttribute() != null) {
+                xmlStreamWriter.writeAttribute(part.getPartIDAttribute().getAttributeName(),
+                        part.getPartIDAttribute().getAttributeText());
+            }
+            // identification
+            if (part.getIdentification() != null) {
+                writeIdentification(part.getIdentification());
+            }
+            // part-name
+            if (part.getPartName() != null) {
+                writeElement(part.getPartName());
+            }
+            // part-name-display
+            if (part.getPartNameDisplay() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.PART_NAME_DISPLAY);
+                // write attribute
+                if (part.getPartNameDispAttribute() != null) {
+                    xmlStreamWriter.writeAttribute(part.getPartNameDispAttribute().getAttributeName(),
+                            part.getPartNameDispAttribute().getAttributeText());
+                }
+                // write elements
+                if (part.getPartNameDispElements() != null) {
+                    writeElementsWithAttributes(part.getPartNameDispElements());
+                }
+                xmlStreamWriter.writeEndElement();
+            }
+            // part-abbreviation
+            if (part.getPartAbbreviation() != null) {
+                writeElement(part.getPartAbbreviation());
+            }
+            // part-abbreviation-display
+            if (part.getPartAbbreviationDisplay() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.PART_ABBREVIATION_DISPLAY);
+                // write attribute
+                if (part.getPartNameDispAttribute() != null) {
+                    xmlStreamWriter.writeAttribute(part.getPartAbbrevDispAttribute().getAttributeName(),
+                            part.getPartAbbrevDispAttribute().getAttributeText());
+                }
+                // write elements
+                if (part.getPartAbbrevDispElements() != null) {
+                    writeElementsWithAttributes(part.getPartAbbrevDispElements());
+                }
+                xmlStreamWriter.writeEndElement();
+            }
+            // group
+            if (part.getGroup() != null) {
+                writeElementsWithAttributes(part.getGroup());
+            }
+            // score-instrument
+            if (part.getScoreInstrument() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.SCORE_INSTRUMENT);
+                if (part.getScoreInstAttribute() != null) { // write attribute
+                    xmlStreamWriter.writeAttribute(part.getScoreInstAttribute().getAttributeName(),
+                            part.getScoreInstAttribute().getAttributeText());
+                }
+                if (part.getScoreInstElements() != null) { // write elements
+                    writeElementsWithAttributes(part.getScoreInstElements());
+                }
+                // virtual-instrument
+                if (part.getVirtualInstrument() == true) {
+                    xmlStreamWriter.writeStartElement(XMLConsts.VIRTUAL_INSTRUMENT);
+                    if (part.getVirtualInstElements() != null) { // write elements
+                        writeElementsWithAttributes(part.getVirtualInstElements());
+                    }
+                    xmlStreamWriter.writeEndElement();
+                }
+
+                xmlStreamWriter.writeEndElement();
+            }
+            // midi-device
+            if (part.getMidiDevice() != null) {
+                writeElementsWithAttributes(part.getMidiDevice());
+            }
+            // midi-instrument
+            if (part.getMidiInstruments() != null) {
+
+                for(MidiInstrument MI:part.getMidiInstruments()) {
+                    xmlStreamWriter.writeStartElement(XMLConsts.MIDI_INSTRUMENT);
+                    writeElementsWithAttributes(MI.getMidiIntrumentElements());
+                    xmlStreamWriter.writeEndElement();
+                }
+            }
+
+            xmlStreamWriter.writeEndElement();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 
@@ -560,7 +741,11 @@ public class ExportXML {
     }
 
 
-    // Takes in an ArrayList of String
+
+
+
+
+    // Takes in an ArrayList of STRING
     // writes out the elements to xml
     private void stringLoop(ArrayList<String> sArray, String elementType) {
         try {
@@ -573,6 +758,48 @@ public class ExportXML {
             e.printStackTrace();
         }
     }
+
+
+    // write ATTRIBUTES for a complex elements
+    private void writeAttributesArray(ArrayList<Attribute> attList) {
+        for (Attribute att: attList) {
+            try {
+                xmlStreamWriter.writeAttribute(att.getAttributeName(), att.getAttributeText());
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    // writes an ELEMENT
+    private void writeElement(Element element) {
+        try {
+            xmlStreamWriter.writeStartElement(element.getElementName()); // open tag
+            // attributes
+            if (element.getAttribute() != null) {
+                writeAttributesArray(element.getAttribute());
+            }
+            // text data
+            if (element.getData() != null) {
+                xmlStreamWriter.writeCharacters(element.getData());
+            }
+            xmlStreamWriter.writeEndElement();                          // close tag
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    // writes and ARRAY of ELEMENTS
+    private void writeElementArray(ArrayList<Element> elements) {
+        for (Element e:elements) {
+            writeElement(e);
+        }
+    }
+
+
 
 
     // Takes in an ArrayList of TypedText
@@ -591,6 +818,25 @@ public class ExportXML {
             e.printStackTrace();
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // ??
     public String transform(String xml) throws XMLStreamException, TransformerException

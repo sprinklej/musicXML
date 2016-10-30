@@ -1,4 +1,4 @@
-package parsed.header;
+package parsed.header.identification;
 
 /**
  * Created by sprinklej on 2016-10-26.

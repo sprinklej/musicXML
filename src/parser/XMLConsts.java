@@ -17,9 +17,8 @@ public final class XMLConsts {
     //GENERAL
     public static final String START = "start";
     public static final String STOP = "stop";
-    public static final String NAMESPACE = "namespace";
     public static final String NAMESPACEURL = "http://www.w3.org/XML/1998/namespace";
-    public static final String XMLLANG = "xml:lang";
+    //public static final String XMLLANG = "xml:lang";
     public static final String XML = "xml";
 
 
@@ -108,11 +107,31 @@ public final class XMLConsts {
 
     //PART-LIST
     public static final String PART_LIST = "part-list";
+
     public static final String SCORE_PART = "score-part";
     public static final String PART_NAME = "part-name";
-    public static final String PART_ABBREV = "part-abbreviation";
+    public static final String PART_NAME_DISPLAY = "part-name-display";
+    public static final String PART_ABBREVIATION = "part-abbreviation";
+    public static final String PART_ABBREVIATION_DISPLAY = "part-abbreviation-display";
+    public static final String GROUP = "group";
+    public static final String SCORE_INSTRUMENT = "score-instrument";
+    public static final String MIDI_DEVICE = "midi-device";
+    public static final String MIDI_INSTRUMENT = "midi-instrument";
+
     public static final String PART_GROUP = "part-group";
     public static final String GROUP_NAME = "group-name";
+    public static final String GROUP_NAME_DISPLAY = "group-name-display";
+    public static final String ACCIDENTAL_TEXT = "accidental-text";
+    public static final String DISPLAY_TEXT = "display-text";
+    public static final String GROUP_ABBREVIATION = "group-abbreviation";
+    public static final String GROUP_ABBREVIATION_DISPLAY = "group-abbreviation-display";
+    public static final String GROUP_SYMBOL = "group-symbol";
+    public static final String GROUP_BARLINE = "group-barline";
+    public static final String GROUP_TIME = "group-time";
+    public static final String FOOTNOTE = "footnote";
+    public static final String LEVEL = "level";
+
+    public static final String VIRTUAL_INSTRUMENT = "virtual-instrument";
 
 
     //**BODY**

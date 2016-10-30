@@ -1,7 +1,7 @@
 package parser;
 
 import parsed.Part;
-import parsed.Group;
+import parsed.header.partlist.Group;
 
 /**
  * Created by sprinklej on 2016-10-06.

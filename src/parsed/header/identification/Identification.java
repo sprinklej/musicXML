@@ -1,7 +1,5 @@
 package parsed.header.identification;
 
-import parsed.header.TypedText;
-
 import java.util.ArrayList;
 
 /**

@@ -77,6 +77,7 @@ public class ParseXMLBody {
             }
 
             // find the part in the partlist where the ID matches
+            /*
             for (PartListWrapper item : score.getPartList()) {
                 if ((item.getIsPart() == true)
                         && (item.getPart().getPartID().contentEquals(num))) { // relying on java to short-circuit
@@ -84,6 +85,7 @@ public class ParseXMLBody {
 
                 }
             }
+            */
 
             System.out.println("PART: " + num + " -START-");
             XMLParser.getElements(xmlStreamReader, () -> partwisePartStart(), () -> partwisePartEnd());
