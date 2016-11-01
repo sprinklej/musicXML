@@ -13,10 +13,7 @@ import parsed.header.defaults.StaffLayout;
 import parsed.header.identification.*;
 import parsed.header.partlist.Group;
 import parsed.header.partlist.MidiInstrument;
-import parsed.header.work.LinkAttributes;
-import parsed.header.work.Work;
-//import parsed.header.identification.Identification;
-//import parsed.header.work.Work;
+
 
 /**
  * Created by sprinklej on 2016-10-02.
@@ -56,8 +53,9 @@ public class ParseXMLHeader {
 
     private XMLStreamReader2 xmlStreamReader;
     private Score score;
+
+    // OLD WAY - KILLING
     //header subtrees
-    private Work work;
     private Identification identification;
     private Encoding encoding; // identification subtree
     private Supports supports; // identification subtree
@@ -72,6 +70,11 @@ public class ParseXMLHeader {
     private Group currentGroup = null;
 
 
+    // NEW WAY
+    //header subtrees
+    private ComplexElement work;
+
+
 
     // CONSTRUCTOR
     public ParseXMLHeader(XMLStreamReader2 aXmlStreamReader, Score aScore) {
@@ -80,31 +83,88 @@ public class ParseXMLHeader {
     }
 
 
+    // TODO COPIED FROM PARSEXMLBODY - NEED TO MOVE TO 1 SPOT!
+    // ------------------------- HELPER METHODS -------------------------
+    // sets the attributes for a complex element
+    private void setComplexEAttributes(ComplexElement ce) {
+        for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
+            ce.addToAttributes(getAttribute(i));
+        }
+    }
+    // sets the attributes for an element
+    private void setElementAttributes(Element e) {
+        for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
+            e.addToAttributes(getAttribute(i));
+        }
+    }
+    // creates and attribute object and returns it
+    private Attribute getAttribute(int i) {
+        Attribute a = new Attribute(xmlStreamReader.getAttributeName(i).toString(),
+                xmlStreamReader.getAttributeValue(i).toString());
+        a = checkAttribute(a);
+        return a;
+    }
+
+    // -------------------------------------------------------------------
+    // -------------------------------------------------------------------
+    //HELPER FUNCTIONS FROM HERE
+    // gets the attributes and the text-data for an element
+    // then returns the element
+    private Element getElement(){
+        Element element = new Element();
+        try {
+            element.setElementName(xmlStreamReader.getName().toString());
+            // attributes
+            setElementAttributes(element);
+            // data
+            int eventType = xmlStreamReader.next();
+            if (eventType != XMLEvent.END_ELEMENT) {
+                element.setData(xmlStreamReader.getText());
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+        return element;
+    }
+
+    // checks an attribute to see if "xml:" or "xmlns:"
+    // has been replaced by a url by the parser and set it back.
+    private Attribute checkAttribute(Attribute a) {
+        a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.NAMESPACEURL + "}", XMLConsts.XML + ":"));
+        a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.XLINKURL + "}", XMLConsts.XLINK + ":"));
+        return a;
+    }
+    // -------------------------------------------------------------------
+    // -------------------------------------------------------------------
+    // -------------------------------------------------------------------
+    // -------------------------------------------------------------------
+    // -------------------------------------------------------------------
+    // -------------------------------------------------------------------
+
+
+
+
+
+
     // ------------------------- MAIN PARSER FOR THE HEADER PART OF THE XML -------------------------
     public void parseHeader() {
         // work subtree
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) { //work Subtree
-            work = new Work();
+            //work = new Work();
+            work = new ComplexElement(xmlStreamReader.getName().toString());
+            setComplexEAttributes(work);
             XMLParser.getElements(xmlStreamReader, () -> workStart(), () -> workEnd());
         }
         // movement number
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_NUM)) {
-            try {
-                xmlStreamReader.next();
-                score.setMovementNumber(xmlStreamReader.getText());
-            } catch (XMLStreamException e) {
-                e.printStackTrace();
-            }
+            score.setMovementNumberElement(getElement());
         }
         // movement title
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_TITLE)) {
-            try {
-                xmlStreamReader.next();
-                score.setMovementTitle(xmlStreamReader.getText());
-            } catch (XMLStreamException e) {
-                e.printStackTrace();
-            }
+            score.setMovementTitleElement(getElement());
         }
+// TODO DONE REFACTORING UPTO HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         // identification subtree
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
             identification = new Identification();
@@ -129,6 +189,14 @@ public class ParseXMLHeader {
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_LIST)) {
             XMLParser.getElements(xmlStreamReader, () -> partListStart(), () -> partListEnd());
         }
+
+        // PARSE THE BODY
+        // partwise
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
+            ParseXMLBody parseBodyObj = new ParseXMLBody(xmlStreamReader, score);
+            parseBodyObj.parseBody();
+        }
+        // TODO TIMEWISE PARSRING
     }
 
 
@@ -136,47 +204,29 @@ public class ParseXMLHeader {
     // WORK SUBTREE
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean workStart() {
-        try {
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_NUM)) {
-                    xmlStreamReader.next();
-                //System.out.println("work-number: " + xmlStreamReader.getText());
-                work.setWorkNumber(xmlStreamReader.getText());
 
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_TITLE)) {
-                xmlStreamReader.next();
-                //System.out.println("work-title: " + xmlStreamReader.getText());
-                work.setWorkTitle(xmlStreamReader.getText());
-
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.OPUS)) {
-                work.setOpus(true);
-                LinkAttributes la = new LinkAttributes();
-                for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_HREF)) {
-                        la.setHref(xmlStreamReader.getAttributeValue(i));
-                    }
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_ROLE)) {
-                        la.setRole(xmlStreamReader.getAttributeValue(i));
-                    }
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_TITLE)) {
-                        la.setTitle(xmlStreamReader.getAttributeValue(i));
-                    }
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_SHOW)) {
-                        la.setShow(xmlStreamReader.getAttributeValue(i));
-                    }
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.XLINK_ACTUATE)) {
-                        la.setActuate(xmlStreamReader.getAttributeValue(i));
-                    }
-                }
-                work.setOpusAttributes(la);
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
+        // work-number
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_NUM)) {
+            work.addToElements(new ElementWrapper(false, getElement()));
+        }
+        // work-title
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_TITLE)) {
+            work.addToElements(new ElementWrapper(false, getElement()));
+        }
+        // opus
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.OPUS)) {
+            // TODO fix extra work that needs doing here
+            Element e = getElement();
+            e.addToAttributes(new Attribute(XMLConsts.XMLNS + ":" + XMLConsts.XLINK, XMLConsts.XLINKURL));
+            work.addToElements(new ElementWrapper(false, e));
         }
         return false;
     }
     private boolean workEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) {
-            score.setWork(work);
+            //score.setWork(work);
+            ElementWrapper ew = new ElementWrapper(true, work);
+            score.addToWorkList(ew);
             return true;
         }
         return false;
@@ -628,11 +678,11 @@ public class ParseXMLHeader {
             // link
             else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LINK)) {
                 Element e = getElement();
-                for (Attribute a:e.getAttribute()) {
+                for (Attribute a:e.getAttributes()) {
                     a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.XLINKHREF + "}", XMLConsts.XLINK + ":"));
                 }
                 Attribute att =  new Attribute(XMLConsts.XMLNS + ":" + XMLConsts.XLINK, XMLConsts.XLINKHREF);
-                e.addToAttribute(att);
+                e.addToAttributes(att);
 
                 credit.addToLink(e);
             }
@@ -705,6 +755,7 @@ public class ParseXMLHeader {
     }
     public boolean partListEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_LIST)) {
+            System.out.println("PARTLIST END");
             return true;
         }
         return false;
@@ -956,39 +1007,5 @@ public class ParseXMLHeader {
             return true;
         }
         return false;
-    }
-
-
-
-
-    // HELPER FUNCTIONS
-
-    // gets the attributes and the text-data for an element
-    // then returns the element
-    private Element getElement(){
-        Element element = new Element();
-        try {
-            element.setElementName(xmlStreamReader.getName().toString());
-            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-                Attribute a = new Attribute(xmlStreamReader.getAttributeName(i).toString(),
-                        xmlStreamReader.getAttributeValue(i));
-                a = checkAttribute(a);
-                element.addToAttribute(a);
-            }
-            int eventType = xmlStreamReader.next();
-            if (eventType != XMLEvent.END_ELEMENT) {
-                element.setData(xmlStreamReader.getText());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
-        return element;
-    }
-
-    // checks an attribute to see if "xml:"
-    // has been replaced by a url by the parser and set it back.
-    private Attribute checkAttribute(Attribute a) {
-        a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.NAMESPACEURL + "}", XMLConsts.XML + ":"));
-        return a;
     }
 }

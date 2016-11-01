@@ -18,8 +18,12 @@ public final class XMLConsts {
     public static final String START = "start";
     public static final String STOP = "stop";
     public static final String NAMESPACEURL = "http://www.w3.org/XML/1998/namespace";
-    //public static final String XMLLANG = "xml:lang";
     public static final String XML = "xml";
+    public static final String XLINKURL = "http://www.w3.org/1999/xlink";
+    public static final String XMLNS = "xmlns";
+    public static final String XLINK = "xlink";
+
+
 
 
     //**HEADER-INFO**
@@ -137,13 +141,24 @@ public final class XMLConsts {
     //**BODY**
     //PART
     public static final String PART = "part";
-
-
-    //MEASURE
     public static final String MEASURE = "measure";
-    //public static final String WIDTH = "width";
 
-    //BODY
+    public static final String ATTRIBUTES = "attributes";
+    public static final String BACKUP = "backup";
+    public static final String BARLINE = "barline";
+  //public static final String BOOKMARK = "bookmark";
+    public static final String DIRECTION = "direction";
+    public static final String FIGURED_BASE = "figured-bass";
+    public static final String FORWARD = "forward";
+    public static final String GROUPING = "grouping";
+    public static final String HARMONY = "harmony";
+  //public static final String LINK = "link";
+    public static final String NOTE = "note";
+    public static final String SOUND = "sound";
+
+
+
+
     public static final String PRINT = "print";
 
 
@@ -151,7 +166,7 @@ public final class XMLConsts {
 
     public static final String MEASURE_NUMBERING = "measure-numbering";
 
-    public static final String ATTRIBUTES = "attributes";
+
     //public static final String DIVISIONS = "divisions";
     public static final String KEY = "key";
     public static final String FIFTHS = "fifths";
@@ -177,7 +192,7 @@ public final class XMLConsts {
     public static final String PER_MINUTE = "per-minute";
     //public static final String SOUND = "sound";
 
-    public static final String NOTE = "note";
+    //public static final String NOTE = "note";
     public static final String CHORD = "chord";
     public static final String PITCH = "pitch";
     public static final String STEP = "step";
@@ -238,7 +253,7 @@ public final class XMLConsts {
     public static final String DEFAULT_Y = "default-y";
     public static final String DEPARTURE = "departure";
     public static final String DIR = "dir";
-    public static final String DIRECTION = "direction";
+    //public static final String DIRECTION = "direction";
     public static final String DIRECTIVE = "directive";
     public static final String DIVISIONS = "divisions";
     public static final String DYNAMICS = "dynamics";
@@ -327,7 +342,7 @@ public final class XMLConsts {
     public static final String SLASHES = "slashes";
     public static final String SOFT_PEDAL = "soft-pedal";
     public static final String SOSTENUTO_PEDAL = "sostenuto-pedal";
-    public static final String SOUND = "sound";
+    //public static final String SOUND = "sound";
     //public static final String SOURCE = "source"; - also an element
     public static final String SPACE_LENGTH = "space-length";
     public static final String SPREAD = "spread";
@@ -368,8 +383,6 @@ public final class XMLConsts {
 
     //LINK ATTRIBUTES
     public static final String XLINKHREF = "http://www.w3.org/1999/xlink";
-    public static final String XMLNS = "xmlns";
-    public static final String XLINK = "xlink";
     public static final String XLINK_HREF = "href";       // use is required - the URL
     public static final String XLINK_TYPE = "type";       // the value is fixed to "simple"
     public static final String XLINK_ROLE = "role";

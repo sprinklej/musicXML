@@ -88,8 +88,11 @@ public class ExportXML {
             // write Header info
             writeHeader();
 
-            // write body info
-            writeBody();
+            // write BODY
+            if (score.getBody() != null) {
+                writeElementWrapperList(score.getBody());
+            }
+
 
             // finish up writing
             xmlStreamWriter.writeEndDocument();
@@ -105,28 +108,19 @@ public class ExportXML {
     // ------------------------- MAIN EXPORTER FOR THE HEADER PART OF THE XML -------------------------
     private void writeHeader() {
         // work
-        if (score.getWork() != null) {
-            writeWork();
+        if (score.getWorkList() != null) {
+            //writeWork();
+            writeElementWrapperList(score.getWorkList());
         }
-
-        try {
-            // movement-number
-            if (score.getMovementNumber() != null) {
-                xmlStreamWriter.writeStartElement(XMLConsts.MOVEMENT_NUM);
-                xmlStreamWriter.writeCharacters(score.getMovementNumber());
-                xmlStreamWriter.writeEndElement();
-            }
-
-            // movement-title
-            if (score.getMovementTitle() != null) {
-                xmlStreamWriter.writeStartElement(XMLConsts.MOVEMENT_TITLE);
-                xmlStreamWriter.writeCharacters(score.getMovementTitle());
-                xmlStreamWriter.writeEndElement();
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
+        // movment-number
+        if (score.getMovementNumberElement() != null) {
+            writeElement(score.getMovementNumberElement());
         }
-
+        // movement-title
+        if (score.getMovementTitleElement() != null) {
+            writeElement(score.getMovementTitleElement());
+        }
+/*
         // identification
         if (score.getIdentification() != null) {
             writeIdentification(score.getIdentification());
@@ -144,47 +138,9 @@ public class ExportXML {
 
         // part-list - REQUIRED
         writePartList();
+        */
     }
 
-
-    // WORK
-    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
-    private void writeWork() {
-        try {
-            xmlStreamWriter.writeStartElement(XMLConsts.WORK);
-            // work-number
-            if (score.getWork().getWorkNumber() != null) {
-                xmlStreamWriter.writeStartElement(XMLConsts.WORK_NUM);
-                xmlStreamWriter.writeCharacters(score.getWork().getWorkNumber());
-                xmlStreamWriter.writeEndElement();
-            }
-            // work-title
-            if (score.getWork().getWorkTitle() != null) {
-                xmlStreamWriter.writeStartElement(XMLConsts.WORK_TITLE);
-                xmlStreamWriter.writeCharacters(score.getWork().getWorkTitle());
-                xmlStreamWriter.writeEndElement();
-            }
-            // opus
-            if (score.getWork().getOpus() == true) {
-                xmlStreamWriter.writeStartElement(XMLConsts.OPUS);
-                xmlStreamWriter.writeAttribute(XMLConsts.XMLNS + ":" + XMLConsts.XLINK, score.getWork().getOpusAttributes().getXmlnsLink());
-                xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_HREF, score.getWork().getOpusAttributes().getHref());
-                xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_TYPE, score.getWork().getOpusAttributes().getType());
-                xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_SHOW, score.getWork().getOpusAttributes().getShow());
-                xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_ACTUATE, score.getWork().getOpusAttributes().getActuate());
-                if (score.getWork().getOpusAttributes().getRole() != null) {
-                    xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_ROLE, score.getWork().getOpusAttributes().getRole());
-                }
-                if (score.getWork().getOpusAttributes().getTitle() != null) {
-                    xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_TITLE, score.getWork().getOpusAttributes().getTitle());
-                }
-                xmlStreamWriter.writeEndElement();
-            }
-            xmlStreamWriter.writeEndElement();
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     // IDENTIFICATION - pass Identification object because its used multiple times
@@ -471,8 +427,8 @@ public class ExportXML {
     private void writeSingleElementwithAtts(Element element) {
         try {
             xmlStreamWriter.writeStartElement(element.getElementName());
-            if (element.getAttribute() != null) {
-                ArrayList<Attribute> attributes = element.getAttribute();
+            if (element.getAttributes() != null) {
+                ArrayList<Attribute> attributes = element.getAttributes();
                 for (Attribute a : attributes) {
                     xmlStreamWriter.writeAttribute(a.getAttributeName(), a.getAttributeText());
                 }
@@ -734,13 +690,6 @@ public class ExportXML {
 
 
 
-    // BODY
-    // ------------------------- MAIN EXPORTER FOR THE BODY PART OF THE XML -------------------------
-    private void writeBody() {
-        // TODO
-    }
-
-
 
 
 
@@ -759,7 +708,7 @@ public class ExportXML {
         }
     }
 
-
+/*
     // write ATTRIBUTES for a complex elements
     private void writeAttributesArray(ArrayList<Attribute> attList) {
         for (Attribute att: attList) {
@@ -770,15 +719,15 @@ public class ExportXML {
             }
         }
     }
-
-
+*/
+/*
     // writes an ELEMENT
     private void writeElement(Element element) {
         try {
             xmlStreamWriter.writeStartElement(element.getElementName()); // open tag
             // attributes
-            if (element.getAttribute() != null) {
-                writeAttributesArray(element.getAttribute());
+            if (element.getAttributes() != null) {
+                writeAttributesArray(element.getAttributes());
             }
             // text data
             if (element.getData() != null) {
@@ -789,7 +738,7 @@ public class ExportXML {
             e.printStackTrace();
         }
     }
-
+*/
 
 
     // writes and ARRAY of ELEMENTS
@@ -825,6 +774,68 @@ public class ExportXML {
 
 
 
+    // GOOD HELPER METHODS
+    // ------------------------------------------------------------------------------------------------------
+
+    // Writes an arraylist of of ElementWrappers
+    private void writeElementWrapperList(ArrayList<ElementWrapper> elementWrappers) {
+        for (ElementWrapper ew:elementWrappers) {
+            if (ew.getIsComplex() == true) { // write complex element
+                writeComplexElement(ew.getComplexElement());
+            } else { // write element
+                writeElement(ew.getElement());
+            }
+        }
+    }
+
+    // Writes a COMPLEX ELEMENT
+    private void writeComplexElement(ComplexElement complexElement) {
+        try {
+            xmlStreamWriter.writeStartElement(complexElement.getElementName()); // open tag
+            // attributes
+            if (complexElement.getAttributes() != null) {
+                writeAttributesArray(complexElement.getAttributes());
+            }
+            // elements
+            if (complexElement.getElements() != null) {
+                writeElementWrapperList(complexElement.getElements());
+            }
+
+            xmlStreamWriter.writeEndElement();                          // close tag
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    // writes an ELEMENT
+    private void writeElement(Element element) {
+        try {
+            xmlStreamWriter.writeStartElement(element.getElementName()); // open tag
+            // attributes
+            if (element.getAttributes() != null) {
+                writeAttributesArray(element.getAttributes());
+            }
+            // text data
+            if (element.getData() != null) {
+                xmlStreamWriter.writeCharacters(element.getData());
+            }
+            xmlStreamWriter.writeEndElement();                          // close tag
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // writes an ATTRIBUTES ARRAY
+    private void writeAttributesArray(ArrayList<Attribute> attList) {
+        for (Attribute att: attList) {
+            try {
+                xmlStreamWriter.writeAttribute(att.getAttributeName(), att.getAttributeText());
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 
@@ -834,10 +845,7 @@ public class ExportXML {
 
 
 
-
-
-
-
+    // ------------------------------------------------------------------------------------------------------
     // ??
     public String transform(String xml) throws XMLStreamException, TransformerException
     {
@@ -849,183 +857,46 @@ public class ExportXML {
         return out.toString();
     }
 
-    /*
-    private Score score;
-    private File file;
-    private PrintWriter writer;
 
-    public ExportXML(Score aScore) {
-        score = aScore;
-
-        // create the new file
-        createFile();
-        // fill the header part of the file
-        printHeader();
-        // fill the body of the file
-        printBody();
-        // close the file
-        writer.println("</" + score.getScoreType() + ">");
-        writer.close();
-    }
-
-    //http://stackoverflow.com/questions/6142901/how-to-create-a-file-in-a-directory-in-java
-    private void createFile() {
-        file = new File("testFile.xml");
-
-        try {
-            //f.getParentFile().mkdirs();
-            file.createNewFile();
-            writer = new PrintWriter(file, "UTF-8");
-        } catch (IOException e) {
-            System.out.println("ERROR: Could Not create new XML file");
-            e.printStackTrace();
-        }
-    }
-
-
-    // ------------------------- MAIN EXPORTER FOR THE HEADER PART OF THE XML -------------------------
-    private void printHeader() {
-        // XML VERSION and DOCTYPE
-        writer.println(score.getxmlVersDocType());
-
-        // SCORE-TYPE
-        writer.print("<" + score.getScoreType());
-        if (score.getScoreVersion() != null) {
-            writer.println(" " + XMLConsts.VERSION + "=\"" + score.getScoreVersion() + "\">");
-        } else {
-            writer.println(">");
-        }
-
-        // WORK - minOccurs=0
-        if (score.getWork() != null) {
-            printWork();
-        }
-
-        // MOVEMENT-NUMBER - minOccurs=0
-        if (score.getMovementNumber() != null) {
-            writer.println("  <movement-number>" + score.getMovementNumber() + "</movement-number>");
-        }
-
-        // MOVEMENT-TITLE - minOccurs=0
-        if (score.getMovementTitle() != null) {
-            writer.println("  <movement-title>" + score.getMovementTitle() + "</movement-title>");
-        }
-
-        // IDENTIFICATION - minOccurs=0
-        if (score.getIdentification() != null) {
-            printIdentification();
-        }
-
-        // DEFAULTS - minOccurs=0
-        if (score.getDefaults() != null) {
-            // TODO
-        }
-
-        // CREDIT - minOccurs=0 maxOccurs="unbounded"
-        if (score.getCredit() != null) {
-            // TODO
-        }
-
-        // PART-LIST - MUST OCCUR
-        // TODO
-    }
-
+    //DEAD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // WORK
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
-    private void printWork() {
-        writer.println("  <work>");
-        // work-number - minOccurs=0
-        if (score.getWork().getWorkNumber() != null) {
-            writer.println("    <work-number>"+ score.getWork().getWorkNumber() + "</work-number>");
-        }
-        // work-title - minOccurs=0
-        if (score.getWork().getWorkTitle() != null) {
-            writer.println("    <work-title>" + score.getWork().getWorkTitle() + "</work-title>");
-        }
-        // opus - minOccurs=0
-        if (score.getWork().getOpus() == true) {
-            writer.print("    <opus " + score.getWork().getOpusAttributes().getXmlns() + " "
-                    + XMLConsts.XLINK + ":" + XMLConsts.XLINK_HREF + "=\"" + score.getWork().getOpusAttributes().getHref() + "\" "
-                    + XMLConsts.XLINK + ":" + XMLConsts.XLINK_TYPE + "=\"" + score.getWork().getOpusAttributes().getType() + "\" "
-                    + XMLConsts.XLINK + ":" + XMLConsts.XLINK_SHOW + "=\"" + score.getWork().getOpusAttributes().getShow() + "\" "
-                    + XMLConsts.XLINK + ":" + XMLConsts.XLINK_ACTUATE + "=\"" + score.getWork().getOpusAttributes().getActuate() + "\"");
+   /* private void writeWork() {
 
-            if (score.getWork().getOpusAttributes().getRole() != null) {
-                writer.print(" " + XMLConsts.XLINK + ":" + XMLConsts.XLINK_ROLE + "=\"" + score.getWork().getOpusAttributes().getRole() + "\"");
+        try {
+            xmlStreamWriter.writeStartElement(XMLConsts.WORK);
+            // work-number
+            if (score.getWork().getWorkNumber() != null) {
+                xmlStreamWriter.writeStartElement(XMLConsts.WORK_NUM);
+                xmlStreamWriter.writeCharacters(score.getWork().getWorkNumber());
+                xmlStreamWriter.writeEndElement();
             }
-
-            if (score.getWork().getOpusAttributes().getTitle() != null) {
-                writer.print(" " + XMLConsts.XLINK + ":" + XMLConsts.XLINK_TITLE + "=\"" + score.getWork().getOpusAttributes().getTitle() + "\"");
+            // work-title
+            if (score.getWork().getWorkTitle() != null) {
+                xmlStreamWriter.writeStartElement(XMLConsts.WORK_TITLE);
+                xmlStreamWriter.writeCharacters(score.getWork().getWorkTitle());
+                xmlStreamWriter.writeEndElement();
             }
-            writer.println("/>");
-        }
-        writer.println("  </work>");
-    }
-
-
-    // IDENTIFICATION
-    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
-    private void printIdentification() {
-        writer.println("    <identification>");
-        // creator
-        if (score.getIdentification().getCreator() != null) {
-            for (TypedText tt:score.getIdentification().getCreator()) {
-                writer.println("      " + tt.toString());
+            // opus
+            if (score.getWork().getOpus() == true) {
+                xmlStreamWriter.writeStartElement(XMLConsts.OPUS);
+                xmlStreamWriter.writeAttribute(XMLConsts.XMLNS + ":" + XMLConsts.XLINK, score.getWork().getOpusAttributes().getXmlnsLink());
+                xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_HREF, score.getWork().getOpusAttributes().getHref());
+                xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_TYPE, score.getWork().getOpusAttributes().getType());
+                xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_SHOW, score.getWork().getOpusAttributes().getShow());
+                xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_ACTUATE, score.getWork().getOpusAttributes().getActuate());
+                if (score.getWork().getOpusAttributes().getRole() != null) {
+                    xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_ROLE, score.getWork().getOpusAttributes().getRole());
+                }
+                if (score.getWork().getOpusAttributes().getTitle() != null) {
+                    xmlStreamWriter.writeAttribute(XMLConsts.XLINK + ":" + XMLConsts.XLINK_TITLE, score.getWork().getOpusAttributes().getTitle());
+                }
+                xmlStreamWriter.writeEndElement();
             }
+            xmlStreamWriter.writeEndElement();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
         }
-        // rights
-        if (score.getIdentification().getRights() != null) {
-            for (TypedText tt:score.getIdentification().getRights()) {
-                writer.println("      " + tt.toString());
-            }
-        }
-        // encoding
-        if (score.getIdentification().getEncoding() != null) {
-            //TODO
-        }
-        // source
-        if (score.getIdentification().getSource() != null) {
-            writer.println("      <source>" + score.getIdentification().getSource() + "</source>");
-        }
-        // relation
-        if (score.getIdentification().getRelation() != null) {
-            for (TypedText tt:score.getIdentification().getRelation()) {
-                writer.println("      " + tt.toString());
-            }
-        }
-        // miscellaneous
-        if (score.getIdentification().getMiscField() != null) {
-            //TODO
-        }
+    }*/
 
-
-
-        // encoding-date
-        //if (score.getIdentification().geteDate() != null) {
-        //    writer.println("      <encoding-date>" + score.getIdentification().geteDate() + "</encoding-date>");
-        //}
-        // encoding-
-
-        writer.println("    </identification>");
-    }
-
-
-    // DEFAULTS
-    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
-
-    // CREDIT
-    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
-
-    // PART-LIST
-    // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
-
-
-
-
-    // BODY
-    // ------------------------- MAIN EXPORTER FOR THE BODY PART OF THE XML -------------------------
-    private void printBody() {
-        // TODO
-    }
-    */
 }

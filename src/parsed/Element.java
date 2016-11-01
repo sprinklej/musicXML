@@ -7,12 +7,12 @@ import java.util.ArrayList;
  */
 public class Element {
     private String elementName;
-    private ArrayList<Attribute> attribute;
+    private ArrayList<Attribute> attributes;
     private String data;
 
     // CONSTRUCTOR
     public Element() {
-        attribute = new ArrayList<Attribute>();
+        attributes = new ArrayList<Attribute>();
     }
 
     // GETTERS
@@ -20,8 +20,8 @@ public class Element {
         return elementName;
     }
 
-    public ArrayList<Attribute> getAttribute() {
-        return attribute;
+    public ArrayList<Attribute> getAttributes() {
+        return attributes;
     }
 
     public String getData() {
@@ -40,7 +40,7 @@ public class Element {
 
 
     // ADD TO
-    public void addToAttribute(Attribute atb) {
-        attribute.add(atb);
+    public void addToAttributes(Attribute atb) {
+        attributes.add(atb);
     }
 }

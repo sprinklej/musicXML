@@ -1,13 +1,12 @@
 package parser;
 
 import org.codehaus.stax2.XMLStreamReader2;
+
+
+import parsed.*;
+
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
 
-
-import parsed.Score;
-import parsed.Part;
-import parsed.Measure;
 /**
  * Created by sprinklej on 2016-10-07.
  * -- XML Body Structure --
@@ -47,23 +46,205 @@ import parsed.Measure;
  */
 public class ParseXMLBody {
     private Score score;
-    private Part currentPart;
-    private Measure currentMeasure;
+    private XMLStreamReader2 xmlStreamReader;
 
-    XMLStreamReader2 xmlStreamReader;
-    private boolean isPartwise;
+    private ComplexElement currentPart;
+    private ComplexElement currentMeasure;
+
+    private ComplexElement currentAttributes;
+
+    //private Part currentPart;
+    //private Measure currentMeasure;
+    //private boolean isPartwise;
 
     public ParseXMLBody(XMLStreamReader2 aXmlStreamReader, Score aScore) {
         xmlStreamReader = aXmlStreamReader;
         score = aScore;
-
+/*
         if (score.getScoreType().contentEquals(XMLConsts.PARTWISE)){
             isPartwise = true;
         } else {
             isPartwise = false;
+
+        }*/
+    }
+
+
+    // ------------------------- MAIN PARSER FOR THE BODY PART OF THE XML -------------------------
+    public void parseBody() {
+        // get top body element either PART or MEASURE
+        // part - partwise
+        if ((score.getScoreType() == XMLConsts.PARTWISE)
+                && (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART))) {
+            currentPart = new ComplexElement(xmlStreamReader.getName().toString());
+            setComplexEAttributes(currentPart);
+            XMLParser.getElements(xmlStreamReader, () -> partwiseStart(), () -> partwiseEnd());
+        }
+        // measure - timewise
+        else if ((score.getScoreType() == XMLConsts.TIMEWISE)
+                && (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE))) {
+            // TODO
         }
     }
 
+
+
+    // PART
+    private boolean partwiseStart() {
+        // measure
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
+            currentMeasure = new ComplexElement(xmlStreamReader.getName().toString());
+            setComplexEAttributes(currentMeasure);
+            XMLParser.getElements(xmlStreamReader, () -> partMeasureStart(), () -> partMeasureEnd());
+        }
+        return false;
+    }
+    private boolean partwiseEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
+            ElementWrapper ew = new ElementWrapper(true, currentPart);
+            score.addToBody(ew);
+            currentPart = null;
+            return true;
+        }
+        return false;
+    }
+
+
+    // MEASURE - SUBTREE OF PART
+    private boolean partMeasureStart() {
+        // attributes
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ATTRIBUTES)) {
+            currentAttributes = new ComplexElement(xmlStreamReader.getName().toString());
+            setComplexEAttributes(currentMeasure);
+            XMLParser.getElements(xmlStreamReader, () -> attributesStart(), () -> partAttributesEnd());
+        }
+        // backup
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BACKUP)) {
+            // TODO complex
+        }
+        // barline
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BARLINE)) {
+            // TODO complex
+        }
+        // bookmark
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BOOKMARK)) {
+            // TODO
+        }
+        // direction
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DIRECTION)) {
+            // TODO COMPLEX
+        }
+        // figured-base
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FIGURED_BASE)) {
+            // TODO COMPLEX
+        }
+        // forward
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FORWARD)) {
+            // TODO COMPLEX
+        }
+        // grouping
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUPING)) {
+            // TODO COMPLEX
+        }
+        // harmony
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.HARMONY)) {
+            // TODO COMPLEX
+        }
+        // link
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LINK)) {
+            // TODO
+        }
+        // note
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.NOTE)) {
+            // TODO COMPLEX
+        }
+        // print
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PRINT)) {
+            // TODO COMPLEX
+        }
+        // sound
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOUND)) {
+            // TODO COMPLEX
+        }
+        return false;
+    }
+    private boolean partMeasureEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
+            ElementWrapper ew = new ElementWrapper(true, currentMeasure);
+            currentPart.addToElements(ew);
+            currentMeasure = null;
+            return true;
+        }
+        return false;
+    }
+
+
+
+    // ATTRIBUTES
+    private boolean attributesStart() {
+        // footnote
+        // TODO
+        // level
+        // TODO
+        // divisions
+        // TODO
+        // key
+        // TODO
+        // time
+        // TODO
+        // staves
+        // TODO
+        // part-symbol
+        // TODO
+        // instruments
+        // TODO
+        // clef
+        // TODO
+        // staff-details
+        // TODO
+        // TRANSPOSE
+        // TODO
+        // directive
+        // TODO
+        // measure-style
+        // TODO
+
+        return false;
+    }
+    private boolean partAttributesEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
+            ElementWrapper ew = new ElementWrapper(true, currentAttributes);
+            currentMeasure.addToElements(ew);
+            currentAttributes = null;
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+    // ------------------------- HELPER METHODS -------------------------
+    // sets the attributes for a complex element
+    private void setComplexEAttributes(ComplexElement ce) {
+        for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
+            ce.addToAttributes(getAttribute(i));
+        }
+    }
+    // sets the attributes for an element
+    private void setElementAttributes(Element e) {
+        for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
+            e.addToAttributes(getAttribute(i));
+        }
+    }
+    // creates an attribute object and returns it
+    private Attribute getAttribute(int i) {
+        return new Attribute(xmlStreamReader.getAttributeName(i).toString(),
+                xmlStreamReader.getAttributeValue(i).toString());
+    }
+
+
+    /*
     // MAIN PARSER FOR A PARTWISE BODY
     public void partwiseBody() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
@@ -77,15 +258,14 @@ public class ParseXMLBody {
             }
 
             // find the part in the partlist where the ID matches
-            /*
-            for (PartListWrapper item : score.getPartList()) {
-                if ((item.getIsPart() == true)
-                        && (item.getPart().getPartID().contentEquals(num))) { // relying on java to short-circuit
-                    currentPart = item.getPart();
 
-                }
-            }
-            */
+           // for (PartListWrapper item : score.getPartList()) {
+             //   if ((item.getIsPart() == true)
+               //         && (item.getPart().getPartID().contentEquals(num))) { // relying on java to short-circuit
+                 //   currentPart = item.getPart();
+               // }
+           // }
+
 
             System.out.println("PART: " + num + " -START-");
             XMLParser.getElements(xmlStreamReader, () -> partwisePartStart(), () -> partwisePartEnd());
@@ -160,12 +340,5 @@ public class ParseXMLBody {
         }
         return false;
     }
-
-
-
-
-    // -- APPLIES TO BOTH TIMEWISE AND PARTWISE --
-
-
-
+    */
 }

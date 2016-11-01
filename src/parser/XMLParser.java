@@ -137,11 +137,7 @@ public class XMLParser {
             }
         }
 
-        // parse xml header info
         parseHeader();
-
-        // parse xml body info
-        //parseBody();
 
         return false;
     }
@@ -156,15 +152,5 @@ public class XMLParser {
     private void parseHeader() {
         ParseXMLHeader parseHeaderObj = new ParseXMLHeader(xmlStreamReader, score);
         parseHeaderObj.parseHeader();
-    }
-
-    // Parse the body of the score
-    private void parseBody() {
-        ParseXMLBody parseBodyObj = new ParseXMLBody(xmlStreamReader, score);
-        if (score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
-            parseBodyObj.partwiseBody();
-        } else if (score.getScoreType().contentEquals(XMLConsts.TIMEWISE)) {
-            parseBodyObj.timewiseBody();
-        }
     }
 }

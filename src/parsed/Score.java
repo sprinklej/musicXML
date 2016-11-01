@@ -21,19 +21,30 @@ import java.util.ArrayList;
 public class Score {
     private String scoreType;                   // partwise or timewise
     private String scoreVersion;                // Optional - The musicxml version
-    private Work work;                          // minOccurs=0
-    private String movementNumber;              // minOccurs=0
-    private String movementTitle;               // minOccurs=0
+
+    // old way - killing
     private Identification identification;      // minOccurs=0
     private Defaults defaults;                  // minOccurs=0
     private ArrayList<Credit> credit;           // minOccurs=0 maxOccurs="unbounded"
     private ArrayList<PartListWrapper> partList;// minOccurs=1 maxOccurs=1
 
 
+
+    // new way
+    private ArrayList<ElementWrapper> workList; // minOccurs=0
+    private Element movementNumberElement;      // minOccurs=0
+    private Element movementTitleElement;       // minOccurs=0
+    private ArrayList<ElementWrapper> body;     // minOccurs=1 maxOccurs="Unbounded" - top element is part OR measure
+
+
     public Score(String aScoreType){
         scoreType = aScoreType;
         credit = new ArrayList<Credit>();
         partList = new ArrayList<PartListWrapper>();
+
+        // new way
+        workList = new ArrayList<ElementWrapper>();
+        body = new ArrayList<ElementWrapper>();
     }
 
 
@@ -44,18 +55,6 @@ public class Score {
 
     public String getScoreVersion() {
         return scoreVersion;
-    }
-
-    public Work getWork() {
-        return work;
-    }
-
-    public String getMovementNumber() {
-        return movementNumber;
-    }
-
-    public String getMovementTitle() {
-        return movementTitle;
     }
 
     public Identification getIdentification() {
@@ -76,6 +75,9 @@ public class Score {
 
 
 
+
+
+
     // SETTERS
     public void setScoreType(String aScoreType){
         if (aScoreType != XMLConsts.PARTWISE || aScoreType != XMLConsts.TIMEWISE) {
@@ -88,19 +90,6 @@ public class Score {
 
     public void setScoreVersion(String aVersion) {
         scoreVersion = aVersion;
-    }
-
-
-    public void setWork(Work aWork) {
-        work = aWork;
-    }
-
-    public void setMovementNumber(String aMovementNumber) {
-        movementNumber = aMovementNumber;
-    }
-
-    public void setMovementTitle(String aMovementTitle) {
-        movementTitle = aMovementTitle;
     }
 
     public void setIdentification(Identification aIdentification) {
@@ -121,12 +110,47 @@ public class Score {
     }
 
 
-    // TOSTRING
-    public String toString() {
-        String string = "";
-        string += "****Score-Type: " + scoreType + "****\n";
-        string += "movement-number: " + movementNumber + "\n";
-        string += "movement-title: " + movementTitle;
-        return string;
+
+
+
+
+
+    // NEW WAY
+    // GETTERS
+    public ArrayList<ElementWrapper> getWorkList() {
+        return workList;
     }
+
+    public Element getMovementNumberElement() {
+        return movementNumberElement;
+    }
+
+    public Element getMovementTitleElement() {
+        return movementTitleElement;
+    }
+
+    public ArrayList<ElementWrapper> getBody() {
+        return body;
+    }
+
+
+    // SETTERS
+    public void setMovementNumberElement(Element e) {
+        movementNumberElement = e;
+    }
+
+    public void setMovementTitleElement(Element e) {
+        movementTitleElement = e;
+    }
+
+    // ADD TO
+    public void addToWorkList(ElementWrapper e) {
+        workList.add(e);
+    }
+
+    public void addToBody(ElementWrapper e) {
+        body.add(e);
+    }
+
+
 }
