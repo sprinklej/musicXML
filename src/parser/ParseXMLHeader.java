@@ -56,12 +56,9 @@ public class ParseXMLHeader {
 
     // OLD WAY - KILLING
     //header subtrees
-    private Identification identification;
-    private Encoding encoding; // identification subtree
-    private Supports supports; // identification subtree
-    private Defaults defaults;
-    private PageMargins pageMargins; // default subtree
-    private StaffLayout staffLayout; // deafult subtree
+    //private Defaults defaults;
+    //private PageMargins pageMargins; // default subtree
+    //private StaffLayout staffLayout; // deafult subtree
 
     private Credit credit;
 
@@ -71,78 +68,32 @@ public class ParseXMLHeader {
 
 
     // NEW WAY
+    private ParseHelper parseHelper;
+
     //header subtrees
     private ComplexElement work;
 
+    private ComplexElement identification;
+    private ComplexElement encoding;
+    private ComplexElement miscellaneous;
+
+    private ComplexElement defaults;
+    private ComplexElement scaling;
+    private ComplexElement pageLayout;
+    private ComplexElement pageMargins;
+    private ComplexElement systemLayout;
+    private ComplexElement systemMargins;
+    private ComplexElement systemDividers;
+    private ComplexElement staffLayout;
+    private ComplexElement appearance;
 
 
     // CONSTRUCTOR
     public ParseXMLHeader(XMLStreamReader2 aXmlStreamReader, Score aScore) {
         xmlStreamReader = aXmlStreamReader;
         score = aScore;
+        parseHelper = new ParseHelper();
     }
-
-
-    // TODO COPIED FROM PARSEXMLBODY - NEED TO MOVE TO 1 SPOT!
-    // ------------------------- HELPER METHODS -------------------------
-    // sets the attributes for a complex element
-    private void setComplexEAttributes(ComplexElement ce) {
-        for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-            ce.addToAttributes(getAttribute(i));
-        }
-    }
-    // sets the attributes for an element
-    private void setElementAttributes(Element e) {
-        for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-            e.addToAttributes(getAttribute(i));
-        }
-    }
-    // creates and attribute object and returns it
-    private Attribute getAttribute(int i) {
-        Attribute a = new Attribute(xmlStreamReader.getAttributeName(i).toString(),
-                xmlStreamReader.getAttributeValue(i).toString());
-        a = checkAttribute(a);
-        return a;
-    }
-
-    // -------------------------------------------------------------------
-    // -------------------------------------------------------------------
-    //HELPER FUNCTIONS FROM HERE
-    // gets the attributes and the text-data for an element
-    // then returns the element
-    private Element getElement(){
-        Element element = new Element();
-        try {
-            element.setElementName(xmlStreamReader.getName().toString());
-            // attributes
-            setElementAttributes(element);
-            // data
-            int eventType = xmlStreamReader.next();
-            if (eventType != XMLEvent.END_ELEMENT) {
-                element.setData(xmlStreamReader.getText());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
-        return element;
-    }
-
-    // checks an attribute to see if "xml:" or "xmlns:"
-    // has been replaced by a url by the parser and set it back.
-    private Attribute checkAttribute(Attribute a) {
-        a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.NAMESPACEURL + "}", XMLConsts.XML + ":"));
-        a.setAttributeName(a.getAttributeName().replace("{" + XMLConsts.XLINKURL + "}", XMLConsts.XLINK + ":"));
-        return a;
-    }
-    // -------------------------------------------------------------------
-    // -------------------------------------------------------------------
-    // -------------------------------------------------------------------
-    // -------------------------------------------------------------------
-    // -------------------------------------------------------------------
-    // -------------------------------------------------------------------
-
-
-
 
 
 
@@ -150,31 +101,32 @@ public class ParseXMLHeader {
     public void parseHeader() {
         // work subtree
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) { //work Subtree
-            //work = new Work();
             work = new ComplexElement(xmlStreamReader.getName().toString());
-            setComplexEAttributes(work);
+            parseHelper.setComplexEAttributes(xmlStreamReader, work);
             XMLParser.getElements(xmlStreamReader, () -> workStart(), () -> workEnd());
         }
         // movement number
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_NUM)) {
-            score.setMovementNumberElement(getElement());
+            score.setMovementNumberElement(parseHelper.getElement(xmlStreamReader));
         }
         // movement title
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MOVEMENT_TITLE)) {
-            score.setMovementTitleElement(getElement());
+            score.setMovementTitleElement(parseHelper.getElement(xmlStreamReader));
         }
-// TODO DONE REFACTORING UPTO HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
         // identification subtree
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
-            identification = new Identification();
+            identification = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, identification);
             XMLParser.getElements(xmlStreamReader, () -> identificationStart(), () -> identificationEnd());
         }
         // defaults
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DEFAULTS)) {
-            defaults = new Defaults();
+            defaults = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, defaults);
             XMLParser.getElements(xmlStreamReader, () -> defaultsStart(), () -> defaultsEnd());
         }
+        // TODO DONE REFACTORING UPTO HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        /*
         // credit
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREDIT)) {
             credit = new Credit();
@@ -189,7 +141,7 @@ public class ParseXMLHeader {
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART_LIST)) {
             XMLParser.getElements(xmlStreamReader, () -> partListStart(), () -> partListEnd());
         }
-
+*/
         // PARSE THE BODY
         // partwise
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
@@ -204,29 +156,22 @@ public class ParseXMLHeader {
     // WORK SUBTREE
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean workStart() {
-
-        // work-number
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_NUM)) {
-            work.addToElements(new ElementWrapper(false, getElement()));
-        }
-        // work-title
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK_TITLE)) {
-            work.addToElements(new ElementWrapper(false, getElement()));
-        }
         // opus
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.OPUS)) {
-            // TODO fix extra work that needs doing here
-            Element e = getElement();
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.OPUS)) {
+            // Extra work to ensure proper xml standards
+            Element e = parseHelper.getElement(xmlStreamReader);
             e.addToAttributes(new Attribute(XMLConsts.XMLNS + ":" + XMLConsts.XLINK, XMLConsts.XLINKURL));
             work.addToElements(new ElementWrapper(false, e));
+        }
+        // work-number, work-title
+        else {
+            work.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         }
         return false;
     }
     private boolean workEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORK)) {
-            //score.setWork(work);
-            ElementWrapper ew = new ElementWrapper(true, work);
-            score.addToWorkList(ew);
+            score.setWork(work);
             return true;
         }
         return false;
@@ -237,71 +182,33 @@ public class ParseXMLHeader {
     // IDENTIFICATION SUBTREE
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean identificationStart() {
-        try {
-            // creator
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.CREATOR)) {
-                String typeText = null;
-                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
-                    typeText = xmlStreamReader.getAttributeValue(0).toString();
-                }
-
-                xmlStreamReader.next();
-                TypedText creatorObj = new TypedText(XMLConsts.CREATOR, typeText, xmlStreamReader.getText());
-                identification.addToCreator(creatorObj);
-            }
-            // rights
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHTS)) {
-                String typeText = null;
-                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
-                    typeText = xmlStreamReader.getAttributeValue(0).toString();
-                }
-
-                xmlStreamReader.next();
-                TypedText rightsObj = new TypedText(XMLConsts.RIGHTS, typeText, xmlStreamReader.getText());
-                identification.addToRights(rightsObj);
-            }
-            // encoding
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING)) {
-                encoding = new Encoding();
-                XMLParser.getElements(xmlStreamReader, () -> encodingStart(), () -> encodingEnd());
-            }
-            //source
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOURCE)) {
-                xmlStreamReader.next();
-                identification.setSource(xmlStreamReader.getText());
-            }
-            // relation
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RELATION)) {
-                String typeText = null;
-                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
-                    typeText = xmlStreamReader.getAttributeValue(0).toString();
-                }
-
-                xmlStreamReader.next();
-                TypedText RelationObj = new TypedText(XMLConsts.RELATION, typeText, xmlStreamReader.getText());
-                identification.addToRelation(RelationObj);
-            }
-            // miscellaneous
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS)) {
-                XMLParser.getElements(xmlStreamReader, () -> miscellaneousStart(), () -> miscellaneousEnd());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
+        // encoding
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING)) {
+            encoding = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, encoding);
+            XMLParser.getElements(xmlStreamReader, () -> encodingStart(), () -> encodingEnd());
+        }
+        // miscellaneous
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS)) {
+            miscellaneous = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, miscellaneous);
+            XMLParser.getElements(xmlStreamReader, () -> miscellaneousStart(), () -> miscellaneousEnd());
+        }
+        // creator, rights, source, relation,
+        else {
+            identification.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         }
         return false;
     }
     private boolean identificationEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
             score.setIdentification(identification);
-            identification = null;
             return true;
         }
         return false;
     }
     private boolean identificationScorePartEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.IDENTIFICATION)) {
-            currentPart.setIdentification(identification);
-            identification = null;
             return true;
         }
         return false;
@@ -310,65 +217,13 @@ public class ParseXMLHeader {
 
     // ENCODING SUBTREE
     private boolean encodingStart() {
-        try {
-            // encoding-date
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DATE)) {
-                xmlStreamReader.next();
-                encoding.addToEncodingDate(xmlStreamReader.getText());
-            }
-            // encoder
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODER)) {
-                String typeText = null;
-                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
-                    typeText = xmlStreamReader.getAttributeValue(0).toString();
-                }
-
-                xmlStreamReader.next();
-                TypedText encoderObj = new TypedText(XMLConsts.ENCODER, typeText, xmlStreamReader.getText());
-                encoding.addToEncoder(encoderObj);
-            }
-            // software
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOFTWARE)) {
-                xmlStreamReader.next();
-                encoding.addToSoftware(xmlStreamReader.getText());
-            }
-            // encoding-description
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING_DESCRIPTION)) {
-                xmlStreamReader.next();
-                encoding.addToEncodDescription(xmlStreamReader.getText());
-            }
-            // supports - self closing tag - <supports attribute="new-system" element="print" type="yes" value="yes"/>
-            else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SUPPORTS)) {
-                supports = new Supports();
-                for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) { // get attributes
-                    // type
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.TYPE)) { // required
-                        supports.setTypeAttribute(xmlStreamReader.getAttributeValue(i));
-                    }
-                    // element
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ELEMENT)) { // required
-                        supports.setElementAttribute(xmlStreamReader.getAttributeValue(i));
-                    }
-                    // attribute
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ATTRIBUTE)) {
-                        supports.setAttributeAttribute(xmlStreamReader.getAttributeValue(i));
-                    }
-                    // value
-                    if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.VALUE)) {
-                        supports.setValueAttribute(xmlStreamReader.getAttributeValue(i));
-                    }
-                }
-                encoding.addToSupports(supports);
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
+        // encoding-date, encoder, software, encoding-description, encoding-description, supports
+        encoding.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         return false;
     }
-
     private boolean encodingEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ENCODING)) {
-            identification.setEncoding(encoding);
+            identification.addToElements(new ElementWrapper(true, encoding));
             return true;
         }
         return false;
@@ -378,21 +233,12 @@ public class ParseXMLHeader {
     // MISCELLANEOUS SUBTREE
     private boolean miscellaneousStart() {
         // miscellaneous-field
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS_FIELD)) {
-            MiscellaneousField miscField = new MiscellaneousField(xmlStreamReader.getAttributeValue(0)); // only has 1 attribute "name" which is required
-            try {
-                xmlStreamReader.next();
-                miscField.setText(xmlStreamReader.getText());
-            } catch (XMLStreamException e) {
-                e.printStackTrace();
-            }
-            identification.addToMiscField(miscField);
-        }
+        miscellaneous.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         return false;
     }
-
     private boolean miscellaneousEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MISCELLANEOUS)) {
+            identification.addToElements(new ElementWrapper(true, miscellaneous));
             return true;
         }
         return false;
@@ -404,52 +250,38 @@ public class ParseXMLHeader {
     private boolean defaultsStart() {
         // scaling
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCALING)) {
-            defaults.setScaling(true);
+            scaling = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, scaling);
             XMLParser.getElements(xmlStreamReader, () -> scalingStart(), () -> scalingEnd());
         }
         // page-layout
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_LAYOUT)) {
-            defaults.setPageLayout(true);
+            pageLayout = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, pageLayout);
             XMLParser.getElements(xmlStreamReader, () -> pageLayoutStart(), () -> pageLayoutEnd());
         }
         // system-layout
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_LAYOUT)) {
-            defaults.setSystemLayout(true);
+            systemLayout = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, systemLayout);
             XMLParser.getElements(xmlStreamReader, () -> systemLayoutStart(), () -> systemLayoutEnd());
         }
-        // staff-layout 0..*
+        // staff-layout
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.STAFF_LAYOUT)) {
-            staffLayout = new StaffLayout();
-            if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute "type"
-                Attribute a = new Attribute(xmlStreamReader.getAttributeName(0).toString(),
-                        xmlStreamReader.getAttributeValue(0).toString());
-                staffLayout.setAttribute(a);
-            }
+            staffLayout = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, staffLayout);
             XMLParser.getElements(xmlStreamReader, () -> staffLayoutStart(), () -> staffLayoutEnd());
         }
         // appearance
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.APPEARANCE)) {
-            defaults.setAppearance(true);
+            appearance = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, appearance);
             XMLParser.getElements(xmlStreamReader, () -> appearanceStart(), () -> appearanceEnd());
         }
-        // music-font
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MUSIC_FONT)) {
-            defaults.setMusicFont(getElement());
+        // music-font, word-font, lyric-font, lyric-language
+        else {
+            defaults.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         }
-        // word-font
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.WORD_FONT)) {
-            defaults.setWordFont(getElement());
-        }
-        // lyric-font 0..*
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LYRIC_FONT)) {
-            defaults.addTolyricFont(getElement());
-        }
-        // lyric-language 0..*
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LYRIC_LANGUAGE)) {
-            Element e = getElement();
-            defaults.addToLyricLanguage(e);
-        }
-
         return false;
     }
     private boolean defaultsEnd() {
@@ -462,21 +294,13 @@ public class ParseXMLHeader {
 
     // SCALING SUBTREE
     private boolean scalingStart() {
-        try {
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MILLIMETERS)) {
-                xmlStreamReader.next();
-                defaults.setScalingMillimeters(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TENTHS)) {
-                xmlStreamReader.next();
-                defaults.setScalingTenths(xmlStreamReader.getText());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
+        // millimeters, tenths
+        scaling.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         return false;
     }
     private boolean scalingEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCALING)) {
+            defaults.addToElements(new ElementWrapper(true, scaling));
             return true;
         }
         return false;
@@ -484,29 +308,21 @@ public class ParseXMLHeader {
 
     // PAGE-LAYOUT SUBTREE
     private boolean pageLayoutStart() {
-        try {
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_HEIGHT)) {
-                xmlStreamReader.next();
-                defaults.setPageHeight(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_WIDTH)) {
-                xmlStreamReader.next();
-                defaults.setPageWidth(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_MARGINS)) {
-                pageMargins = new PageMargins();
-                if (xmlStreamReader.getAttributeCount() == 1) { // can have at most 1 attribute
-                    Attribute a = new Attribute(xmlStreamReader.getAttributeName(0).toString(),
-                            xmlStreamReader.getAttributeValue(0).toString());
-                    pageMargins.setAttribute(a);
-                }
-                XMLParser.getElements(xmlStreamReader, () -> pageMarginsStart(), () -> pageMarginsEnd());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
+        // page-margins
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_MARGINS)) {
+            pageMargins = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, pageMargins);
+            XMLParser.getElements(xmlStreamReader, () -> pageMarginsStart(), () -> pageMarginsEnd());
+        }
+        // page-height, page-width
+        else {
+            pageLayout.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         }
         return false;
     }
     private boolean pageLayoutEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_LAYOUT)) {
+            defaults.addToElements(new ElementWrapper(true, pageLayout));
             return true;
         }
         return false;
@@ -514,28 +330,13 @@ public class ParseXMLHeader {
 
     // PAGE-MARGINS SUBTREE
     private boolean pageMarginsStart() {
-        try {
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LEFT_MARGIN)) {
-                xmlStreamReader.next();
-                pageMargins.setLeft(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHT_MARGIN)) {
-                xmlStreamReader.next();
-                pageMargins.setRight(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TOP_MARGIN)) {
-                xmlStreamReader.next();
-                pageMargins.setTop(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BOTTOM_MARGIN)) {
-                xmlStreamReader.next();
-                pageMargins.setBottom(xmlStreamReader.getText());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
+        // left-margin, right-margin, top-margin, bottom-margin
+        pageMargins.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         return false;
     }
     private boolean pageMarginsEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PAGE_MARGINS)) {
-            defaults.addToPageMargins(pageMargins);
+            pageLayout.addToElements(new ElementWrapper(true, pageMargins));
             return true;
         }
         return false;
@@ -543,27 +344,27 @@ public class ParseXMLHeader {
 
     // SYSTEM-LAYOUT SUBTREE
     private boolean systemLayoutStart() {
-        try {
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_MARGINS)) {
-                defaults.setSystemMargins(true);
-                XMLParser.getElements(xmlStreamReader, () -> systemMarginsStart(), () -> systemMarginsEnd());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_DISTANCE)) {
-                xmlStreamReader.next();
-                defaults.setSystemDistance(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.TOP_SYSTEM_DISTANCE)) {
-                xmlStreamReader.next();
-                defaults.setTopSysDistance(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_DIVIDERS)) {
-                defaults.setSystemDividers(true);
-                XMLParser.getElements(xmlStreamReader, () -> systemDividersStart(), () -> systemDividersEnd());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
+        // system-margins
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_MARGINS)) {
+            systemMargins = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, systemMargins);
+            XMLParser.getElements(xmlStreamReader, () -> systemMarginsStart(), () -> systemMarginsEnd());
+        }
+        // system-dividers
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_DIVIDERS)) {
+            systemDividers = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, systemDividers);
+            XMLParser.getElements(xmlStreamReader, () -> systemDividersStart(), () -> systemDividersEnd());
+        }
+        // system-distance, top-system-distance
+        else {
+            systemLayout.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         }
         return false;
     }
     private boolean systemLayoutEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_LAYOUT)) {
+            defaults.addToElements(new ElementWrapper(true, systemLayout));
             return true;
         }
         return false;
@@ -571,21 +372,13 @@ public class ParseXMLHeader {
 
     // SYSTEM-MARGINS SUBTREE
     private boolean systemMarginsStart() {
-        try {
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LEFT_MARGIN)) {
-                xmlStreamReader.next();
-                defaults.setLeftSysMargin(xmlStreamReader.getText());
-            } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHT_MARGIN)) {
-                xmlStreamReader.next();
-                defaults.setRightSysMargin(xmlStreamReader.getText());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
+        // left-margin, right-margin
+        systemMargins.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         return false;
     }
     private boolean systemMarginsEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_MARGINS)) {
+            systemLayout.addToElements(new ElementWrapper(true, systemMargins));
             return true;
         }
         return false;
@@ -593,79 +386,49 @@ public class ParseXMLHeader {
 
     // SYSTEM-DIVIDERS SUBTREE
     private boolean systemDividersStart() {
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LEFT_DIVIDER)) { // self closing element
-            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-                Attribute a = new Attribute(xmlStreamReader.getAttributeName(i).toString(),
-                        xmlStreamReader.getAttributeValue(i).toString());
-                defaults.addToLeftDivider(a);
-            }
-        } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.RIGHT_DIVIDER)) { // self closing element
-            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-                Attribute a = new Attribute(xmlStreamReader.getAttributeName(i).toString(),
-                        xmlStreamReader.getAttributeValue(i).toString());
-                defaults.addToRightDivider(a);
-            }
-        }
+        // left-divider, right-divider
+        systemDividers.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         return false;
     }
     private boolean systemDividersEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SYSTEM_DIVIDERS)) {
+            systemLayout.addToElements(new ElementWrapper(true, systemDividers));
             return true;
         }
         return false;
     }
 
-
     // STAFF-LAYOUT SUBTREE
     private boolean staffLayoutStart() {
-        try {
-            if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.STAFF_DISTANCE)) {
-                xmlStreamReader.next();
-                staffLayout.setStaffDistance(xmlStreamReader.getText());
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
+        // staff-distance
+        staffLayout.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         return false;
     }
     private boolean staffLayoutEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.STAFF_LAYOUT)) {
-            defaults.addToStaffLayout(staffLayout);
+            defaults.addToElements(new ElementWrapper(true, staffLayout));
             return true;
         }
         return false;
-    }
 
+    }
 
     // APPEARANCE SUBTREE
     private boolean appearanceStart() {
-        // line-width
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LINE_WIDTH)) {
-            defaults.addToLineWidth(getElement());
-        }
-        // note-size
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.NOTE_SIZE)) {
-            defaults.addToNoteSize(getElement());
-        }
-        // distance
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DISTANCE)) {
-            defaults.addToDistance(getElement());
-        }
-        // other-appearance
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.OTHER_APPEARANCE)) {
-            defaults.addToOtherAppearance(getElement());
-        }
+        // line-width, note-size, distance, other-appearance
+        appearance.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         return false;
     }
     private boolean appearanceEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.APPEARANCE)) {
+            defaults.addToElements(new ElementWrapper(true, appearance));
             return true;
         }
         return false;
     }
 
 
-
+/*
     // CREDIT SUBTREE
     // ------------------------- SCORE-HEADER TOP-LEVEL ITEM -------------------------
     private boolean creditStart() {
@@ -1008,4 +771,5 @@ public class ParseXMLHeader {
         }
         return false;
     }
+    */
 }

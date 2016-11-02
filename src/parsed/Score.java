@@ -23,18 +23,21 @@ public class Score {
     private String scoreVersion;                // Optional - The musicxml version
 
     // old way - killing
-    private Identification identification;      // minOccurs=0
-    private Defaults defaults;                  // minOccurs=0
+    //private Defaults defaults;                  // minOccurs=0
     private ArrayList<Credit> credit;           // minOccurs=0 maxOccurs="unbounded"
     private ArrayList<PartListWrapper> partList;// minOccurs=1 maxOccurs=1
 
 
 
     // new way
-    private ArrayList<ElementWrapper> workList; // minOccurs=0
-    private Element movementNumberElement;      // minOccurs=0
-    private Element movementTitleElement;       // minOccurs=0
-    private ArrayList<ElementWrapper> body;     // minOccurs=1 maxOccurs="Unbounded" - top element is part OR measure
+    private ComplexElement work;            // minOccurs=0
+    private Element movementNumberElement;  // minOccurs=0
+    private Element movementTitleElement;   // minOccurs=0
+    private ComplexElement identification;  // minOccurs=0
+    private ComplexElement defaults;        // minOccurs=0
+
+
+    private ArrayList<ElementWrapper> body; // minOccurs=1 maxOccurs="Unbounded" - top element is part OR measure
 
 
     public Score(String aScoreType){
@@ -43,7 +46,6 @@ public class Score {
         partList = new ArrayList<PartListWrapper>();
 
         // new way
-        workList = new ArrayList<ElementWrapper>();
         body = new ArrayList<ElementWrapper>();
     }
 
@@ -57,13 +59,6 @@ public class Score {
         return scoreVersion;
     }
 
-    public Identification getIdentification() {
-        return identification;
-    }
-
-    public Defaults getDefaults() {
-        return defaults;
-    }
 
     public ArrayList<Credit> getCredit() {
         return credit;
@@ -92,14 +87,6 @@ public class Score {
         scoreVersion = aVersion;
     }
 
-    public void setIdentification(Identification aIdentification) {
-        identification = aIdentification;
-    }
-
-    public void setDefaults(Defaults aDefaults) {
-        defaults = aDefaults;
-    }
-
     // ADD TO ARRAYLIST
     public void addToCredit(Credit aCredit) {
         credit.add(aCredit);
@@ -117,8 +104,8 @@ public class Score {
 
     // NEW WAY
     // GETTERS
-    public ArrayList<ElementWrapper> getWorkList() {
-        return workList;
+    public ComplexElement getWork() {
+        return work;
     }
 
     public Element getMovementNumberElement() {
@@ -129,12 +116,32 @@ public class Score {
         return movementTitleElement;
     }
 
+    public ComplexElement getIdentification() {
+        return identification;
+    }
+
+    public ComplexElement getDefaults() {
+        return defaults;
+    }
+
     public ArrayList<ElementWrapper> getBody() {
         return body;
     }
 
 
     // SETTERS
+    public void setWork(ComplexElement e) {
+        work = e;
+    }
+
+    public void setIdentification(ComplexElement e) {
+        identification = e;
+    }
+
+    public void setDefaults(ComplexElement e) {
+        defaults = e;
+    }
+
     public void setMovementNumberElement(Element e) {
         movementNumberElement = e;
     }
@@ -143,14 +150,9 @@ public class Score {
         movementTitleElement = e;
     }
 
-    // ADD TO
-    public void addToWorkList(ElementWrapper e) {
-        workList.add(e);
-    }
 
+    // ADD TO
     public void addToBody(ElementWrapper e) {
         body.add(e);
     }
-
-
 }
