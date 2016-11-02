@@ -17,14 +17,6 @@ import org.codehaus.stax2.XMLStreamReader2;
 //http://stackoverflow.com/questions/2186931/java-pass-method-as-parameter
 //http://stackoverflow.com/questions/4685435/what-is-the-cloest-thing-to-a-function-pointer-in-java
 
-/*
-@FunctionalInterface
-interface Interface {
-    //Can only have 1 abstract method - therefore they must all return true/false
-    //http://stackoverflow.com/questions/23682243/lambda-can-only-be-used-with-functional-interface
-    public boolean interfaceMethod();
-}
-*/
 
 /**
  * Created by sprinklej on 2016-09-23.
@@ -69,18 +61,8 @@ public class XMLParser {
             return;
         }
 
+        // TODO move parseXMLHeader object creation to here
         getElements(xmlStreamReader, () -> scoreStart(), () -> scoreEnd());
-
-        // *************TEMP**************
-        System.out.println(score.toString());
-        /*java.util.ArrayList<PartListWrapper> list = score.getPartList();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getIsPart() == true) {
-                System.out.println(list.get(i).getPart().toString());
-            } else {
-                System.out.println(list.get(i).getGroup().toString());
-            }
-        }*/
     }
 
 

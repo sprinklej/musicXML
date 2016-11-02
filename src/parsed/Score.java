@@ -23,30 +23,31 @@ public class Score {
     private String scoreVersion;                // Optional - The musicxml version
 
     // old way - killing
-    //private Defaults defaults;                  // minOccurs=0
-    private ArrayList<Credit> credit;           // minOccurs=0 maxOccurs="unbounded"
-    private ArrayList<PartListWrapper> partList;// minOccurs=1 maxOccurs=1
+    //private ArrayList<Credit> credit;           // minOccurs=0 maxOccurs="unbounded"
+    //private ArrayList<PartListWrapper> partList;// minOccurs=1 maxOccurs=1
 
 
 
     // new way
-    private ComplexElement work;            // minOccurs=0
-    private Element movementNumberElement;  // minOccurs=0
-    private Element movementTitleElement;   // minOccurs=0
-    private ComplexElement identification;  // minOccurs=0
-    private ComplexElement defaults;        // minOccurs=0
-
-
-    private ArrayList<ElementWrapper> body; // minOccurs=1 maxOccurs="Unbounded" - top element is part OR measure
+    private ComplexElement work;              // minOccurs=0
+    private Element movementNumberElement;    // minOccurs=0
+    private Element movementTitleElement;     // minOccurs=0
+    private ComplexElement identification;    // minOccurs=0
+    private ComplexElement defaults;          // minOccurs=0
+    private ArrayList<ElementWrapper> credit; // minOccurs=0 maxOccurs="unbounded"
+    private ComplexElement partList;          // minOccurs=1 maxOccurs=1
+    private ArrayList<ElementWrapper> body;   // minOccurs=1 maxOccurs="Unbounded" - top element is part OR measure
 
 
     public Score(String aScoreType){
         scoreType = aScoreType;
-        credit = new ArrayList<Credit>();
-        partList = new ArrayList<PartListWrapper>();
+        //credit = new ArrayList<Credit>();
+        //partList = new ArrayList<PartListWrapper>();
 
         // new way
+        credit = new ArrayList<ElementWrapper>();
         body = new ArrayList<ElementWrapper>();
+
     }
 
 
@@ -58,17 +59,6 @@ public class Score {
     public String getScoreVersion() {
         return scoreVersion;
     }
-
-
-    public ArrayList<Credit> getCredit() {
-        return credit;
-    }
-
-    public ArrayList<PartListWrapper> getPartList() {
-        return partList;
-    }
-
-
 
 
 
@@ -87,18 +77,10 @@ public class Score {
         scoreVersion = aVersion;
     }
 
-    // ADD TO ARRAYLIST
-    public void addToCredit(Credit aCredit) {
-        credit.add(aCredit);
-    }
-
-    public void addToPartList(PartListWrapper aPartListWrapper) {
+    // ADD TO ARRAYLISt
+    /*public void addToPartList(PartListWrapper aPartListWrapper) {
         partList.add(aPartListWrapper);
-    }
-
-
-
-
+    }*/
 
 
 
@@ -122,6 +104,14 @@ public class Score {
 
     public ComplexElement getDefaults() {
         return defaults;
+    }
+
+    public ArrayList<ElementWrapper> getCredit() {
+        return credit;
+    }
+
+    public ComplexElement getPartList() {
+        return partList;
     }
 
     public ArrayList<ElementWrapper> getBody() {
@@ -150,8 +140,16 @@ public class Score {
         movementTitleElement = e;
     }
 
+    public void setPartList(ComplexElement e) {
+        partList = e;
+    }
+
 
     // ADD TO
+    public void addToCredit(ElementWrapper e) {
+        credit.add(e);
+    }
+
     public void addToBody(ElementWrapper e) {
         body.add(e);
     }
