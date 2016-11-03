@@ -22,12 +22,17 @@ import org.codehaus.stax2.XMLStreamReader2;
  * Created by sprinklej on 2016-09-23.
  */
 public class XMLParser {
+
     //private String xmlVersDocType;
 
     private MusicXMLFile currentSong = null;
     private Score currentScore = null;
     private XMLStreamReader2 xmlStreamReader;
     private Score score = null;
+
+    ParseXMLHeader parseHeaderObj;
+    ParseXMLBody   parseBodyObj;
+
 
     // constructor
     public XMLParser(MusicXMLFile aCurrentSong) {
@@ -61,7 +66,8 @@ public class XMLParser {
             return;
         }
 
-        // TODO move parseXMLHeader object creation to here
+        parseHeaderObj = new ParseXMLHeader(xmlStreamReader);
+        parseBodyObj = new ParseXMLBody(xmlStreamReader);
         getElements(xmlStreamReader, () -> scoreStart(), () -> scoreEnd());
     }
 
@@ -111,16 +117,20 @@ public class XMLParser {
             if (xmlStreamReader.getAttributeCount() == 1) { // only has one option attribute - version
                 score.setScoreVersion(xmlStreamReader.getAttributeValue(0));
             }
+            parseHeaderObj.setScore(score);
+            parseBodyObj.setScore(score);
         } else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_TIMEWISE)) {
             // create time-wise score object
             score = new Score(XMLConsts.TIMEWISE);
             if (xmlStreamReader.getAttributeCount() == 1) { // only has one option attribute - version
                 score.setScoreVersion(xmlStreamReader.getAttributeValue(0));
             }
+            parseHeaderObj.setScore(score);
+            parseBodyObj.setScore(score);
         }
 
-        parseHeader();
-
+        parseHeaderObj.parseHeader();
+        parseBodyObj.parseBody();
         return false;
     }
     private Boolean scoreEnd() {
@@ -129,10 +139,11 @@ public class XMLParser {
 
 
 
-
+/*
     // Parse the header of the score - all elements are common between partwise and timewise scores
     private void parseHeader() {
         ParseXMLHeader parseHeaderObj = new ParseXMLHeader(xmlStreamReader, score);
         parseHeaderObj.parseHeader();
     }
+    */
 }

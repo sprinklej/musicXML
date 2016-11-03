@@ -79,12 +79,16 @@ public class ParseXMLHeader {
 
 
     // CONSTRUCTOR
-    public ParseXMLHeader(XMLStreamReader2 aXmlStreamReader, Score aScore) {
+    public ParseXMLHeader(XMLStreamReader2 aXmlStreamReader) {
         xmlStreamReader = aXmlStreamReader;
-        score = aScore;
         parseHelper = new ParseHelper();
     }
 
+
+    // SETTER
+    public void setScore(Score aScore) {
+        score = aScore;
+    }
 
 
     // ------------------------- MAIN PARSER FOR THE HEADER PART OF THE XML -------------------------
@@ -128,6 +132,7 @@ public class ParseXMLHeader {
             XMLParser.getElements(xmlStreamReader, () -> partListStart(), () -> partListEnd());
         }
 
+/*
         // PARSE THE BODY
         // partwise
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
@@ -135,6 +140,7 @@ public class ParseXMLHeader {
             parseBodyObj.parseBody();
         }
         // TODO TIMEWISE PARSRING
+        */
     }
 
 

@@ -65,6 +65,7 @@ public class ParseHelper {
             int eventType = xmlStreamReader.next();
             if (eventType != XMLEvent.END_ELEMENT) {
                 element.setData(xmlStreamReader.getText());
+                xmlStreamReader.next();
             }
         } catch (XMLStreamException e) {
             e.printStackTrace();
