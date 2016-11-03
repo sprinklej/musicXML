@@ -144,6 +144,13 @@ public final class XMLConsts {
     public static final String MEASURE = "measure";
 
     public static final String ATTRIBUTES = "attributes";
+    public static final String INTERCHANGEABLE = "interchangeable";
+    public static final String MEASURE_STYLE = "measure-style";
+    public static final String STAFF_TUNING = "staff-tuning";
+    public static final String BEAT_REPEAT = "beat-repeat";
+
+
+
     public static final String BACKUP = "backup";
     public static final String BARLINE = "barline";
   //public static final String BOOKMARK = "bookmark";
