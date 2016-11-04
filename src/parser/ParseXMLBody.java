@@ -5,6 +5,8 @@ import org.codehaus.stax2.XMLStreamReader2;
 
 import parsed.*;
 
+import javax.xml.stream.events.XMLEvent;
+
 /**
  * Created by sprinklej on 2016-10-07.
  * -- XML Body Structure --
@@ -67,7 +69,23 @@ public class ParseXMLBody {
 
     private ComplexElement barline;
 
+    private ComplexElement direction;
 
+    private ComplexElement directionType;
+    private ComplexElement accordionRegistration;
+    private ComplexElement dynamics;
+    private ComplexElement harpPedals;
+    private ComplexElement pedalTuning;
+    private ComplexElement metronome;
+    private ComplexElement metronomeNote;
+    private ComplexElement metronomeTuplet;
+    private ComplexElement percussion;
+    private ComplexElement stick;
+    private ComplexElement scordatura;
+    private ComplexElement accord;
+    private ComplexElement sound;
+    private ComplexElement midiInstrument;
+    private ComplexElement play;
 
     //private Part currentPart;
     //private Measure currentMeasure;
@@ -154,11 +172,13 @@ public class ParseXMLBody {
         }
         // direction
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DIRECTION)) {
-            // TODO COMPLEX
+            direction = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, direction);
+            XMLParser.getElements(xmlStreamReader, () -> directionStart(), () -> directionEnd());
         }
         // figured-base
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FIGURED_BASE)) {
-            // TODO COMPLEX
+            // TODO COMPLEX WORING ON RIGHT HERE!
         }
         // forward
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FORWARD)) {
@@ -453,6 +473,336 @@ public class ParseXMLBody {
         }
         return false;
     }
+
+
+    // DIRECTION - Subtree of MEASURE/PART
+    private boolean directionStart() {
+        // direction-type
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DIRECTION_TYPE)) {
+            directionType = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, directionType);
+            XMLParser.getElements(xmlStreamReader, () -> directionTypeStart(), () -> directionTypeEnd());
+        }
+        // sound
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOUND)) {
+            sound = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, sound);
+            XMLParser.getElements(xmlStreamReader, () -> soundStart(), () -> soundEnd());
+        }
+        // offset, footnote, level, voice, staff
+        else {
+            direction.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
+        return false;
+    }
+    private boolean directionEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DIRECTION)) {
+            currentMeasure.addToElements(new ElementWrapper(true, direction));
+            return true;
+        }
+        return false;
+    }
+
+    // DIRECTION-TYPE - Subtree of DIRECTION
+    private boolean directionTypeStart() {
+        // accordion-registration
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ACCORDION_REGISTRATION)) {
+            accordionRegistration = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, accordionRegistration);
+            XMLParser.getElements(xmlStreamReader, () -> accordionRegistrationStart(), () -> accordionRegistrationEnd());
+        }
+        // dynamics
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DYNAMICS)) {
+            dynamics = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, dynamics);
+            XMLParser.getElements(xmlStreamReader, () -> dynamicsStart(), () -> dynamicsEnd());
+        }
+        // harp-pedals
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.HARP_PEDALS)) {
+            harpPedals = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, harpPedals);
+            XMLParser.getElements(xmlStreamReader, () -> harpPedalsStart(), () -> harpPedalsEnd());
+        }
+        // metronome
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.METRONOME)) {
+            metronome = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, metronome);
+            XMLParser.getElements(xmlStreamReader, () -> metronomeStart(), () -> metronomeEnd());
+        }
+        // percussion
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PERCUSSION)) {
+            percussion = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, percussion);
+            XMLParser.getElements(xmlStreamReader, () -> percussionStart(), () -> percussionEnd());
+        }
+        // scordatura
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORDATURA)) {
+            scordatura = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, scordatura);
+            XMLParser.getElements(xmlStreamReader, () -> scordaturaStart(), () -> scordaturaEnd());
+        }
+        // bracket, coda, damp, damp-all, dashes, eyeglasses, image, octave-shift, other-direction, pedal,
+        // principal-voice, rehearsal, segno, string-mute, wedge, words
+        else {
+            directionType.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
+        return false;
+    }
+    private boolean directionTypeEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DIRECTION_TYPE)) {
+            direction.addToElements(new ElementWrapper(true, directionType));
+            return true;
+        }
+        return false;
+    }
+
+    // ACCORDION-REGISTRATION - Subtree of DIRECTION-TYPE
+    private boolean accordionRegistrationStart() {
+        // accordion-high, accordion-middle, accordion-low
+        accordionRegistration.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean accordionRegistrationEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ACCORDION_REGISTRATION)) {
+            directionType.addToElements(new ElementWrapper(true, accordionRegistration));
+            return true;
+        }
+        return false;
+    }
+
+    // DYNAMICS - Subtree of DIRECTION-TYPE
+    private boolean dynamicsStart() {
+        // f, ff, fff, ffff, fffff, ffffff, fp, fz, mf, mp, other-dynamics, p, pp, ppp, pppp, ppppp, pppppp,
+        // rf, rfz, sf, sffz, sfp, sfpp, sfz
+        dynamics.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean dynamicsEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DYNAMICS)) {
+            directionType.addToElements(new ElementWrapper(true, dynamics));
+            return true;
+        }
+        return false;
+    }
+
+    // HARP-PEDALS - Subtree of DIRECTION-TYPE
+    private boolean harpPedalsStart() {
+        // pedal-tuning
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PEDAL_TUNING)) {
+            pedalTuning = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, pedalTuning);
+            XMLParser.getElements(xmlStreamReader, () -> pedalTuningStart(), () -> pedalTuningEnd());
+        }
+        return false;
+    }
+    private boolean harpPedalsEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.HARP_PEDALS)) {
+            directionType.addToElements(new ElementWrapper(true, harpPedals));
+            return true;
+        }
+        return false;
+    }
+
+    // PEDAL-TUNING - Subtree of HARP-PEDAL
+    private boolean pedalTuningStart() {
+        pedalTuning.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean pedalTuningEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PEDAL_TUNING)) {
+            harpPedals.addToElements(new ElementWrapper(true, pedalTuning));
+            return true;
+        }
+        return false;
+    }
+
+    // METRONOME - Subtree of DIRECTION-TYPE
+    private boolean metronomeStart() {
+        // metronome-note
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.METRONOME_NOTE)) {
+            metronomeNote = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, metronomeNote);
+            XMLParser.getElements(xmlStreamReader, () -> metronomeNoteStart(), () -> metronomeNoteEnd());
+        }
+        // metronome-relation, beat-unit, beat-unit-dot, per-minute
+        else {
+            metronome.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
+        return false;
+    }
+    private boolean metronomeEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.METRONOME)) {
+            directionType.addToElements(new ElementWrapper(true, metronome));
+            return true;
+        }
+        return false;
+    }
+
+    // METRONOME-NOTE - Subtree of METRONOME
+    private boolean metronomeNoteStart() {
+        //metronome-tuplet
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.METRONOME_TUPLET)) {
+            metronomeTuplet = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, metronomeTuplet);
+            XMLParser.getElements(xmlStreamReader, () -> metronomeTupletStart(), () -> metronomeTupletEnd());
+        }
+        // metronome-type, metronome-dot, metronome-beam
+        else {
+            metronomeNote.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
+        return false;
+    }
+    private boolean metronomeNoteEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.METRONOME_NOTE)) {
+            metronome.addToElements(new ElementWrapper(true, metronomeNote));
+            return true;
+        }
+        return false;
+    }
+
+    // METRONOME-TUPLET - Subtree of METRONOME-NOTE
+    private boolean metronomeTupletStart() {
+        metronomeTuplet.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean metronomeTupletEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.METRONOME_TUPLET)) {
+            metronomeNote.addToElements(new ElementWrapper(true, metronomeTuplet));
+            return true;
+        }
+        return false;
+    }
+
+
+    // PERCUSSION -Subtree of DIRECTION-TYPE
+    private boolean percussionStart() {
+        // stick
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.STICK)) {
+            stick = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, stick);
+            XMLParser.getElements(xmlStreamReader, () -> stickStart(), () -> stickEnd());
+        }
+        // beater, effect, glass, membrane, metal, other-percussion, pitched, stick-location, timpani, wood
+        else {
+            percussion.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
+        return false;
+    }
+    private boolean percussionEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PERCUSSION)) {
+            directionType.addToElements(new ElementWrapper(true, percussion));
+            return true;
+        }
+        return false;
+    }
+
+    // STICK - Subtree of PERCUSSION
+    private boolean stickStart() {
+        // stick-type, stick-material
+        stick.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean stickEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.STICK)) {
+            percussion.addToElements(new ElementWrapper(true, stick));
+            return true;
+        }
+        return false;
+    }
+
+    // SCORDATURA - Subtree of DIRECTION-TYPE
+    private boolean scordaturaStart() {
+        // accord
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ACCORD)) {
+            accord = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, accord);
+            XMLParser.getElements(xmlStreamReader, () -> accordStart(), () -> accordEnd());
+        }
+        return false;
+    }
+    private boolean scordaturaEnd(){
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORDATURA)) {
+            directionType.addToElements(new ElementWrapper(true, scordatura));
+            return true;
+        }
+        return false;
+    }
+
+    // ACCORD - Subtree of SCORDATURA
+    private boolean accordStart() {
+        // tuning-step, tuning-alter, tuning-octave
+        accord.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean accordEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ACCORD)) {
+            scordatura.addToElements(new ElementWrapper(true, accord));
+            return true;
+        }
+        return false;
+    }
+
+    // SOUND - Subtree of DIRECTION
+    private boolean soundStart() {
+        // midi-instrument
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MIDI_INSTRUMENT)) {
+            midiInstrument = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, midiInstrument);
+            XMLParser.getElements(xmlStreamReader, () -> midiInstrumentStart(), () -> midiInstrumentEnd());
+        }
+        // play
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PLAY)) {
+            play = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, play);
+            XMLParser.getElements(xmlStreamReader, () -> playStart(), () -> playEnd());
+        }
+        // midi-device, offset
+        else {
+            sound.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
+        return false;
+    }
+    private boolean soundEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOUND)) {
+            direction.addToElements(new ElementWrapper(true, sound));
+            return true;
+        }
+        return false;
+    }
+
+    // MIDI-INSTRUMENT - Subtree of sound
+    private boolean midiInstrumentStart() {
+        // midi-channel, midi-name,  midi-bank, midi-program, midi-unpitched, volume, pan, elevation
+        midiInstrument.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean midiInstrumentEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MIDI_INSTRUMENT)) {
+            sound.addToElements(new ElementWrapper(true, midiInstrument));
+            return true;
+        }
+        return false;
+    }
+
+    // PLAY - Subtree of sound
+    private boolean playStart() {
+        // ipa, mute, other-play, semi-pitched
+        play.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean playEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PLAY)) {
+            sound.addToElements(new ElementWrapper(true, play));
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+
 
 /*
     // MAIN PARSER FOR A PARTWISE BODY

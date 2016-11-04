@@ -193,8 +193,20 @@ public final class XMLConsts {
 
     //public static final String DIRECTION = "direction";
     public static final String DIRECTION_TYPE = "direction-type";
-    public static final String WORDS = "words";
+    public static final String ACCORDION_REGISTRATION = "accordion-registration";
+    public static final String HARP_PEDALS = "harp-pedals";
+    public static final String PEDAL_TUNING = "pedal-tuning";
     public static final String METRONOME = "metronome";
+    public static final String METRONOME_NOTE = "metronome-note";
+    public static final String METRONOME_TUPLET = "metronome-tuplet";
+    public static final String PERCUSSION = "percussion";
+    public static final String STICK = "stick";
+    public static final String SCORDATURA = "scordatura";
+    public static final String ACCORD = "accord";
+    public static final String PLAY = "play";
+
+
+    public static final String WORDS = "words";
     public static final String BEAT_UNIT = "beat-unit";
     public static final String PER_MINUTE = "per-minute";
     //public static final String SOUND = "sound";
