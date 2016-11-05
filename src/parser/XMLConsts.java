@@ -205,6 +205,8 @@ public final class XMLConsts {
     public static final String ACCORD = "accord";
     public static final String PLAY = "play";
 
+    public static final String FIGURE = "figure";
+
 
     public static final String WORDS = "words";
     public static final String BEAT_UNIT = "beat-unit";
