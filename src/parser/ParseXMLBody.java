@@ -95,6 +95,25 @@ public class ParseXMLBody {
     private ComplexElement grouping;
 
     private ComplexElement harmony;
+    private ComplexElement root;
+    private ComplexElement bass;
+    private ComplexElement degree;
+    private ComplexElement frame;
+    private ComplexElement frameNote;
+
+    private ComplexElement note;
+    private ComplexElement pitch;
+
+
+
+
+
+    private ComplexElement print;
+
+
+
+
+
 
     //private Part currentPart;
     //private Measure currentMeasure;
@@ -209,19 +228,32 @@ public class ParseXMLBody {
             parseHelper.setComplexEAttributes(xmlStreamReader, harmony);
             XMLParser.getElements(xmlStreamReader, () -> harmonyStart(), () -> harmonyEnd());
         }
+        // link
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LINK)) {
+            Element e = parseHelper.getElement(xmlStreamReader);
+            e.addToAttributes(new Attribute(XMLConsts.XMLNS + ":" + XMLConsts.XLINK, XMLConsts.XLINKURL));
+            currentMeasure.addToElements(new ElementWrapper(false, e));
+        }
         // note
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.NOTE)) {
-            // TODO COMPLEX
+            note = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, note);
+            XMLParser.getElements(xmlStreamReader, () -> noteStart(), () -> noteEnd());
         }
         // print
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PRINT)) {
-            // TODO COMPLEX
+            print = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, print);
+            XMLParser.getElements(xmlStreamReader, () -> printStart(), () -> printEnd());
         }
         // sound
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOUND)) {
-            // TODO COMPLEX
+            sound = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, sound);
+            //XMLParser.getElements(xmlStreamReader, () -> printStart(), () -> printEnd());
+            // TODO SOUND ALREADY EXISTS
         }
-        // bookmark, link
+        // bookmark
         else {
             currentMeasure.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
         }
@@ -885,10 +917,34 @@ public class ParseXMLBody {
 
     // HARMONY - Subtree of MEASURE/PART
     private boolean harmonyStart() {
-        // TODO WORKING RIGHT HERE
-        //else {
-        harmony.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
-        //}
+        // root
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ROOT)) {
+            root = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, root);
+            XMLParser.getElements(xmlStreamReader, () -> rootStart(), () -> rootEnd());
+        }
+        // bass
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BASS)) {
+            bass = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, bass);
+            XMLParser.getElements(xmlStreamReader, () -> bassStart(), () -> bassEnd());
+        }
+        // degree
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DEGREE)) {
+            degree = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, degree);
+            XMLParser.getElements(xmlStreamReader, () -> degreeStart(), () -> degreeEnd());
+        }
+        // frame
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FRAME)) {
+            frame = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, frame);
+            XMLParser.getElements(xmlStreamReader, () -> frameStart(), () -> frameEnd());
+        }
+        // function, kind, inversion offset
+        else {
+            harmony.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
         return false;
     }
     private boolean harmonyEnd() {
@@ -898,6 +954,153 @@ public class ParseXMLBody {
         }
         return false;
     }
+
+    // ROOT - Subtree of HARMONY
+    private boolean rootStart() {
+        // root-step, root-alter
+        root.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean rootEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ROOT)) {
+            harmony.addToElements(new ElementWrapper(true, root));
+            return true;
+        }
+        return false;
+    }
+
+    // BASS - Subtree of HARMONY
+    private boolean bassStart() {
+        // bass-step, bass-alter
+        bass.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean bassEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BASS)) {
+            harmony.addToElements(new ElementWrapper(true, bass));
+            return true;
+        }
+        return false;
+    }
+
+    // DEGREE - Subtree of HARMONY
+    private boolean degreeStart() {
+        // degree-value, degree-alter, degree-type
+        degree.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean degreeEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DEGREE)) {
+            harmony.addToElements(new ElementWrapper(true, degree));
+            return true;
+        }
+        return false;
+    }
+
+    // FRAME - Subtree of HARMONY
+    private boolean frameStart() {
+        // frame-note
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FRAME_NOTE)) {
+            frameNote = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, frameNote);
+            XMLParser.getElements(xmlStreamReader, () -> frameNoteStart(), () -> frameNoteEnd());
+        }
+        // frame-strings, frame-frets, first-fret
+        else {
+            frame.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
+        return false;
+    }
+    private boolean frameEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FRAME)) {
+            harmony.addToElements(new ElementWrapper(true, frame));
+            return true;
+        }
+        return false;
+    }
+
+    // FRAME-NOTE - Subtree of FRAME
+    private boolean frameNoteStart() {
+        // string, fret, fingering, barre
+        frameNote.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean frameNoteEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FRAME_NOTE)) {
+            frame.addToElements(new ElementWrapper(true, frameNote));
+            return true;
+        }
+        return false;
+    }
+
+
+    // NOTE - Subtree of MEASURE/PART
+    private boolean noteStart() {
+        // pitch
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PITCH)) {
+            pitch = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, pitch);
+            XMLParser.getElements(xmlStreamReader, () -> pitchStart(), () -> pitchEnd());
+        }
+        // TODO
+        // chord
+        else {
+            note.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
+        return false;
+    }
+    private boolean noteEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.NOTE)) {
+            currentMeasure.addToElements(new ElementWrapper(true, note));
+            return true;
+        }
+        return false;
+    }
+
+    // PITCH - Subtree of NOTE
+    private boolean pitchStart() {
+        // step, alter, octave
+        pitch.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        return false;
+    }
+    private boolean pitchEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PITCH)) {
+            currentMeasure.addToElements(new ElementWrapper(true, pitch));
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // PRINT - Subtree of MEASURE/PART
+    private boolean printStart() {
+        // TODO
+        return false;
+    }
+    private boolean printEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PRINT)) {
+            currentMeasure.addToElements(new ElementWrapper(true, print));
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
 
 /*
     // MAIN PARSER FOR A PARTWISE BODY

@@ -206,6 +206,14 @@ public final class XMLConsts {
     public static final String PLAY = "play";
 
     public static final String FIGURE = "figure";
+    public static final String ROOT = "root";
+    public static final String BASS = "bass";
+    public static final String DEGREE = "degree";
+    public static final String FRAME = "frame";
+    public static final String FRAME_NOTE = "frame-note";
+
+
+
 
 
     public static final String WORDS = "words";
