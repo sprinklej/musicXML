@@ -168,7 +168,10 @@ public class ParseXMLBody {
         // measure - timewise
         else if ((score.getScoreType() == XMLConsts.TIMEWISE)
                 && (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE))) {
-            // TODO
+            System.out.println("TIMEWISE");
+            currentMeasure = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, currentMeasure);
+            XMLParser.getElements(xmlStreamReader, () -> timewiseStart(), () -> timewiseEnd());
         }
     }
 
@@ -193,14 +196,13 @@ public class ParseXMLBody {
         return false;
     }
 
-
     // MEASURE - SUBTREE OF PART
     private boolean partMeasureStart() {
         // attributes
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ATTRIBUTES)) {
             attributes = new ComplexElement(xmlStreamReader.getName().toString());
-            parseHelper.setComplexEAttributes(xmlStreamReader, currentMeasure);
-            XMLParser.getElements(xmlStreamReader, () -> attributesStart(), () -> partAttributesEnd());
+            parseHelper.setComplexEAttributes(xmlStreamReader, attributes);
+            XMLParser.getElements(xmlStreamReader, () -> attributesStart(), () -> attributesEnd());
         }
         // backup
         else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BACKUP)) {
@@ -285,6 +287,59 @@ public class ParseXMLBody {
 
 
 
+    // MEASURE
+    private boolean timewiseStart() {
+        // part
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
+            System.out.println("PART");
+            currentPart = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, currentPart);
+            XMLParser.getElements(xmlStreamReader, () -> measurePartStart(), () -> measurePartEnd());
+        }
+        return false;
+    }
+    private boolean timewiseEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
+            score.addToBody(new ElementWrapper(true, currentMeasure));
+            currentMeasure = null;
+            return true;
+        }
+        return false;
+    }
+
+    // PART - SUBTREE OF MEASURE
+    private boolean measurePartStart() {
+        // attributes
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ATTRIBUTES)) {
+            System.out.println("ATTRIBUTES");
+            attributes = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, attributes);
+            XMLParser.getElements(xmlStreamReader, () -> attributesStart(), () -> partAttributesEnd());
+        }
+        // backup
+        // barline
+        // bookmark
+        // direction
+        // figured-bass
+        // forward
+        // grouping
+        // harmony
+        // link
+        // note
+        // print
+        // sound
+        // TODO - right here
+        return false;
+    }
+    private boolean measurePartEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
+            currentMeasure.addToElements(new ElementWrapper(true, currentPart));
+            currentPart = null;
+            return true;
+        }
+        return false;
+    }
+
     // ATTRIBUTES - Subtree of MEASURE/PART
     private boolean attributesStart() {
         // key
@@ -329,9 +384,17 @@ public class ParseXMLBody {
         }
         return false;
     }
-    private boolean partAttributesEnd() {
+    private boolean attributesEnd() {  // Subtree of MEASURE
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ATTRIBUTES)) {
             currentMeasure.addToElements(new ElementWrapper(true, attributes));
+            attributes = null;
+            return true;
+        }
+        return false;
+    }
+    private boolean partAttributesEnd() {// Subtree of PART
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ATTRIBUTES)) {
+            currentPart.addToElements(new ElementWrapper(true, attributes));
             attributes = null;
             return true;
         }
