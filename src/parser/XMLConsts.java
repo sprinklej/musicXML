@@ -149,8 +149,6 @@ public final class XMLConsts {
     public static final String STAFF_TUNING = "staff-tuning";
     public static final String BEAT_REPEAT = "beat-repeat";
 
-
-
     public static final String BACKUP = "backup";
     public static final String BARLINE = "barline";
   //public static final String BOOKMARK = "bookmark";
@@ -162,12 +160,22 @@ public final class XMLConsts {
   //public static final String LINK = "link";
     public static final String NOTE = "note";
     public static final String SOUND = "sound";
-
-
-
+    public static final String UNPITCHED = "unpitched";
+    public static final String TIME_MODIFICATION = "time-modification";
+    public static final String NOTEHEAD_TEXT = "notehead-text";
+    public static final String ARTICULATIONS = "articulations";
+    public static final String ORNAMENTS = "ornaments";
+    public static final String TECHNICAL = "technical";
+    public static final String ARROW = "arrow";
+    public static final String BEND = "bend";
+    public static final String HARMONIC = "harmonic";
+    public static final String HOLE = "hole";
+    public static final String TUPLET = "tuplet";
+    public static final String TUPLET_ACTUAL = "tuplet-actual";
+    public static final String TUPLET_NORMAL = "tuplet-normal";
 
     public static final String PRINT = "print";
-
+    public static final String MEASURE_LAYOUT = "measure-layout";
 
 
 
