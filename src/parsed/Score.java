@@ -22,13 +22,6 @@ public class Score {
     private String scoreType;                   // partwise or timewise
     private String scoreVersion;                // Optional - The musicxml version
 
-    // old way - killing
-    //private ArrayList<Credit> credit;           // minOccurs=0 maxOccurs="unbounded"
-    //private ArrayList<PartListWrapper> partList;// minOccurs=1 maxOccurs=1
-
-
-
-    // new way
     private ComplexElement work;              // minOccurs=0
     private Element movementNumberElement;    // minOccurs=0
     private Element movementTitleElement;     // minOccurs=0
@@ -41,10 +34,6 @@ public class Score {
 
     public Score(String aScoreType){
         scoreType = aScoreType;
-        //credit = new ArrayList<Credit>();
-        //partList = new ArrayList<PartListWrapper>();
-
-        // new way
         credit = new ArrayList<ElementWrapper>();
         body = new ArrayList<ElementWrapper>();
 
@@ -61,8 +50,6 @@ public class Score {
     }
 
 
-
-
     // SETTERS
     public void setScoreType(String aScoreType){
         if (aScoreType != XMLConsts.PARTWISE || aScoreType != XMLConsts.TIMEWISE) {
@@ -77,14 +64,7 @@ public class Score {
         scoreVersion = aVersion;
     }
 
-    // ADD TO ARRAYLISt
-    /*public void addToPartList(PartListWrapper aPartListWrapper) {
-        partList.add(aPartListWrapper);
-    }*/
 
-
-
-    // NEW WAY
     // GETTERS
     public ComplexElement getWork() {
         return work;

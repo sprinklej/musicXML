@@ -3,10 +3,12 @@ package musicXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
@@ -41,6 +43,8 @@ public class Controller {
     private TableColumn<MusicXMLFile, String> composerCol;
     @FXML
     private TextArea txtArea;
+    @FXML
+    Button exportButton;
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -117,8 +121,24 @@ public class Controller {
         if (tView.getSelectionModel().getSelectedItem() == null) {
             return;
         }
-        exporter = new ExportXML(parser.getScore());
+
+        File file = showSaveDialog();
+        if (file != null) {
+            exporter = new ExportXML(file, parser.getScore());
+            exporter.writeFile();
+        }
     }
+    private File showSaveDialog() {
+        File file = new File(currentSong.getFilePath());
+
+        Stage stage = (Stage) exportButton.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export musicXML");
+        fileChooser.setInitialFileName(file.getName());
+        file = fileChooser.showSaveDialog(stage);
+        return file;
+    }
+
 
 
     // fill tableView

@@ -67,10 +67,6 @@ public final class XMLConsts {
     public static final String LYRIC_FONT = "lyric-font";
     public static final String LYRIC_LANGUAGE = "lyric-language";
 
-
-
-
-
     //PAGE-LAYOUT
     public static final String PAGE_LAYOUT = "page-layout";
     public static final String PAGE_HEIGHT = "page-height";
@@ -96,10 +92,6 @@ public final class XMLConsts {
     // STAFF-LAYOUT
     public static final String STAFF_LAYOUT = "staff-layout";
     public static final String STAFF_DISTANCE = "staff-distance";
-
-
-
-
 
     //CREDIT
     public static final String CREDIT = "credit";
@@ -177,11 +169,6 @@ public final class XMLConsts {
     public static final String PRINT = "print";
     public static final String MEASURE_LAYOUT = "measure-layout";
 
-
-
-    public static final String MEASURE_NUMBERING = "measure-numbering";
-
-
     //public static final String DIVISIONS = "divisions";
     public static final String KEY = "key";
     public static final String FIFTHS = "fifths";
@@ -223,7 +210,7 @@ public final class XMLConsts {
 
 
 
-
+    public static final String MEASURE_NUMBERING = "measure-numbering";
     public static final String WORDS = "words";
     public static final String BEAT_UNIT = "beat-unit";
     public static final String PER_MINUTE = "per-minute";
@@ -254,7 +241,11 @@ public final class XMLConsts {
 
 
 
-
+    public static final String DYNAMICS = "dynamics";
+    public static final String NAME = "name";
+    public static final String TYPE = "type";
+    public static final String VERSION = "version";
+    public static final String SLASH = "slash";
     // ATTRIBUTES
     // Full list of attributes here http://usermanuals.musicxml.com/MusicXML/Content/AT-MusicXML.htm
     public static final String ACCELERATE = "accelerate";
@@ -293,7 +284,7 @@ public final class XMLConsts {
     //public static final String DIRECTION = "direction";
     public static final String DIRECTIVE = "directive";
     public static final String DIVISIONS = "divisions";
-    public static final String DYNAMICS = "dynamics";
+
 
     public static final String EDITORIAL = "editorial";
     public static final String ELEMENT = "element";
@@ -334,7 +325,6 @@ public final class XMLConsts {
     public static final String MAKE_TIME = "make-time";
     //public static final String MEASURE = "measure"; - ALSO a major element
     public static final String MEMBER_OF = "member-of";
-    public static final String NAME = "name";
     public static final String NEW_PAGE = "new-page";
     public static final String NEW_SYSTEM = "new-system";
     public static final String NIENTE = "niente";
@@ -375,7 +365,7 @@ public final class XMLConsts {
     public static final String SHOW_TYPE = "show-type";
     public static final String SIGN = "sign";
     public static final String SIZE = "size";
-    public static final String SLASH = "slash";
+
     public static final String SLASHES = "slashes";
     public static final String SOFT_PEDAL = "soft-pedal";
     public static final String SOSTENUTO_PEDAL = "sostenuto-pedal";
@@ -403,7 +393,6 @@ public final class XMLConsts {
     public static final String TOP_STAFF = "top-staff";
     public static final String TRILL_STEP = "trill-step";
     public static final String TWO_NOTE_TURN = "two-note-turn";
-    public static final String TYPE = "type";
 
     public static final String UNDERLINE = "underline";
     public static final String UNPLAYED = "unplayed";
@@ -413,7 +402,7 @@ public final class XMLConsts {
 
     public static final String VALIGN = "valign";
     public static final String VALUE = "value";
-    public static final String VERSION = "version";
+
 
     public static final String WIDTH = "width";
     public static final String WINGED = "winged";

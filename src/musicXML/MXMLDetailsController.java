@@ -73,7 +73,7 @@ public class MXMLDetailsController {
         // create the filechooser
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
-        // set extension filter
+        // set extension filter - only shows *.xml, others can be added such as *.mxl (compressed xml files)
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
         fileChooser.getExtensionFilters().add(extFilter);
 

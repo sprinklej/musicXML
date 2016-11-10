@@ -1,6 +1,8 @@
-package parsed;
+package parsed.header;
 
-import parsed.header.defaults.PageMargins;
+import parsed.Attribute;
+import parsed.Element;
+import parsed.header.Measure;
 import parsed.header.identification.Identification;
 import parsed.header.partlist.MidiInstrument;
 

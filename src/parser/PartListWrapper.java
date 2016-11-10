@@ -1,9 +1,13 @@
 package parser;
 
-import parsed.Part;
+import parsed.header.Part;
 import parsed.header.partlist.Group;
 
 /**
+ *
+ * ************************** NOT USING ????? REMOVE??????????????????????
+ *
+ *
  * Created by sprinklej on 2016-10-06.
  */
 public class PartListWrapper {

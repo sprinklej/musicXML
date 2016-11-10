@@ -131,22 +131,12 @@ public class ParseXMLBody {
     private ComplexElement partNameDisplay;
     private ComplexElement partAbbrevDisplay;
 
-    //private Part currentPart;
-    //private Measure currentMeasure;
-    //private boolean isPartwise;
 
 
     // CONSTRUCTOR
     public ParseXMLBody(XMLStreamReader2 aXmlStreamReader) {
         xmlStreamReader = aXmlStreamReader;
         parseHelper = new ParseHelper();
-/*
-        if (score.getScoreType().contentEquals(XMLConsts.PARTWISE)){
-            isPartwise = true;
-        } else {
-            isPartwise = false;
-
-        }*/
     }
 
     // SETTER
@@ -168,7 +158,6 @@ public class ParseXMLBody {
         // measure - timewise
         else if ((score.getScoreType() == XMLConsts.TIMEWISE)
                 && (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE))) {
-            System.out.println("TIMEWISE");
             currentMeasure = new ComplexElement(xmlStreamReader.getName().toString());
             parseHelper.setComplexEAttributes(xmlStreamReader, currentMeasure);
             XMLParser.getElements(xmlStreamReader, () -> timewiseStart(), () -> timewiseEnd());
@@ -177,6 +166,7 @@ public class ParseXMLBody {
 
 
 
+    // ------------------------------------- PARTWISE SECTION -------------------------------------
     // PART
     private boolean partwiseStart() {
         // measure
@@ -190,7 +180,6 @@ public class ParseXMLBody {
     private boolean partwiseEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
             score.addToBody(new ElementWrapper(true, currentPart));
-            currentPart = null;
             return true;
         }
         return false;
@@ -279,7 +268,6 @@ public class ParseXMLBody {
     private boolean partMeasureEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
             currentPart.addToElements(new ElementWrapper(true, currentMeasure));
-            currentMeasure = null;
             return true;
         }
         return false;
@@ -287,11 +275,11 @@ public class ParseXMLBody {
 
 
 
+    // ------------------------------------- TIMEWISE SECTION -------------------------------------
     // MEASURE
     private boolean timewiseStart() {
         // part
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
-            System.out.println("PART");
             currentPart = new ComplexElement(xmlStreamReader.getName().toString());
             parseHelper.setComplexEAttributes(xmlStreamReader, currentPart);
             XMLParser.getElements(xmlStreamReader, () -> measurePartStart(), () -> measurePartEnd());
@@ -301,7 +289,6 @@ public class ParseXMLBody {
     private boolean timewiseEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
             score.addToBody(new ElementWrapper(true, currentMeasure));
-            currentMeasure = null;
             return true;
         }
         return false;
@@ -311,35 +298,95 @@ public class ParseXMLBody {
     private boolean measurePartStart() {
         // attributes
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ATTRIBUTES)) {
-            System.out.println("ATTRIBUTES");
             attributes = new ComplexElement(xmlStreamReader.getName().toString());
             parseHelper.setComplexEAttributes(xmlStreamReader, attributes);
             XMLParser.getElements(xmlStreamReader, () -> attributesStart(), () -> partAttributesEnd());
         }
         // backup
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BACKUP)) {
+            backup = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, backup);
+            XMLParser.getElements(xmlStreamReader, () -> backupStart(), () -> partBackupEnd());
+        }
         // barline
-        // bookmark
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BARLINE)) {
+            barline = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, barline);
+            XMLParser.getElements(xmlStreamReader, () -> barlineStart(), () -> partBarlineEnd());
+        }
         // direction
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DIRECTION)) {
+            direction = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, direction);
+            XMLParser.getElements(xmlStreamReader, () -> directionStart(), () -> partDirectionEnd());
+        }
         // figured-bass
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FIGURED_BASE)) {
+            figuredBass = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, figuredBass);
+            XMLParser.getElements(xmlStreamReader, () -> figuredBassStart(), () -> partFiguredBassEnd());
+        }
         // forward
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FORWARD)) {
+            forward = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, forward);
+            XMLParser.getElements(xmlStreamReader, () -> forwardStart(), () -> partForwardEnd());
+        }
         // grouping
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUPING)) {
+            grouping = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, grouping);
+            XMLParser.getElements(xmlStreamReader, () -> groupingStart(), () -> partGroupingEnd());
+        }
         // harmony
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.HARMONY)) {
+            harmony = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, harmony);
+            XMLParser.getElements(xmlStreamReader, () -> harmonyStart(), () -> partHarmonyEnd());
+        }
         // link
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.LINK)) {
+            Element e = parseHelper.getElement(xmlStreamReader);
+            e.addToAttributes(new Attribute(XMLConsts.XMLNS + ":" + XMLConsts.XLINK, XMLConsts.XLINKURL));
+            currentPart.addToElements(new ElementWrapper(false, e));
+        }
         // note
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.NOTE)) {
+            note = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, note);
+            XMLParser.getElements(xmlStreamReader, () -> noteStart(), () -> partNoteEnd());
+        }
         // print
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PRINT)) {
+            print = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, print);
+            XMLParser.getElements(xmlStreamReader, () -> printStart(), () -> partPrintEnd());
+        }
         // sound
+        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOUND)) {
+            sound = new ComplexElement(xmlStreamReader.getName().toString());
+            parseHelper.setComplexEAttributes(xmlStreamReader, sound);
+            XMLParser.getElements(xmlStreamReader, () -> soundStart(), () -> partSoundEnd());
+        }
+        // bookmark
+        else {
+            currentPart.addToElements(new ElementWrapper(false, parseHelper.getElement(xmlStreamReader)));
+        }
+
         // TODO - right here
         return false;
     }
     private boolean measurePartEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
             currentMeasure.addToElements(new ElementWrapper(true, currentPart));
-            currentPart = null;
             return true;
         }
         return false;
     }
 
+
+
+    // ----------------------------------- GENERAL BODY SECTION -----------------------------------
     // ATTRIBUTES - Subtree of MEASURE/PART
     private boolean attributesStart() {
         // key
@@ -387,15 +434,13 @@ public class ParseXMLBody {
     private boolean attributesEnd() {  // Subtree of MEASURE
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ATTRIBUTES)) {
             currentMeasure.addToElements(new ElementWrapper(true, attributes));
-            attributes = null;
             return true;
         }
         return false;
     }
-    private boolean partAttributesEnd() {// Subtree of PART
+    private boolean partAttributesEnd() { // Subtree of PART
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.ATTRIBUTES)) {
             currentPart.addToElements(new ElementWrapper(true, attributes));
-            attributes = null;
             return true;
         }
         return false;
@@ -585,6 +630,13 @@ public class ParseXMLBody {
         }
         return false;
     }
+    private boolean partBackupEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BACKUP)) {
+            currentPart.addToElements(new ElementWrapper(true, backup));
+            return true;
+        }
+        return false;
+    }
 
 
     // BARLINE - Subtree of MEASURE/PART
@@ -596,6 +648,13 @@ public class ParseXMLBody {
     private boolean barlineEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BARLINE)) {
             currentMeasure.addToElements(new ElementWrapper(true, barline));
+            return true;
+        }
+        return false;
+    }
+    private boolean partBarlineEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.BARLINE)) {
+            currentPart.addToElements(new ElementWrapper(true, barline));
             return true;
         }
         return false;
@@ -625,6 +684,13 @@ public class ParseXMLBody {
     private boolean directionEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DIRECTION)) {
             currentMeasure.addToElements(new ElementWrapper(true, direction));
+            return true;
+        }
+        return false;
+    }
+    private boolean partDirectionEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.DIRECTION)) {
+            currentPart.addToElements(new ElementWrapper(true, direction));
             return true;
         }
         return false;
@@ -911,6 +977,13 @@ public class ParseXMLBody {
         }
         return false;
     }
+    private boolean partSoundEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SOUND)) {
+            currentPart.addToElements(new ElementWrapper(true, sound));
+            return true;
+        }
+        return false;
+    }
 
     // MIDI-INSTRUMENT - Subtree of sound
     private boolean midiInstrumentStart() {
@@ -969,6 +1042,13 @@ public class ParseXMLBody {
         }
         return false;
     }
+    private boolean partFiguredBassEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FIGURED_BASE)) {
+            currentPart.addToElements(new ElementWrapper(true, figuredBass));
+            return true;
+        }
+        return false;
+    }
 
     // FIGURE - Subtree of FIGURED-BASS
     private boolean figureStart() {
@@ -998,6 +1078,13 @@ public class ParseXMLBody {
         }
         return false;
     }
+    private boolean partForwardEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.FORWARD)) {
+            currentPart.addToElements(new ElementWrapper(true, forward));
+            return true;
+        }
+        return false;
+    }
 
 
     // GROUPING - Subtree of MEASURE/PART
@@ -1009,6 +1096,13 @@ public class ParseXMLBody {
     private boolean groupingEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUPING)) {
             currentMeasure.addToElements(new ElementWrapper(true, grouping));
+            return true;
+        }
+        return false;
+    }
+    private boolean partGroupingEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.GROUPING)) {
+            currentPart.addToElements(new ElementWrapper(true, grouping));
             return true;
         }
         return false;
@@ -1050,6 +1144,13 @@ public class ParseXMLBody {
     private boolean harmonyEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.HARMONY)) {
             currentMeasure.addToElements(new ElementWrapper(true, harmony));
+            return true;
+        }
+        return false;
+    }
+    private boolean partHarmonyEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.HARMONY)) {
+            currentPart.addToElements(new ElementWrapper(true, harmony));
             return true;
         }
         return false;
@@ -1194,6 +1295,13 @@ public class ParseXMLBody {
     private boolean noteEnd() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.NOTE)) {
             currentMeasure.addToElements(new ElementWrapper(true, note));
+            return true;
+        }
+        return false;
+    }
+    private boolean partNoteEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.NOTE)) {
+            currentPart.addToElements(new ElementWrapper(true, note));
             return true;
         }
         return false;
@@ -1564,6 +1672,13 @@ public class ParseXMLBody {
         }
         return false;
     }
+    private boolean partPrintEnd() {
+        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PRINT)) {
+            currentPart.addToElements(new ElementWrapper(true, print));
+            return true;
+        }
+        return false;
+    }
 
     // PAGE-LAYOUT - Subtree of PRINT
     private boolean pageLayoutStart() {
@@ -1712,105 +1827,4 @@ public class ParseXMLBody {
         }
         return false;
     }
-
-
-
-
-/*
-    // MAIN PARSER FOR A PARTWISE BODY
-    public void partwiseBody() {
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
-            // get ID number
-            String num = "";
-            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-                if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.ID)) {
-                    num = xmlStreamReader.getAttributeValue(i);
-                    break;
-                }
-            }
-
-            // find the part in the partlist where the ID matches
-
-           // for (PartListWrapper item : score.getPartList()) {
-             //   if ((item.getIsPart() == true)
-               //         && (item.getPart().getPartID().contentEquals(num))) { // relying on java to short-circuit
-                 //   currentPart = item.getPart();
-               // }
-           // }
-
-
-            System.out.println("PART: " + num + " -START-");
-            XMLParser.getElements(xmlStreamReader, () -> partwisePartStart(), () -> partwisePartEnd());
-        }
-    }
-
-    public void timewiseBody() {
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
-            // get the measure number and potentially width
-            String num = "";
-            String width = "";
-            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-                if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.NUMBER)) {
-                    num = xmlStreamReader.getAttributeValue(i);
-                } else if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.WIDTH)) {
-                    width = xmlStreamReader.getAttributeValue(i);
-                }
-            }
-
-            // create measure object
-            currentMeasure = new Measure(num, width);
-        }
-
-    }
-
-
-
-
-    // -- PARTWISE SPECIFIC --
-    // PARTWISE PART
-    private boolean partwisePartStart() {
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
-            // get the measure number and potentially width
-            String num = "";
-            String width = "";
-            for (int i = 0; i < xmlStreamReader.getAttributeCount(); i++) {
-                if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.NUMBER)) {
-                    num = xmlStreamReader.getAttributeValue(i);
-                } else if (xmlStreamReader.getAttributeLocalName(i).contentEquals(XMLConsts.WIDTH)) {
-                    width = xmlStreamReader.getAttributeValue(i);
-                }
-            }
-            System.out.println("MEASURE: " + num + " WIDTH: " + width + " -START-");
-            // create measure object
-            //currentMeasure = new Measure(num, width);
-        }
-
-        XMLParser.getElements(xmlStreamReader, () -> partwiseMeasureStart(), () -> partwiseMeasureEnd());
-
-        return false;
-    }
-
-    private boolean partwisePartEnd() {
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
-            System.out.println("--PART END--");
-            return true;
-        }
-        return false;
-    }
-
-
-    // -- TIMEWISE SPECIFIC --
-    // PARTWISE MEASURE
-    private boolean partwiseMeasureStart() {
-        return false;
-    }
-
-    private boolean partwiseMeasureEnd() {
-        if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.MEASURE)) {
-            System.out.println("MEASURE - end");
-            return true;
-        }
-        return false;
-    }
-    */
 }

@@ -42,11 +42,12 @@ public class ExportXML {
     private Score score;
     private String scoreType;
     private XMLStreamWriter2 xmlStreamWriter;
-
+    private File file;
 
     private String filename = "testFile.xml";
 
-    public ExportXML(Score aScore) {
+    public ExportXML(File afile, Score aScore) {
+        file = afile;
         score = aScore;
 
         if(score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
@@ -54,16 +55,14 @@ public class ExportXML {
         } else {
             scoreType = XMLConsts.TIMEWISE;
         }
-
-        writeFile();
     }
 
 
-    private void writeFile(){
+    public void writeFile(){
         try {
             // get writer started
             XMLOutputFactory xof = XMLOutputFactory.newInstance();
-            xmlStreamWriter = (XMLStreamWriter2) xof.createXMLStreamWriter(new FileWriter(filename));
+            xmlStreamWriter = (XMLStreamWriter2) xof.createXMLStreamWriter(new FileWriter(file));
 
             // start writing the document
             xmlStreamWriter.writeStartDocument();
@@ -74,14 +73,13 @@ public class ExportXML {
             xmlStreamWriter.writeStartElement(score.getScoreType());
             xmlStreamWriter.writeAttribute(XMLConsts.VERSION, score.getScoreVersion());
 
-            // write Header info
+            // write the Header
             writeHeader();
 
-            // write BODY
+            // write the Body
             if (score.getBody() != null) {
                 writeElementWrapperList(score.getBody());
             }
-
 
             // finish up writing
             xmlStreamWriter.writeEndDocument();
@@ -197,7 +195,7 @@ public class ExportXML {
 
 
     // ------------------------------------------------------------------------------------------------------
-    // ??
+    // figure out how to pretty print????
     public String transform(String xml) throws XMLStreamException, TransformerException
     {
         Transformer t = TransformerFactory.newInstance().newTransformer();

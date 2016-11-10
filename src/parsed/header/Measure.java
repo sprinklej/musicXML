@@ -1,4 +1,4 @@
-package parsed;
+package parsed.header;
 
 /**
  * Created by sprinklej on 2016-10-06.
