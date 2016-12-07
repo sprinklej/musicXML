@@ -1,5 +1,7 @@
-/**
- * Created by sprinklej on 2016-09-16.
+/*
+ * Does all the database control for the application:
+ * Add/remove/edit database entries
+ *
  * http://stackoverflow.com/questions/18497699/populate-a-tableview-using-database-in-javafx
  * http://stackoverflow.com/questions/26980180/populating-a-tableview-with-data-from-database-javafx
  * http://stackoverflow.com/questions/25651641/javafx-mysql-connection-example-please

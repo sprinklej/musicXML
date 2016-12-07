@@ -1,15 +1,6 @@
-package parser;
-
-import org.codehaus.stax2.XMLStreamReader2;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
-
-import parsed.*;
-
-
-/**
- * Created by sprinklej on 2016-10-02.
- * The shared aspects of partwise and timewise scores
+/*
+ * Parses the header of a MusicXML file - common between partwise and timewise scores
+ *
  * -- XML Header Structure --
  * work - {0,1}
  *  work-number
@@ -41,6 +32,15 @@ import parsed.*;
  *  part-group
  *  score-part
  */
+
+package parser;
+
+import org.codehaus.stax2.XMLStreamReader2;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+
+import parsed.*;
+
 public class ParseXMLHeader {
     private ParseHelper parseHelper;
 

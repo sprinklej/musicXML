@@ -1,14 +1,6 @@
-package parser;
-
-import org.codehaus.stax2.XMLStreamReader2;
-
-
-import parsed.*;
-
-import javax.xml.stream.events.XMLEvent;
-
-/**
- * Created by sprinklej on 2016-10-07.
+/*
+ * Parses the body of a MusicXML file
+ *
  * -- XML Body Structure --
  * -partwise-
  * part - {1,*}
@@ -44,6 +36,15 @@ import javax.xml.stream.events.XMLEvent;
  *      print
  *      sound
  */
+package parser;
+
+import org.codehaus.stax2.XMLStreamReader2;
+
+
+import parsed.*;
+
+import javax.xml.stream.events.XMLEvent;
+
 public class ParseXMLBody {
     private ParseHelper parseHelper;
 

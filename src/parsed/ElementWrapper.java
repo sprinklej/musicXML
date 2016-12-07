@@ -1,12 +1,14 @@
+/*
+ * A wrapper so that a list of elements and/or complex elements can be built
+ * Can contain either an 'element' or a 'complex element'
+ */
+
 package parsed;
 
 import parsed.header.defaults.PageMargins;
 
 import java.util.Objects;
 
-/**
- * Created by sprinklej on 2016-11-01.
- */
 public class ElementWrapper {
     private boolean isComplex;
     private ComplexElement complexElement = null;

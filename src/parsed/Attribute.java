@@ -1,8 +1,9 @@
+/*
+ * A MusicXML attribute i.e. <part 'attributeName'='attributeText'>...</part>
+ */
+
 package parsed;
 
-/**
- * Created by sprinklej on 2016-10-27.
- */
 public class Attribute {
     private String attributeName;
     private String attributeText;

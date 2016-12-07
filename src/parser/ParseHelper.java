@@ -1,3 +1,7 @@
+/*
+ * A helper class for the ParseXMLBody and ParseXMLHeader classes
+ */
+
 package parser;
 
 import org.codehaus.stax2.XMLStreamReader2;
@@ -8,12 +12,6 @@ import parsed.Element;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
-/**
- * Created by sprinklej on 2016-11-01.
- *
- * A helper class for the ParseXMLBody and ParseXMLHeader classes
- *
- */
 public class ParseHelper {
     // CONSTRUCTOR
     public ParseHelper() {}

@@ -1,3 +1,7 @@
+/*
+ * Exports parsed MusicMXL data back into a file
+ */
+
 package musicXML;
 
 import parsed.*;
@@ -17,27 +21,6 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.codehaus.stax2.XMLStreamWriter2;
 
-
-/*
-writeStartDocument()
-writeStartElement()
-writeEndElement()
-writeEndDocument()
-writeAttribute()
-writeCData()
-writeCharacters()
-writeComment()
-writeEmptyElement()
-writeDTD()
-writeNamespace()
-writeEntityRef()
-writeProcessingInstruction()
- */
-
-
-/**
- * Created by sprinklej on 2016-10-25.
- */
 public class ExportXML {
     private Score score;
     private String scoreType;

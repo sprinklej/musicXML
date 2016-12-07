@@ -1,10 +1,12 @@
+/*
+ * A MusicXML element i.e. <'elementName' 'attributes'>'data'</'elementName'>
+ */
+
 package parsed;
 
 import java.util.ArrayList;
 
-/**
- * Created by sprinklej on 2016-10-28.
- */
+
 public class Element {
     private String elementName;
     private ArrayList<Attribute> attributes;

@@ -1,16 +1,7 @@
-package parsed;
-
-import parsed.header.credit.Credit;
-import parsed.header.defaults.Defaults;
-import parsed.header.identification.Identification;
-import parsed.header.work.Work;
-import parser.PartListWrapper;
-import parser.XMLConsts;
-
-import java.util.ArrayList;
-
-/**
- * Created by sprinklej on 2016-10-02.
+/*
+ * The main container for a parsed MusicXML file
+ * MusicXML files have two forms: score-partwise, or score-timewise
+ *
  * FROM XSD: The score-partwise element is the root element for a partwise MusicXML score. It includes a score-header
  * group followed by a series of parts with measures inside. The document-attributes attribute group includes
  * the version attribute.
@@ -18,6 +9,17 @@ import java.util.ArrayList;
  * group followed by a series of measures with parts inside. The document-attributes attribute group includes
  * the version attribute.
  */
+
+package parsed;
+
+import parsed.header.credit.Credit;
+import parsed.header.defaults.Defaults;
+import parsed.header.identification.Identification;
+import parsed.header.work.Work;
+import parser.XMLConsts;
+
+import java.util.ArrayList;
+
 public class Score {
     private String scoreType;                   // partwise or timewise
     private String scoreVersion;                // Optional - The musicxml version

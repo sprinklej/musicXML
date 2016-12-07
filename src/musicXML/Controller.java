@@ -1,3 +1,7 @@
+/*
+ * The Controller for the main window
+ */
+
 package musicXML;
 
 import javafx.fxml.FXMLLoader;

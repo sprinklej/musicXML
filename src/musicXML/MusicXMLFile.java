@@ -1,5 +1,5 @@
-/**
- * Created by sprinklej on 2016-09-16.
+/*
+ * A MusicXML file - What shows up in the TableView
  */
 
 package musicXML;
@@ -12,15 +12,10 @@ public class MusicXMLFile {
 
     private Integer id;
     private String filePath;
-
-    //private StringProperty songTitle; // = new SimpleStringProperty(this, "songTitle");
-    //private StringProperty composer; // = new SimpleStringProperty(this, "composer");
     private StringProperty songTitleProp = new SimpleStringProperty(this, "songTitleProp");
     private StringProperty composerProp = new SimpleStringProperty(this, "composerProp");
 
     public MusicXMLFile(Integer aid, String aSongTitle,  String aComposer, String aFilePath){
-        //songTitle = new SimpleStringProperty(this, "songTitle");
-        //composer = new SimpleStringProperty(this, "composer");
         id = aid;
         setSongTitle(aSongTitle);
         setComposer(aComposer);

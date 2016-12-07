@@ -1,10 +1,12 @@
+/*
+ * A MusicXML Complex element (an element that contains other elements)
+ * i.e. <'elementName' 'attributes'>'elements'</'elementName'>
+ */
+
 package parsed;
 
 import java.util.ArrayList;
 
-/**
- * Created by sprinklej on 2016-11-01.
- */
 public class ComplexElement {
     private String elementName;
     private ArrayList<Attribute> attributes;

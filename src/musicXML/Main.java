@@ -1,3 +1,7 @@
+/*
+ * Gets the application started
+ */
+
 package musicXML;
 
 import javafx.application.Application;

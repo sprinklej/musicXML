@@ -1,3 +1,8 @@
+/*
+ * The main Parser for MusicXML files
+ */
+
+
 package parser;
 
 import java.io.*;
@@ -11,20 +16,7 @@ import parsed.Score;
 import org.codehaus.stax2.XMLInputFactory2;
 import org.codehaus.stax2.XMLStreamReader2;
 
-
-//http://stackoverflow.com/questions/2186931/java-pass-method-as-parameter
-//http://stackoverflow.com/questions/4685563/how-to-pass-a-function-as-a-parameter-in-java
-//http://stackoverflow.com/questions/2186931/java-pass-method-as-parameter
-//http://stackoverflow.com/questions/4685435/what-is-the-cloest-thing-to-a-function-pointer-in-java
-
-
-/**
- * Created by sprinklej on 2016-09-23.
- */
 public class XMLParser {
-
-    //private String xmlVersDocType;
-
     private MusicXMLFile currentSong = null;
     private Score currentScore = null;
     private XMLStreamReader2 xmlStreamReader;
@@ -72,7 +64,13 @@ public class XMLParser {
     }
 
 
-    //http://stackoverflow.com/questions/2671496/java-when-to-use-static-methods
+    /*
+     * How to pass methods as arguments in Java
+     * http://stackoverflow.com/questions/2186931/java-pass-method-as-parameter
+     * http://stackoverflow.com/questions/4685563/how-to-pass-a-function-as-a-parameter-in-java
+     * http://stackoverflow.com/questions/2186931/java-pass-method-as-parameter
+     * http://stackoverflow.com/questions/4685435/what-is-the-cloest-thing-to-a-function-pointer-in-java
+     */
     public static void getElements(XMLStreamReader2 xmlStreamReader, Interface startMethod, Interface endMethod) {
         try {
            wLoop: while(xmlStreamReader.hasNext()){
@@ -84,12 +82,12 @@ public class XMLParser {
                             break wLoop;
                         }
                         break;
-/*
+                    /* Parse characters
                     case XMLEvent.CHARACTERS:
                         //System.out.print(xmlStreamReader.getText());
                         charMethod.interfaceMethod();
                         break;
-*/
+                    */
                     case XMLEvent.END_ELEMENT:
                         //System.out.println("</"+xmlStreamReader.getName().toString()+">");
                         if (endMethod.interfaceMethod()) {
@@ -103,13 +101,13 @@ public class XMLParser {
                 }
             }
         } catch (XMLStreamException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             System.out.println("ERROR: Stream Exception - Streaming file error");
         }
     }
 
 
-    //
+    // Starts parsing the score
     private Boolean scoreStart() {
         if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.SCORE_PARTWISE)) {
             // create part-wise score object
@@ -137,13 +135,4 @@ public class XMLParser {
         return false;
     }
 
-
-
-/*
-    // Parse the header of the score - all elements are common between partwise and timewise scores
-    private void parseHeader() {
-        ParseXMLHeader parseHeaderObj = new ParseXMLHeader(xmlStreamReader, score);
-        parseHeaderObj.parseHeader();
-    }
-    */
 }
