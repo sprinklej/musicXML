@@ -17,7 +17,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <AnchorPane minHeight="450.0" minWidth="700.0" prefHeight="450.0" prefWidth="700.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+      <AnchorPane minHeight="5.0" minWidth="5.0" prefHeight="450.0" prefWidth="825.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
          <children>
              <TableView fx:id="tView" layoutX="14.0" layoutY="41.0" prefHeight="359.0" prefWidth="300.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="41.0">
                  <columns>

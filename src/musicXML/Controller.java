@@ -57,27 +57,26 @@ public class Controller {
         currentList = db.getMXMLList();
         fillTableView();
 
-        //http://code.makery.ch/blog/javafx-2-event-handlers-and-change-listeners/
-        //listener for search field
+        // listener for search field
         searchField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if(newValue.length() == 0) {
-                    System.out.println("not searching for anything - repopulate the table");
+                    //System.out.println("not searching for anything - repopulate the table");
                     currentList = db.getMXMLList();
                     fillTableView();
                 }
 
                 if(newValue.length() > 0) {
-                    System.out.println("search for: " + newValue);
+                    //System.out.println("search for: " + newValue);
                     currentList = db.searchXMLList(newValue);
                     fillTableView();
                 }
             }
         });
 
-        //http://stackoverflow.com/questions/26424769/javafx8-how-to-create-listener-for-selection-of-row-in-tableview
-        // listener for tableview
+        // Create a listener for a tableview
+        // http://stackoverflow.com/questions/26424769/javafx8-how-to-create-listener-for-selection-of-row-in-tableview
         tView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<MusicXMLFile>() {
             @Override
             public void changed(ObservableValue<? extends MusicXMLFile> observable, MusicXMLFile oldValue, MusicXMLFile newValue) {
@@ -87,17 +86,29 @@ public class Controller {
                 }
                 currentSong = newValue;
 
-                txtArea.setText("id: " + currentSong.getId());
-                txtArea.appendText("\nsongTitle: " + currentSong.getSongTitle());
-                txtArea.appendText("\ncomposer: " + currentSong.getComposer());
-                txtArea.appendText("\nfilePath: " + currentSong.getFilePath());
+                txtArea.setText("Song Info:\n\n");
+                txtArea.appendText("ID: " + currentSong.getId() + "\n");
+                //txtArea.appendText("\nsongTitle: " + currentSong.getSongTitle());
+                //txtArea.appendText("\ncomposer: " + currentSong.getComposer());
+                txtArea.appendText("FilePath: " + currentSong.getFilePath() + "\n\n");
 
                 parser = new XMLParser(currentSong);
                 try {
                     parser.startParsing();
                 } catch (XMLStreamException e) {
-                    e.printStackTrace();
+                    System.out.println("Unable to parse file");
+                    //e.printStackTrace();
                 }
+
+                // get some parsed info an display it
+                GetParsedData data = new GetParsedData(parser.getScore());
+                txtArea.appendText("**Score Parsed**\n");
+                txtArea.appendText(data.getScoreType());
+                txtArea.appendText(data.getWorkInfo());
+                txtArea.appendText(data.getMovementNumber());
+                txtArea.appendText(data.getMovementTitle() + "\n");
+                txtArea.appendText("Part info:\n");
+                txtArea.appendText(data.getPartInfo());
             }
         });
     }
@@ -160,14 +171,14 @@ public class Controller {
             FXMLLoader root = new FXMLLoader(getClass().getResource("mXMLDetails.fxml"));
             Stage stage = new Stage();
 
-            //http://stackoverflow.com/questions/19953306/block-parent-stage-until-child-stage-closes
             // block/disable main window
+            // http://stackoverflow.com/questions/19953306/block-parent-stage-until-child-stage-closes
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(Main.primaryStage);
             stage.setTitle("Song Details");
 
             // callback for when the window closes
-            //http://stackoverflow.com/questions/34590798/how-to-refresh-parent-window-after-closing-child-window-in-javafx
+            // http://stackoverflow.com/questions/34590798/how-to-refresh-parent-window-after-closing-child-window-in-javafx
             stage.setOnHidden(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we) {
                     currentList = db.getMXMLList();
@@ -186,25 +197,5 @@ public class Controller {
             //e.printStackTrace();
         }
     }
-
-
-    /*
-    @FXML
-    private void handleTableViewClick(MouseEvent click) {
-        if (tView.getSelectionModel().getSelectedItem() == null) {
-            //System.out.println("Empty row");
-            return;
-        } else {
-            currentSong = tView.getSelectionModel().getSelectedItem();
-        }
-
-        if(click.getButton().equals(MouseButton.PRIMARY) && click.getClickCount() == 1) {
-            txtArea.setText("id: " + currentSong.getId());
-            txtArea.appendText("\nsongTitle: " + currentSong.getSongTitle());
-            txtArea.appendText("\ncomposer: " + currentSong.getComposer());
-            txtArea.appendText("\nfilePath: " + currentSong.getFilePath());
-        }
-
-    } */
 }
 

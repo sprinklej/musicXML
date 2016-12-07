@@ -18,12 +18,11 @@ import org.codehaus.stax2.XMLStreamReader2;
 
 public class XMLParser {
     private MusicXMLFile currentSong = null;
-    private Score currentScore = null;
     private XMLStreamReader2 xmlStreamReader;
     private Score score = null;
 
-    ParseXMLHeader parseHeaderObj;
-    ParseXMLBody   parseBodyObj;
+    private ParseXMLHeader parseHeaderObj;
+    private ParseXMLBody   parseBodyObj;
 
 
     // constructor
@@ -50,10 +49,8 @@ public class XMLParser {
 
         try {
             xmlStreamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(xmlFileName, new FileInputStream(xmlFileName));
-            //System.out.println(xmlStreamReader.getVersion());
-            //System.out.println(xmlStreamReader.getEncoding());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             System.out.println("ERROR: File not found");
             return;
         }
@@ -61,6 +58,8 @@ public class XMLParser {
         parseHeaderObj = new ParseXMLHeader(xmlStreamReader);
         parseBodyObj = new ParseXMLBody(xmlStreamReader);
         getElements(xmlStreamReader, () -> scoreStart(), () -> scoreEnd());
+
+
     }
 
 

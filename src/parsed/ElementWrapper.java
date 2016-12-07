@@ -5,10 +5,6 @@
 
 package parsed;
 
-import parsed.header.defaults.PageMargins;
-
-import java.util.Objects;
-
 public class ElementWrapper {
     private boolean isComplex;
     private ComplexElement complexElement = null;

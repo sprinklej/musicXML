@@ -12,12 +12,7 @@
 
 package parsed;
 
-import parsed.header.credit.Credit;
-import parsed.header.defaults.Defaults;
-import parsed.header.identification.Identification;
-import parsed.header.work.Work;
 import parser.XMLConsts;
-
 import java.util.ArrayList;
 
 public class Score {
