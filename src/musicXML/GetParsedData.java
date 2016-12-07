@@ -1,6 +1,6 @@
 
-/**
- * Created by sprinklej on 2016-12-07.
+/*
+ * Get some parsed data from the Score to display
  */
 
 package musicXML;

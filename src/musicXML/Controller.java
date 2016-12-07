@@ -96,7 +96,8 @@ public class Controller {
                 try {
                     parser.startParsing();
                 } catch (XMLStreamException e) {
-                    System.out.println("Unable to parse file");
+                    txtArea.appendText("Error: unable to parse file");
+                    System.out.println("Error: Unable to parse file");
                     //e.printStackTrace();
                 }
 
@@ -193,6 +194,7 @@ public class Controller {
             controller.passData(db, mXMLFile);
             stage.show();
         } catch(Exception e) {
+            txtArea.setText("ERROR: Failed to load song details window");
             System.out.println("ERROR: Failed to load song details window");
             //e.printStackTrace();
         }

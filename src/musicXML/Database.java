@@ -1,6 +1,6 @@
 /*
  * Does all the database control for the application:
- * Add/remove/edit database entries
+ * Add/remove/edit/display database entries
  *
  * http://stackoverflow.com/questions/18497699/populate-a-tableview-using-database-in-javafx
  * http://stackoverflow.com/questions/26980180/populating-a-tableview-with-data-from-database-javafx
@@ -19,6 +19,7 @@ public class Database {
     private Connection database;
     private Statement stat;
 
+    // Constructor
     public Database() {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -35,6 +36,7 @@ public class Database {
         }
     }
 
+    // Close the DB
     public void closeDB() {
         try {
             if (database != null) {
@@ -46,6 +48,7 @@ public class Database {
         }
     }
 
+    // get the MusicXML list from the DB
     public ArrayList<MusicXMLFile> getMXMLList() {
         ArrayList<MusicXMLFile> XMLList = new ArrayList<MusicXMLFile>();
         String sqlQueryString = "SELECT * FROM musicXMLFiles;";
@@ -66,6 +69,7 @@ public class Database {
         return XMLList;
     }
 
+    // Search the DB for some text string
     public ArrayList<MusicXMLFile> searchXMLList(String searchTxt) {
         ArrayList<MusicXMLFile> XMLList = new ArrayList<MusicXMLFile>();
         String sqlQueryString = "SELECT * FROM musicXMLFiles WHERE songTitle like '%" + searchTxt +
@@ -87,6 +91,7 @@ public class Database {
         return XMLList;
     }
 
+    // Add a song to the DB
     public void addSong(MusicXMLFile newSong) {
         // using prepared statements
         try {
@@ -119,6 +124,7 @@ public class Database {
         */
     }
 
+    // Update a song in the DB
     public void updateSong(MusicXMLFile currentSong) {
         // using prepared statements
         try {
@@ -154,6 +160,7 @@ public class Database {
         */
     }
 
+    // Delete a song from the DB
     public void deleteSong(MusicXMLFile currentSong) {
         String sqlQueryString = "DELETE FROM musicXMLFiles WHERE id = " + currentSong.getId() + ";";
 

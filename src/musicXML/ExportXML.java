@@ -12,12 +12,7 @@ import java.util.ArrayList;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
+
 
 import org.codehaus.stax2.XMLStreamWriter2;
 
@@ -41,6 +36,7 @@ public class ExportXML {
     }
 
 
+    // Write parsed XML data to a file
     public void writeFile(){
         try {
             // get writer started
@@ -171,21 +167,5 @@ public class ExportXML {
                 e.printStackTrace();
             }
         }
-    }
-
-
-
-
-
-    // ------------------------------------------------------------------------------------------------------
-    // figure out how to pretty print????
-    public String transform(String xml) throws XMLStreamException, TransformerException
-    {
-        Transformer t = TransformerFactory.newInstance().newTransformer();
-        t.setOutputProperty(OutputKeys.INDENT, "yes");
-        t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        Writer out = new StringWriter();
-        t.transform(new StreamSource(new StringReader(xml)), new StreamResult(out));
-        return out.toString();
     }
 }

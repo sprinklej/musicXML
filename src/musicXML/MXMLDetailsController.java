@@ -1,5 +1,5 @@
-/**
- * Created by sprinklej on 2016-09-18.
+/*
+ * The Controller for the MusicXML details window
  */
 
 package musicXML;
@@ -97,7 +97,7 @@ public class MXMLDetailsController {
             return;
         }
 
-        // get tect from text fields
+        // get text from text fields
         currentSong.setSongTitle(songTitleField.getText());
         currentSong.setComposer(composerField.getText());
         currentSong.setFilePath(filePathField.getText());
@@ -127,11 +127,11 @@ public class MXMLDetailsController {
     @FXML
     private void handleCancelButton(ActionEvent event) {
         System.out.println("Cancel clicked");
-        //http://stackoverflow.com/questions/25037724/how-to-close-a-java-window-with-a-button-click-javafx-project
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
 
+    // checks for empty text fields that are required
     private boolean checkFields() {
         if(songTitleField.getText().equals("") || filePathField.getText().equals("")) {
             return false;
