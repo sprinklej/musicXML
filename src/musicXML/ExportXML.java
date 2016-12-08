@@ -22,8 +22,6 @@ public class ExportXML {
     private XMLStreamWriter2 xmlStreamWriter;
     private File file;
 
-    private String filename = "testFile.xml";
-
     public ExportXML(File afile, Score aScore) {
         file = afile;
         score = aScore;
@@ -49,13 +47,14 @@ public class ExportXML {
                     "-//Recordare//DTD MusicXML 3.0 " + scoreType.substring(0, 1).toUpperCase() + scoreType.substring(1) + "//EN", "");
             //<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
             //<!DOCTYPE score-timewise PUBLIC "-//Recordare//DTD MusicXML 3.0 Timewise//EN" "http://www.musicxml.org/dtds/timewise.dtd">
-            xmlStreamWriter.writeStartElement(score.getScoreType());
+
+            xmlStreamWriter.writeStartElement("score-" + score.getScoreType());
             xmlStreamWriter.writeAttribute(XMLConsts.VERSION, score.getScoreVersion());
 
-            // write the Header
+            // write the MusicXML Header
             writeHeader();
 
-            // write the Body
+            // write the MusicXML Body
             if (score.getBody() != null) {
                 writeElementWrapperList(score.getBody());
             }
@@ -66,7 +65,8 @@ public class ExportXML {
             xmlStreamWriter.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("Failed to export MusicXML file.");
         }
     }
 
@@ -93,7 +93,6 @@ public class ExportXML {
         if (score.getDefaults() != null) {
             writeComplexElement(score.getDefaults());
         }
-
         // credit
         if (score.getCredit() != null) {
             writeElementWrapperList(score.getCredit());
