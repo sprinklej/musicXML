@@ -113,8 +113,9 @@ public class Controller {
                 txtArea.appendText(data.getScoreType());
                 txtArea.appendText(data.getWorkInfo());
                 txtArea.appendText(data.getMovementNumber());
-                txtArea.appendText(data.getMovementTitle() + "\n");
-                txtArea.appendText("Part info:\n");
+                txtArea.appendText(data.getMovementTitle());
+                txtArea.appendText(data.getIdentification());
+                txtArea.appendText("\nPart info:\n");
                 txtArea.appendText(data.getPartInfo());
             }
         });

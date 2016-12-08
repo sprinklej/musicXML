@@ -52,6 +52,24 @@ public class GetParsedData {
         return "";
     }
 
+    // identification
+    public String getIdentification() {
+        String str = "";
+        if (score.getIdentification() != null) {
+            for (ElementWrapper el:score.getIdentification().getElements()) {
+                if ((el.getIsComplex() == false) && (el.getElement().getElementName().contentEquals("creator"))) {
+                    str += "Creator-" + el.getElement().getAttributes().get(0).getAttributeText()
+                            + ": " + el.getElement().getData() + "\n"; // only 1 attribute for creator
+                }
+                if ((el.getIsComplex() == false) && (el.getElement().getElementName().contentEquals("rights"))) {
+                    str += "Rights: " + el.getElement().getData() + "\n";
+                }
+            }
+        }
+        return str;
+    }
+
+
     // part Info
     public String getPartInfo() {
         String str = "";
