@@ -37,20 +37,16 @@ public class XMLParser {
 
     // Start Parsing
     public void startParsing() throws XMLStreamException {
+        // load the xml file
         String xmlFileName = currentSong.getFilePath();
-
-        InputStream xmlInputStream = getClass().getResourceAsStream(xmlFileName);
+        //InputStream xmlInputStream = getClass().getResourceAsStream(xmlFileName);
         XMLInputFactory2 xmlInputFactory = (XMLInputFactory2)XMLInputFactory.newInstance();
-        xmlInputFactory.setProperty(XMLInputFactory2.SUPPORT_DTD, false);   //do not read DTD - TODO read local copy
-        //xmlInputFactory.setProperty(XMLInputFactory2.P_DTD_OVERRIDE,
-        //SchemaFactory.newInstance("/Users/sprinklej/Downloads/MusicXML/musicxml30/musicxml.xsd"));
-
-
+        xmlInputFactory.setProperty(XMLInputFactory2.SUPPORT_DTD, false);   //do not read web based DTD
 
         try {
             xmlStreamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(xmlFileName, new FileInputStream(xmlFileName));
         } catch (FileNotFoundException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println("ERROR: File not found");
             return;
         }
@@ -58,8 +54,6 @@ public class XMLParser {
         parseHeaderObj = new ParseXMLHeader(xmlStreamReader);
         parseBodyObj = new ParseXMLBody(xmlStreamReader);
         getElements(xmlStreamReader, () -> scoreStart(), () -> scoreEnd());
-
-
     }
 
 
@@ -124,6 +118,12 @@ public class XMLParser {
             }
             parseHeaderObj.setScore(score);
             parseBodyObj.setScore(score);
+        }
+
+        // check validity of XML
+        if (score == null) {
+            System.out.println("ERROR: Not a MusicXML File");
+            return true;
         }
 
         parseHeaderObj.parseHeader();

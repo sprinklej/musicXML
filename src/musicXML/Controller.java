@@ -96,9 +96,15 @@ public class Controller {
                 try {
                     parser.startParsing();
                 } catch (XMLStreamException e) {
-                    txtArea.appendText("Error: unable to parse file");
-                    System.out.println("Error: Unable to parse file");
+                    txtArea.appendText("Error: Unable to parse file!\n");
+                    return;
                     //e.printStackTrace();
+                }
+
+                // Check if score is valid
+                if (parser.getScore() == null) {
+                    txtArea.appendText("Error: Unable to parse file!\n");
+                    return;
                 }
 
                 // get some parsed info an display it
@@ -141,7 +147,13 @@ public class Controller {
         File file = showSaveDialog();
         if (file != null) {
             exporter = new ExportXML(file, parser.getScore());
-            exporter.writeFile();
+            Boolean success = exporter.writeFile();
+
+            if (success) {
+                txtArea.appendText("\nExport Complete.\n");
+            } else {
+                txtArea.appendText("\nError: Export Failed!\n");
+            }
         }
     }
     private File showSaveDialog() {

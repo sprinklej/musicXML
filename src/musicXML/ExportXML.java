@@ -18,24 +18,31 @@ import org.codehaus.stax2.XMLStreamWriter2;
 
 public class ExportXML {
     private Score score;
-    private String scoreType;
+    //private String scoreType;
     private XMLStreamWriter2 xmlStreamWriter;
     private File file;
 
     public ExportXML(File afile, Score aScore) {
         file = afile;
         score = aScore;
-
-        if(score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
-            scoreType = XMLConsts.PARTWISE;
-        } else {
-            scoreType = XMLConsts.TIMEWISE;
-        }
     }
 
 
     // Write parsed XML data to a file
-    public void writeFile(){
+    public boolean writeFile(){
+
+        if (score == null) { // error happened when parsing
+            return false;
+        }
+
+        // get scoretype
+        /*if(score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
+            scoreType = XMLConsts.PARTWISE;
+        } else {
+            scoreType = XMLConsts.TIMEWISE;
+        }
+        */
+
         try {
             // get writer started
             XMLOutputFactory xof = XMLOutputFactory.newInstance();
@@ -43,8 +50,8 @@ public class ExportXML {
 
             // start writing the document
             xmlStreamWriter.writeStartDocument();
-            xmlStreamWriter.writeDTD("score-" + scoreType, "http://www.musicxml.org/dtds/" + scoreType + ".dtd",
-                    "-//Recordare//DTD MusicXML 3.0 " + scoreType.substring(0, 1).toUpperCase() + scoreType.substring(1) + "//EN", "");
+            xmlStreamWriter.writeDTD("score-" + score.getScoreType(), "http://www.musicxml.org/dtds/" + score.getScoreType() + ".dtd",
+                    "-//Recordare//DTD MusicXML 3.0 " + score.getScoreType().substring(0, 1).toUpperCase() + score.getScoreType().substring(1) + "//EN", "");
             //<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
             //<!DOCTYPE score-timewise PUBLIC "-//Recordare//DTD MusicXML 3.0 Timewise//EN" "http://www.musicxml.org/dtds/timewise.dtd">
 
@@ -67,7 +74,9 @@ public class ExportXML {
         } catch (Exception e) {
             //e.printStackTrace();
             System.out.println("Failed to export MusicXML file.");
+            return false;
         }
+        return true;
     }
 
 
