@@ -1,0 +1,771 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-timewise version="3.0">
+  <work>
+    <work-number>WORK-NUMBER!</work-number>
+    <work-title>WORK-TITLE!</work-title>
+	<opus xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="HREF!" xlink:type="SIMPLE!" xlink:role="ROLE!" xlink:title="TITLE!" xlink:show="REPLACE!" xlink:actuate="ONREQUEST!"/>
+  </work>
+  <movement-title>MOVEMENT-TITLE!</movement-title>
+  <movement-number>MOVEMENT-NUMBER!</movement-number>
+  <identification>
+    <creator type="composer">CREATOR-COMPPOSER!</creator>
+	<creator type="poet">CREATOR-POET!</creator>
+	<rights>RIGHTS!</rights>
+	<rights>RIGHTS2!</rights>
+	<encoding>
+		<encoding-date>2016-01-01</encoding-date>
+		<encoding-date>2016-02-02</encoding-date>
+		<encoder type="TYPE!">FIRST ENCODER!</encoder>
+		<encoder>ENCODER2!</encoder>
+		<software>SOFTWARE1!</software>
+		<software>SOFTWARE2!</software>
+		<encoding-description>ENCODING-DESCRIPTION1!</encoding-description>
+		<encoding-description>ENCODING-DESCRIPTION2!</encoding-description>
+		<supports type="yes" element="ELEMENT1!" attribute="ATTRIBUTE1!" value="VALUE1!"/>
+		<supports type="yes" element="ELEMENT2!" attribute="ATTRIBUTE2!"/>
+	</encoding>
+	<source>SOURCE!</source>
+	<relation type="TYPE!">RELATION1!</relation>
+	<relation>RELATION2!</relation>
+	<miscellaneous>
+		<miscellaneous-field name="NAME!">MISCELLANEOUS-FIELD!</miscellaneous-field>
+	</miscellaneous>
+  </identification>
+  <defaults>
+	  <scaling>
+		  <millimeters>MILLIMETERS!</millimeters>
+	      <tenths>TENTHS!</tenths>
+	  </scaling>
+	  <page-layout>
+		  <page-height>PAGE_HEIGHT!</page-height>
+		  <page-width>PAGE_WIDTH!</page-width>
+		  <page-margins type="even">
+	          <left-margin>LEFT!</left-margin>
+	          <right-margin>RIGHT!</right-margin>
+	          <top-margin>TOP!</top-margin>
+	          <bottom-margin>BOTTOM!</bottom-margin>
+		  </page-margins>
+		  <page-margins type = "odd">
+		  	<left-margin>LEFT!</left-margin>
+		   	<right-margin>RIGHT!</right-margin>
+		   	<top-margin>TOP!</top-margin>
+		   	<bottom-margin>BOTTOM!</bottom-margin>
+		  </page-margins>
+	  </page-layout>
+	  <system-layout>
+		  <system-margins>
+			  <left-margin>LEFT!</left-margin>
+			  <right-margin>RIGHT!</right-margin>
+		  </system-margins>
+		  <system-distance>SYSTEM-DISTANCE!</system-distance>
+		  <top-system-distance>TOP-SYSTEM-DISTANCE!</top-system-distance>
+		  <system-dividers>
+			  <left-divider print-object="PRINTOBJECT!" default-x="DEFAULTX" default-y="DEFAULTY" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY" font-style="FONTSTYLE" font-size="FONTSIZE" font-weight="FONTWEIGHT" color="COLOR" halign="HALGIN" valign="VALIGN"/>
+			  <right-divider print-object="PRINTOBJECT!" default-x="DEFAULTX" default-y="DEFAULTY" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY" font-style="FONTSTYLE" font-size="FONTSIZE" font-weight="FONTWEIGHT" color="COLOR" halign="HALGIN" valign="VALIGN"/>
+		  </system-dividers>
+	  </system-layout>
+	  <staff-layout number="NUMBER!">
+		  <staff-distance>STAFFDISTANCE!</staff-distance>
+	  </staff-layout>
+	  <staff-layout>
+		  <staff-distance>STAFFDISTANCE!</staff-distance>
+	  </staff-layout>
+	  <appearance>
+		  <line-width type="TYPE!">LINE-WIDTH1!</line-width>
+		  <line-width type="TYPE!">LINE-WIDTH2!</line-width>
+		  <line-width type="TYPE!">LINE-WIDTH3!</line-width>
+		  <note-size type="TYPE!">NOTE-SIZE1!</note-size>
+		  <note-size type="TYPE!">NOTE-SIZE2!</note-size>
+		  <note-size type="TYPE!">NOTE-SIZE3!</note-size>
+		  <distance type="TYPE!">DISTANCE1!</distance>
+		  <distance type="TYPE!">DISTANCE2!</distance>
+		  <distance type="TYPE!">DISTANCE3!</distance>
+		  <other-appearance type="TYPE!">OTHER-APPEARANCE1!</other-appearance>
+		  <other-appearance type="TYPE!">OTHER-APPEARANCE2!</other-appearance>
+		  <other-appearance type="TYPE!">OTHER-APPEARANCE3!</other-appearance>
+	  </appearance>
+      <music-font font-family="FONTFAMILY1,FONTFAMILY2" font-style="FONTSTYLE" font-size="FONTSTIZE" font-weight="FONTWEIGHT"/>
+      <word-font font-family="FONTFAMILY1,FONTFAMILY2" font-style="FONTSTYLE" font-size="FONTSTIZE" font-weight="FONTWEIGHT"/>
+	  <lyric-font number="NUMBER1!" name="NAME1!" font-family="FONTFAMILY1!" font-style="FONTSTYLE1!" font-size="FONTSIZE1!" font-weight="FONTWEIGHT1!"/>
+	  <lyric-font number="NUMBER2!" name="NAME2!" font-family="FONTFAMILY2!" font-style="FONTSTYLE2!" font-size="FONTSIZE2!" font-weight="FONTWEIGHT2!"/>
+	  <lyric-language number="NUMBER1!" name="NAME1!" xml:lang="it"/>
+	  <lyric-language number="NUMBER2!" name="NAME2!" xml:lang="en"/>
+  </defaults>
+  <credit>
+	  <credit-type>CREDITTYPE1!</credit-type>
+	  <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="HREF!" xlink:type="TYPE!" xlink:role="ROLE!" xlink:title="TITLE!" xlink:show="SHOW!" xlink:actuate="ACTUATE!" name="NAME!" element="ELEMENT!" position="POSITION!" default-x="DEFAULTX!" default-y="DEFAULTY" relative-x="RELATIVEX!" relative-y="RELATIVEY!"/>
+	  <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="HREF2!" xlink:type="TYPE!" xlink:role="ROLE!" xlink:title="TITLE!" xlink:show="SHOW!" xlink:actuate="ACTUATE!" name="NAME!" element="ELEMENT!" position="POSITION!" default-x="DEFAULTX!" default-y="DEFAULTY" relative-x="RELATIVEX!" relative-y="RELATIVEY!"/>
+	  <bookmark id="ID!" name="NAME!" element="ELEMENT!" position="POSITION!">BOOKMARK</bookmark>
+	  <bookmark id="ID2!" name="NAME!" element="ELEMENT!" position="POSITION!"/>
+	  <credit-image source="SOURCE!" type="TYPE!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" halign="HALIGN!" valign="VALIGN!"/>
+  </credit>
+  <credit page="PAGE">
+	  <credit-type>CREDITTYPE2!</credit-type>
+	  <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="HREF!" xlink:type="TYPE!" xlink:role="ROLE!" xlink:title="TITLE!" xlink:show="SHOW!" xlink:actuate="ACTUATE!" name="NAME!" element="ELEMENT!" position="POSITION!" default-x="DEFAULTX!" default-y="DEFAULTY" relative-x="RELATIVEX!" relative-y="RELATIVEY!"/>
+	  <bookmark id="ID!" name="NAME!" element="ELEMENT!" position="POSITION!">BOOKMARK</bookmark>
+	  <bookmark id="ID2!" name="NAME!" element="ELEMENT!" position="POSITION!"/>
+	  <credit-words justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSTIZE!" font-weight="FONTWEIGHT!" color="COLOR" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE" dir="DIR!" enclosure="ENCLOSRURE!">CREDITWORDS</credit-words>
+  </credit>
+  <part-list>
+      <score-part id="P1">
+		  <identification>
+		    <creator type="composer">PART-COMPPOSER1!</creator>
+			<creator type="poet">PART-POET1!</creator>
+			<rights>PART-RIGHTS1!</rights>
+			<rights>PART-RIGHTS2!</rights>
+			<encoding>
+				<encoding-date>2016-06-06</encoding-date>
+				<encoding-date>2016-07-07</encoding-date>
+				<encoder type="TYPE!">PART-ENCODER1!</encoder>
+				<encoder>PART-ENCODER2!</encoder>
+				<software>PART-SOFTWARE4!</software>
+				<software>PART-SOFTWARE5!</software>
+				<encoding-description>PART-ENCODING-DESCRIPTION4!</encoding-description>
+				<encoding-description>PART-ENCODING-DESCRIPTION5!</encoding-description>
+				<supports type="yes" element="PART-ELEMENT1!" attribute="PART-ATTRIBUTE1!" value="PART-VALUE1!"/>
+				<supports type="yes" element="PART-ELEMENT2!" attribute="PART-ATTRIBUTE2!"/>
+			</encoding>
+			<source>PART-SOURCE!</source>
+			<relation type="TYPE!">PART-RELATION2!</relation>
+			<relation>PART-RELATION2!</relation>
+			<miscellaneous>
+				<miscellaneous-field name="NAME!">PART-MISCELLANEOUS-FIELD!</miscellaneous-field>
+			</miscellaneous>
+		  </identification>
+		  <part-name default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" print-object="PRINTOBJECT!" justify="JUSTIFY!">PART-NAME 11!</part-name>
+		  <part-name-display print-object="PRINTOBJECT">
+			  <display-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">PART-DISPLAYTEXT 11!</display-text>
+			  <accidental-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">PART-ACCIDENTALTEXT 11!</accidental-text>
+			 <display-text>text</display-text>
+		  </part-name-display>
+		  <part-abbreviation default-x="DEFAULTX11" default-y="DEFAULTY11" relative-x="RELATIVEX11" relative-y="RELAVITVEY11" font-family="FONTFAMILY11" font-style="FONTSTYLE11" font-size="FONTSIZE11" font-weight="FONTWEIGHT11" color="COLOR11" print-object="PRINTOBJECT11" justify="JUSTIFY11">PART-ABREVIATION 11!</part-abbreviation>
+		  <part-abbreviation-display print-object="PART-PRINTOBJ">
+			  <display-text justify="part-JUSTIFY!" default-x="part-DEFAULTX!" default-y="part-DEFAULTY!" relative-x="part-RELATIVEX!" relative-y="part-RELATIVEY!" font-family="part-FONTFAMILY!" font-style="part-FONTSTYLE!" font-size="part-FONTSIZE!" font-weight="part-FONTWEIGHT!" color="part-COLOR!" halign="part-HALIGN" valign="part-VALIGN" underline="part-UNDERLINE!" overline="part-OVERLINE!" line-through="part-LINETHROUGH!" rotation="part-ROTATION!" letter-spacing="part-LETTERSPACING!" line-height="part-LINEHEIGHT!" xml:lang="part-LANG!" xml:space="part-SPACE!" dir="part-DIR!" enclosure="part-ENCLOSURE">PART-DISPLAYTEXT 11111!</display-text>
+			  <accidental-text justify="part-JUSTIFY!" default-x="part-DEFAULTX!" default-y="part-DEFAULTY!" relative-x="part-RELATIVEX!" relative-y="part-RELATIVEY!" font-family="part-FONTFAMILY!" font-style="part-FONTSTYLE!" font-size="part-FONTSIZE!" font-weight="part-FONTWEIGHT!" color="part-COLOR!" halign="part-HALIGN" valign="part-VALIGN" underline="part-UNDERLINE!" overline="part-OVERLINE!" line-through="part-LINETHROUGH!" rotation="part-ROTATION!" letter-spacing="part-LETTERSPACING!" line-height="part-LINEHEIGHT!" xml:lang="part-LANG!" xml:space="part-SPACE!" dir="part-DIR!" enclosure="part-ENCLOSURE">PART-ACCIDENTALTEXT 111111!</accidental-text>
+			 <display-text>some text</display-text>
+		  </part-abbreviation-display>
+		  <group>GROUP TEXT</group>
+		  <group>GROUP text2</group>
+		  <score-instrument id="P1-I1">
+			  <instrument-name>INSTRUMENT-NAME!!</instrument-name>
+			  <instrument-abbreviation>INSTRUMENT-ABBREVIATION!!</instrument-abbreviation>
+			  <instrument-sound>INSTRUMENT-SOUND!!!</instrument-sound>
+			  <ensemble>ENSEMBLE!!!</ensemble>
+			  <solo>SOLO!!!!</solo>
+			  <virtual-instrument>
+			 	 <virtual-library>VIRTUAL-LIBRARY!!!</virtual-library>
+		         <virtual-name>VIRTUAL-NAME!!!!</virtual-name>
+		      </virtual-instrument>
+		  </score-instrument>
+		  <midi-device port="PORT!" id="ID!!">MIDI-DEVICE1!</midi-device>	
+		  <midi-device port="PORT!" id="ID!!">MIDI-DEVICE2!</midi-device>
+		  <midi-instrument id="ID!">
+			  <midi-channel>MIDI-CHANNEL!</midi-channel>
+			  <midi-name>MIDI-NAME!</midi-name>
+			  <midi-bank>MIDI-BANK!</midi-bank>
+			  <midi-program>MIDI-PROGRAM</midi-program>
+			  <midi-unpitched>MIDI-UNPITCHED</midi-unpitched>
+			  <volume>MIDI-VOLUME</volume>
+			  <pan>MIDI-PAN</pan>
+			  <elevation>MIDI-ELEVATION</elevation>
+		  </midi-instrument>
+		  <midi-instrument id="ID2!">
+			  <midi-channel>MIDI-CHANNEL2!</midi-channel>
+			  <midi-name>MIDI-NAME2!</midi-name>
+			  <midi-bank>MIDI-BANK2!</midi-bank>
+			  <midi-program>MIDI-PROGRAM2</midi-program>
+			  <midi-unpitched>MIDI-UNPITCHED2</midi-unpitched>
+			  <volume>MIDI-VOLUME2</volume>
+			  <pan>MIDI-PAN2</pan>
+			  <elevation>MIDI-ELEVATION2</elevation>
+		  </midi-instrument>
+	  </score-part>
+      <part-group number="1" type="start">
+		  <group-name default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" justify="JUSTIFY!">GROUP-NAME 11!</group-name>
+		  <group-name-display print-object="PRINTOBJECT!">
+			  <display-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">DISPLAYTEXT!</display-text>
+			  <accidental-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">ACCIDENTALTEXT!</accidental-text>
+			  <display-text>DISPLAYTEXT2!</display-text>
+			  <accidental-text>ACCIDENTALTEXT2!</accidental-text>
+		  </group-name-display>
+		  <group-abbreviation default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT" color="COLOR!" justify="JUSTIFY!">GROUPABBREVIATION 11!</group-abbreviation>
+		  <group-abbreviation-display print-object="PRINTOBJECT!">
+			  <display-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">DISPLAYTEXT!</display-text>
+			  <accidental-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">ACCIDENTALTEXT!</accidental-text>
+			  <display-text>DISPLAYTEXT2!</display-text>
+			  <display-text>DISPLAYTEXT3!</display-text>
+			  <accidental-text>ACCIDENTALTEXT2!</accidental-text>
+		  </group-abbreviation-display>
+		  <group-symbol default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" color="COLOR">GROUPSYMBOL1!</group-symbol>
+		  <group-barline color="COLOR!">GROUPBARLINE1!</group-barline>
+		  <group-time/>
+		  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+		  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+      </part-group>
+      <score-part id="P2">
+        <part-name>PART-NAME 2!</part-name>
+		<part-abbreviation>PART-ABREVIATION 2!</part-abbreviation>
+      </score-part>
+      <part-group number="2" type="start">
+        <group-name>GROUP-NAME 2!</group-name>
+      </part-group>
+      <score-part id="P3">
+        <part-name>PART-NAME 3!</part-name>
+		<part-abbreviation>PART-ABREVIATION 3!</part-abbreviation>
+      </score-part>
+	  <part-group number="2" type="stop"/>
+	  <part-group number="1" type="stop"/>
+  </part-list>
+  <measure>
+	  <part id="1">
+		  <attributes>
+			  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+			  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+			  <divisions>DIVISIONS</divisions>
+			  <key>
+				  <key-step>KEY-STEP</key-step>
+				  <key-alter>KEY-ALTER</key-alter>
+				  <key-accidental>KEY-ACCIDENTAL</key-accidental>
+				  <cancel>CANCEL</cancel>
+				  <fifths>FITHS</fifths>
+				  <mode>MODE</mode>
+				  <key-octave number="NUMBER" cancel="CANCEL">KEY-OCTAVE</key-octave>
+			  </key>
+			  <time number="NUMBER" symbol="SYMBOL" separator="SEPARATOR" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" print-object="PRINT-OBJECT">
+				  <senza-misura/>
+				  <beats>BEATS</beats>
+				  <beat-type>BEAT-TYPE</beat-type>
+				  <interchangeable>
+					  <beats>BEATS</beats>
+				   	  <beat-type>BEAT-TYPE</beat-type>
+				  	  <time-relation>TIME-RELATION</time-relation>
+				  </interchangeable>
+			  </time>
+			  <staves>STAVES</staves>
+			  <part-symbol top-staff="TOP-STAFF" bottom-staff="BOTTOM-STAFF" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" color="COLOR"/>
+			  <instruments>INSTRUMENTS</instruments>
+			  <clef number="NUMBER" additional="ADDITIONAL" size="SIZE" after-barline="AFTER-barline" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" print-object="PRINT-OBJECT"> 
+				  <sign>SIGN</sign>
+				  <line>line</line>
+				  <clef-octave-change>CLEF-OCTAVE-CHANGE</clef-octave-change>
+			  </clef>
+			  <clef> 
+				  <sign>SIGN2</sign>
+				  <line>line2</line>
+				  <clef-octave-change>CLEF-OCTAVE-CHANGE2</clef-octave-change>
+			  </clef>
+			  <staff-details number="NUMBER" show-frets="SHOW-FRETS" print-object="PRINT-OBJECT" print-spacing="PRINT-SPACING">
+				  <staff-type>STAFF-TYPE</staff-type>
+				  <staff-lines>STAFF-LINES</staff-lines>
+				  <staff-tuning line="LINE">
+					  <tuning-step>TUNING-STEP</tuning-step>
+					  <tuning-alter>TUNING-ALTER</tuning-alter>
+					  <tuning-alter>TUNING-ALTER1</tuning-alter>
+					  <tuning-octave>TUNING-OCTAVE</tuning-octave>
+				  </staff-tuning>
+				  <staff-tuning line="LINE">
+					  <tuning-step>TUNING-STEP1</tuning-step>
+					  <tuning-alter>TUNING-ALTER2</tuning-alter>
+					  <tuning-alter>TUNING-ALTER3</tuning-alter>
+					  <tuning-octave>TUNING-OCTAVE1</tuning-octave>
+				  </staff-tuning>
+				  <capo>CAPO</capo>
+				  <staff-size>STAFF-SIZE</staff-size>
+			  </staff-details>
+			  <staff-details number="NUMBER" show-frets="SHOW-FRETS" print-object="PRINT-OBJECT" print-spacing="PRINT-SPACING">
+				  <staff-type>STAFF-TYPE1</staff-type>
+				  <staff-lines>STAFF-LINES1</staff-lines>
+				  <staff-tuning line="LINE">
+					  <tuning-step>TUNING-STEP1</tuning-step>
+					  <tuning-alter>TUNING-ALTER1</tuning-alter>
+					  <tuning-alter>TUNING-ALTER2</tuning-alter>
+					  <tuning-octave>TUNING-OCTAVE1</tuning-octave>
+				  </staff-tuning>
+				  <capo>CAPO1</capo>
+				  <staff-size>STAFF-SIZE1</staff-size>
+			  </staff-details>
+			  <transpose number="NUMBER">
+				  <diatonic>DIATONIC</diatonic>
+				  <chromatic>CHROMATIC</chromatic>
+				  <octave-change>OCTAVE-CHANGE</octave-change>
+				  <double/>
+			  </transpose>
+			  <transpose number="NUMBER1">
+				  <diatonic>DIATONIC1</diatonic>
+				  <chromatic>CHROMATIC1</chromatic>
+				  <octave-change>OCTAVE-CHANGE1</octave-change>
+				  <double/>
+			  </transpose>
+			  <directive default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" xml:lang="LANG">DIRECTIVE</directive>
+			  <measure-style number="NUMBER" font-family="FONT-FAMILY" font-style="FONT-STYLE" font-size="FONT-SIZE" font-weight="FONT-WEIGHT" color="COLOR"> 
+				  <beat-repeat type="TYPE" slashes="SLASHES" use-dots="USE-DOTS">
+					  <slash-type>SLASH-TYPE</slash-type>
+					  <slash-dot/>
+				  </beat-repeat>
+				  <measure-repeat type="TYPE" slahes="SLASHES">MEASURE-REPEAT</measure-repeat>
+				  <multiple-rest use-symbol="USE-SYMBOl">MULTIPLE-REST</multiple-rest>
+				  <slash type="TYPE" use-dots="USE-DOTS" use-stems="USE-STEMS">
+					  <slash-type>SLASH-TYPE</slash-type>
+					  <slash-dot/>
+				  </slash>
+			  </measure-style>
+			  <measure-style number="NUMBER2"> 
+				  <beat-repeat type="TYPE"/>
+			  </measure-style>
+		  </attributes>
+		  <backup>
+			  <duration>DURATION</duration>
+			  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+			  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+		  </backup>
+		  <barline location="LOCATION" segno="SEGNO" coda="CODA" divisions="DIVISIONS">
+			  <bar-style colo="COLOR">BAR-STYLE</bar-style>
+			  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+			  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+			  <wavy-line type="TYPE" number="NUMBER" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" placement="PLACEMENT" color="COLOR" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT"/>
+			  <segno default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN"/>
+			  <coda efault-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN"/>
+			  <fermata type="TYPE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!"/>
+			  <ending number="NUMBER" type="TYPE" print-object="PRINT-OBJECT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" end-length="END-LENGTH" text-x="TEXTX" text-y="TEXTY">ENDING</ending>
+			  <repeat direction="DIRECTION" times="TIMES" winged="WINGED"/>
+		  </barline>
+		  <bookmark id="ID" name="NAME" element="ELEMENT" position="POSITION"/>
+		  <direction placement="PLACEMENT" directive="DIRECTIVE">
+			  <direction-type>
+				  <accordion-registration default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!">
+					  <accordion-high/>
+					  <accordion-middle/>
+					  <accordion-low/>
+				  </accordion-registration>
+				  <bracket type="TYPE" number="NUMBER" line-end="LINE-END" end-length="END-LENGTH" line-type="LINE-TYPE" dash-length="DASH-LENGHT" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" color="COLOR"/>
+				  <coda default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!"/>
+				  <damp default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!"/>
+				  <damp-all default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!"/>
+				  <dashes type="TYPE" number="NUMBER" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" color="COLOR"/>
+				  <dynamics default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" placement="PLACEMENT" underline="UNDERLINE" overline="OVERLINE" line-through="LINE-THROUGH" enclosure="ENCLOSURE">
+					  <f/>
+					  <ff/>
+					  <fff/>
+					  <ffff/>
+					  <fffff/>
+					  <ffffff/>
+					  <fp/>
+					  <fz/>
+					  <mf/>
+					  <mp/>
+					  <other-dynamics>OTHER-DYNAMICS</other-dynamics>
+					  <p/>
+					  <pp/>
+					  <ppp/>
+					  <pppp/>
+					  <ppppp/>
+					  <pppppp/>
+					  <rf/>
+					  <rfz/>
+					  <sf/>
+					  <sffz/>
+					  <sfp/>
+					  <sfpp/>
+					  <sfz/>
+				  </dynamics>
+				  <eyeglasses default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!"/>
+				  <harp-pedals default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" placement="PLACEMENT" underline="UNDERLINE" overline="OVERLINE" line-through="LINE-THROUGH" enclosure="ENCLOSURE">
+					  <pedal-tuning>
+						  <pedal-step>PEDAL-STEP</pedal-step>
+						  <pedal-alter>PEDAL-ALTER</pedal-alter>
+					  </pedal-tuning>
+					  <pedal-tuning>
+						  <pedal-step>PEDAL-STEP1</pedal-step>
+						  <pedal-alter>PEDAL-ALTER1</pedal-alter>
+					  </pedal-tuning>
+				  </harp-pedals>
+				  <image source="SOURCE" type="TYPE" default-x="DEFAULTX" default-y="DEFAULTY" relative-x="RELATIVEX" relative-y="RELATIVEY" halign="HALIGN" valign="VALIGN"/>
+				  <metronome default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" justify="JUSTIFY" parentheses="PARENTHESES">
+					  <metronome-note>
+						  <metronome-type>METRONOME-TYPE</metronome-type>
+						  <metronome-dot/>
+						  <metronome-beam number="NUMBER">METRONOME-BEAM</metronome-beam>
+						  <metronome-tuplet type="TYPE" bracket="BRACKET" show-number="SHOW-NUMBER">
+							  <actual-notes>ACTUAL-NOTES</actual-notes>
+							  <normal-notes>NORMAL-NOTES</normal-notes>
+							  <normal-type>NORMAL-TYPE</normal-type>
+							  <normal-dot/>
+						  </metronome-tuplet>
+					  </metronome-note>
+					  <metronome-relation>METRONOME-RELATION</metronome-relation>
+					  <beat-unit>BEAT-UNIT</beat-unit>
+					  <beat-unit-dot/>
+					  <per-minute font-family="FONT-FAMILY" font-style="FONT-STYLE" font-size="FONT-SIZE" font-weight="FONT-WEIGHT">PER-MINUTE</per-minute>
+				  </metronome>
+				  <octave-shift type="TYPE" number="NUMBER" size="SIZE" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!"/>
+				  <other-direction print-object="PRINT-OBJECT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN">OTHER-DIRECTION</other-direction>
+				  <pedal type="TYPE" line="LINE" sign="SIGN" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN"/>
+				  <percussion default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" enclosure="ENCLOSURE">
+					  <beater>BEATER</beater>
+					  <effect>EFFECT</effect>
+					  <glass>glass</glass>
+					  <membrane>MEMBRANE</membrane>
+					  <metal>METAL</metal>
+					  <other-percussion>OTHER-PERCUSSION</other-percussion>
+					  <pitched>PITCHED</pitched>
+					  <stick tip="TIP">
+						  <stick-type>STICK-TYPE</stick-type>
+						  <stick-material>STICK-MATERIAL</stick-material>
+					  </stick>
+					  <stick-location>STICK-LOCATION</stick-location>
+					  <timpani/>
+					  <wood>WOOD</wood>
+				  </percussion>
+				  <scordatura>
+					  <accord string="STRING">
+						  <tuning-step>TUNING-STEP</tuning-step>
+						  <tuning-alter>TUNING-ALTER</tuning-alter>
+						  <tuning-octave>TUNING-OCTAVE</tuning-octave>
+					  </accord>
+					  <accord string="STRING1">
+						  <tuning-step>TUNING-STEP1</tuning-step>
+						  <tuning-alter>TUNING-ALTER1</tuning-alter>
+						  <tuning-octave>TUNING-OCTAVE1</tuning-octave>
+					  </accord>
+				  </scordatura>
+				  <segno default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN"/>
+				  <string-mute type="TYPE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN"/>
+				  <wedge type="TYPE" number="NUMBER" spread="SPREAD" niente="NIENTE" line-type="LINE-TYPE" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" color="COLOR"/>
+				  <words justify="JUSTIFY" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE" overline="OVERLINE" line-through="LINE-THROUGH" rotation="ROTATION" letter-spacing="LETTER-SPACING" line-height="LINE-HEIGHT" xml:lang="LANG" xml:space="SPACE" dir="DIR" enclosure="ENCLOSURE">WORDS</words>
+			  </direction-type>
+			  <offset sound="SOUND">OFFSET</offset>
+			  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+			  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+			  <voice>VOICE</voice>
+			  <staff>STAFF</staff>
+			  <sound tempo="TEMPO"/>
+			  <sound tempo="TEMPO" dynamics="DYNAMICS" dacapo="DACAPO" segno="SEGNO" dalsegno="DALSEGNO" coda="CODA" tocoda="TOCODA" divisions="DIVISIONS" forward-repeat="FORWARD-REPEAT" fine="FINE" time-only="TIME-ONLY" pizzicato="PIZZICATO" pan="PAN" elevation="ELEVATION" damper-pedal="DAMPER-PEDAL" soft-pedal="SOFT-PEDAL" sostenuto-pedal="SOSTENUTO-PEDAL">
+				  <midi-device port="PORT" id="ID">MIDI-DEVICE</midi-device>
+				  <midi-instrument id="ID">
+					  <midi-channel>MIDI-CHANNEL</midi-channel>
+					  <midi-name>MIDI-NAME</midi-name>
+					  <midi-bank>MIDI-BANK</midi-bank>
+					  <midi-program>MIDI-PROGRAM</midi-program>
+					  <midi-unpitched>MIDI-UNPITCHED</midi-unpitched>
+					  <volume>VOLUME</volume>
+					  <pan>PAN</pan>
+					  <elevation>ELEVATION</elevation>
+				  </midi-instrument>
+				  <play id="ID">
+					  <ipa>IPA</ipa>
+					  <mute>MUTE</mute>
+					  <other-play type="TYPE">OTHER-PLAY</other-play>
+					  <semi-pitched>SEMI-PITCHED</semi-pitched>
+				  </play>
+				  <offset sound="SOUND">OFFSET</offset>
+			  </sound>
+			  <sound dynamics="DYNAMICS"/>
+		  </direction>
+		  <figured-bass default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" print-object="PRINT-OBJECT" print-dot="PRINT-DOT" print-spacing="PRINT-SPACING" print-lyric="PRINT-LYRIC" parentheses="PARENTHESES">
+			  <figure>
+				  <prefix default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">PREFIX</prefix>
+				  <figure-number default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">FIGURE-NAME</figure-number>
+				  <suffix default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">SUFFIX</suffix>
+				  <extend default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">EXTEND</extend>
+			  </figure>
+			  <duration>DURATION</duration>
+			  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+			  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+		  </figured-bass>
+		  <forward>
+			  <duration>DURATION</duration>
+			  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+			  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+			  <voice>VOICE</voice>
+			  <staff>STAFF</staff>
+		  </forward>
+		  <grouping type="TYPE" number="NUMBER" member-of="MEMBER-OF">
+			  <feature type="TYPE"/>
+		  </grouping>
+		  <harmony type="TYPE" print-object="PRINT-OBJECT" print-frame="PRINT-FRAME" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">
+			  <function default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">FUNCTION</function>
+			  <root>
+				  <root-step text="TEXT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">ROOT-STEP</root-step>
+				  <root-alter print-object="PRINT-OBJECT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">ROOT-ALTER</root-alter>
+			  </root>
+			  <kind use-symbols="USE-SYMBOLS" text="TEXT" stack-degrees="STACK-DEGREES" parentheses-degrees="PARENTHESES-DEGREES" bracket-degrees="BRACKET-DEGREES" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN">KIND</kind>
+			  <inversion default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">INVERSION</inversion>
+			  <bass>
+				  <bass-step text="TEXT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">BASS-STEP</bass-step>
+				  <bass-alter print-object="PRINT-OBJECT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" location="LOCATION">BASS-ALTER</bass-alter>
+			  </bass>
+			  <degree print-object="PRINT-OBJECT">
+				  <degree-value symbol="SYMBOL" text="TEXT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">DEGREE-VALUE</degree-value>
+				  <degree-alter default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" plus-minus="PLUS-MINUS">DEGREE-ALTER</degree-alter>
+				  <degree-type text="TEXT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">DEGREE-TYPE</degree-type>
+			  </degree>
+			  <frame default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" color="COLOR" halign="HALIGN" valign="VALIGN" height="HEIGHT" width="WIDTH" unplayed="UNPLAYED">
+				  <frame-strings>FRAME-STRINGS</frame-strings>
+				  <frame-frets>FRAME-FRETS</frame-frets>
+				  <first-fret text="TEXT" location="LOCATION">FIRST-FRET</first-fret>
+				  <frame-note>
+					  <string default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">STRING</string>
+					  <fret font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">FRET</fret>
+					  <fingering substitution="SUBSTITUTION" alternate="ALTERNATE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">FINGERING</fingering>
+					  <barre type="TYPE" color="COLOR"/>
+				  </frame-note>
+			  </frame>
+			  <offset sound="SOUND">OFFSET</offset>
+			  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+			  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+			  <staff>STAFF</staff>
+		  </harmony>
+	  	  <link xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="HREF!" xlink:type="TYPE!" xlink:role="ROLE!" xlink:title="TITLE!" xlink:show="SHOW!" xlink:actuate="ACTUATE!" name="NAME!" element="ELEMENT!" position="POSITION!" default-x="DEFAULTX!" default-y="DEFAULTY" relative-x="RELATIVEX!" relative-y="RELATIVEY!"/>
+		  <note default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" print-object="PRINT-OBJECT" print-dot="PRINT-DOT" print-spacing="PRINT-SPACING" print-lyric="PRINT-LYRIC" dynamics="DYNAMICS" end-dynamics="END-DYNAMICS" release="RELEASE" time-only="TIME-ONLY" pizzicato="PIZZICATO">
+			  <chord/>
+			  <pitch>
+				  <step>STEP</step>
+				  <alter>ALTER</alter>
+				  <octave>OCTAVE</octave>
+			  </pitch>
+			  <rest measure="MEASURE">
+				  <display-step>DISPLAY-STEP</display-step>
+				  <display-octave>DISPLAY-OCTAVE</display-octave>
+			  </rest>
+			  <unpitched>
+				  <display-step>DISPLAY-STEP</display-step>
+				  <display-octave>DISPLAY-OCTAVE</display-octave>
+			  </unpitched>
+			  <duration>DURATION</duration>
+			  <tie type="TYPE" time-only="TIMEONLY"/>
+			  <cue/>
+			  <chord/>
+			  <grace steal-time-previous="STEAL-TIME-PREVIOUS" steal-time-following="STEAL-TIME-FOLLOWING" make-time="MAKE-TIME" slash="SLASH"/>
+			  <instrument id="ID"/>
+			  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+			  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+			  <voice>VOICE</voice>
+			  <type name="SIZE">TYPE</type>
+			  <dot default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+			  <accidental cautionary="CAUTIONARY" editiorial="EDITORIAL" parentheses="PARENTHESES" bracket="BRACKET" size="SIZE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">ACCIDENTAL</accidental>
+			  <time-modification>
+				  <actual-notes>ACTUAL-NOTES</actual-notes>
+				  <normal-notes>NORMAL-NOTES</normal-notes>
+				  <normal-type>NORMAL-TYPE</normal-type>
+				  <normal-dot/>
+			  </time-modification>
+			  <stem default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" color="COLOR">STEM</stem>
+			  <notehead filled="FILLED" parentheses="PARENTHESES" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">NOTEHEAD</notehead>
+			  <notehead-text>
+				  <accidental-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">ACCIDENTAL-TEXT</accidental-text>
+				  <display-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">DISPLAY-TEXT</display-text>
+			  </notehead-text>
+			  <staff>STAFF</staff>
+			  <beam number="NUMBER" repeater="REPEATER" fan="FAN" color="COLOR">BEAM</beam>
+			  <notations print-object="PRINT-OBJECT">
+				  <footnote>FOOTNOTE</footnote>
+				  <level>LEVEL</level>
+				  <accidental-mark default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">ACCIDENTAL-MARK</accidental-mark>
+				   <arpeggiate number="NUMBER" direction="DIRECTION" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" placement="PLACEMENT" color="COLOR"/>
+				   <articulations>
+					   <accent default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <breath-mark default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <caesura default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <detached-legato efault-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <doit line-shape="LINE-SHAPE" line-type="LINE-TYPE" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <falloff line-shape="LINE-SHAPE" line-type="LINE-TYPE" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <other-articulation default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <plop line-shape="LINE-SHAPE" line-type="LINE-TYPE" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <scoop line-shape="LINE-SHAPE" line-type="LINE-TYPE" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <spiccato default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <staccatissimo default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <staccato default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <stress default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <strong-accent type="TYPE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <tenuto default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+					   <unstress default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+				   </articulations>
+  				  <dynamics default-x="DEFAULTX2" default-y="DEFAULTY2" relative-x="RELATIVEX2" relative-y="RELATIVEY2" font-family="FONTFAMILY2!" font-style="FONTSTYLE2" font-size="FONTSIZE2" font-weight="FONTWEIGHT2" color="COLOR2" halign="HALIGN2" valign="VALIGN2" placement="PLACEMENT2" underline="UNDERLINE2" overline="OVERLINE2" line-through="LINE-THROUGH2" enclosure="ENCLOSURE2">
+  					  <f/>
+  					  <ff/>
+  					  <fff/>
+  					  <ffff/>
+  					  <fffff/>
+  					  <ffffff/>
+  					  <fp/>
+  					  <fz/>
+  					  <mf/>
+  					  <mp/>
+  					  <other-dynamics>OTHER-DYNAMICS2</other-dynamics>
+  					  <p/>
+  					  <pp/>
+  					  <ppp/>
+  					  <pppp/>
+  					  <ppppp/>
+  					  <pppppp/>
+  					  <rf/>
+  					  <rfz/>
+  					  <sf/>
+  					  <sffz/>
+  					  <sfp/>
+  					  <sfpp/>
+  					  <sfz/>
+  				  </dynamics>
+ 				  <fermata type="TYPE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!"/>
+ 				  <glissando type="TYPE" number="NUMBER" line-type="LINE-TYPE" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!"/>
+ 				  <non-arpeggiate type="TYPE" number="NUMBER" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" placement="PLACEMENT" color="COLOR"/>
+ 				  <ornaments>
+ 					  <delayed-inverted-turn default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT" slash="SLACH"/>
+ 					  <delayed-turn default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT" slash="SLASH"/>
+ 					  <inverted-mordent long="LONG" approach="APPROACH" departure="DEPARTURE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT"/>
+ 					  <inverted-turn default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT" slash="SLASH"/>
+ 					  <mordent long="LONG" approach="APPROACH" departure="DEPARTURE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT"/>
+					  <other-ornament default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">OTHER-ORNAMENT</other-ornament>
+ 					  <shleifer default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <shake default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT"/>
+ 					  <tremolo type="TYPE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">TREMOLO</tremolo>
+ 					  <trill-mark default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT"/>
+ 					  <turn default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT" slash="SLASH"/>
+ 					  <vertical-turn default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT"/>
+ 					  <wavy-line type="TYPE" number="NUMBER" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" placement="PLACEMENT" color="COLOR!" start-note="START-NOTE" trill-step="TRILL-STEP" two-note-turn="TWO-NOTE-TURN" accelerate="ACCELERATE" beats="BEATS" second-beat="SECOND-BEAT" last-beat="LAST-BEAT"/>
+ 					  <accidental-mark default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">ACCIDENTAL-MARK</accidental-mark>
+ 				  </ornaments>
+ 				  <other-notation type="TYPE" number="NUMBER" print-object="PRINT-OBJECT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">OTHER-NOTATION</other-notation>
+ 				  <slide type="TYPE" number="NUMBER" line-type="LINE-TYPE" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" placement="PLACEMENT" color="COLOR!" accelerate="ACCELERATE" beats="BEATS" first-beat="FIRST-BEAT" last-beat="LAST-BEAT"/>
+ 				  <slur type="TYPE" number="NUMBER" line-type="LINE-TYPE"  dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" placement="PLACEMENT" orientation="ORIENTATION" bezier-offset="BEZIER-OFFSET" bezier-offset2="BEZIER-OFFSET2" bezier-x="BEZIER-X" bezier-y="BEZIER-Y" bezier-x2="BEZIER-X2" bezier-y2="BEZIER-Y2" color="COLOR"/>
+ 				  <technical>
+ 					  <arrow default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">
+ 						  <circular-arrow>CIRCULAR-ARROW</circular-arrow>
+ 						  <arrow-direction>ARROW-DIRECTION</arrow-direction>
+ 						  <arrow-style>ARROW-STYLE</arrow-style>
+ 					  </arrow>
+ 					  <bend default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" accelerate="ACCCELERATE" beats="BEATS" first-beat="FIRST-BEAT" last-beat="LAST-BEAT">
+ 						  <bend-alter>BEND-ALTER</bend-alter>
+ 						  <pre-bend/>
+ 						  <release/>
+ 						  <with-bar default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">WITH-BAR</with-bar>
+ 					  </bend>
+ 					  <double-tongue default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <down-bow default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <fingering substitution="SUBSTITUTION" alternate="ALTERNATE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">FINGERING</fingering>
+ 					  <fingernails default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <fret font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">FRET</fret>
+ 					  <hammer-on type="TYPE" number="NUMBER" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">HAMMER-ON</hammer-on>
+ 					  <handbell default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">HANDBELL</handbell>
+ 					  <harmonic print-object="PRINT-OBJECT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">
+ 						  <artificial/>
+ 						  <natural/>
+ 						  <base-pitch/>
+ 						  <sounding-pitch/>
+ 						  <touching-pitch/>
+ 					  </harmonic>
+ 					  <heel substitution="SUBSTITUTION" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <hole default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">
+ 						  <hole-type>HOLE-TYPE</hole-type>
+ 						  <hole-closed location="LOCATION">HOLE-CLOSED</hole-closed>
+ 						  <hole-shape>HOLE-SHAPE</hole-shape>
+ 					  </hole>
+ 					  <open-string default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <other-technical default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">>OTHER-TECHNICAL</other-technical>
+ 					  <pluck default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">PLUCK</pluck>
+ 					  <pull-off default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">PULL-OFF</pull-off>
+ 					  <snap-pizzicato default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <stopped default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <string default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT">STRING</string>
+ 					  <tap default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <thumb-position default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <toe default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <triple-tongue default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+ 					  <up-bow default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" placement="PLACEMENT"/>
+  				  </technical> 
+ 				  <tied type="TYPE" number="NUMBER" line-type="LINE-TYPE" dash-length="DASH-LENGTH" space-length="SPACE-LENGTH" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" placement="PLACEMENT" orientation="ORIENTATION" bezier-offset="BEZIER-OFFSET" bezier-offset2="BEZIER-OFFSET2" bezier-x="BEZIER-X" bezier-y="BEZIER-Y" bezier-x2="BEZIER-X2" bezier-y2="BEZIER-Y2" color="COLOR"/>
+ 				  <tuplet type="TYPE" number="NUMBER" bracket="BRACKET" show-number="SHOW-NUMBER" show-type="SHOW-TYPE" line-shape="LINE-SHAPE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" placement="PLACEMENT">
+ 					  <tuplet-actual>
+ 						  <tuplet-number font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">TUPLET-NUMBER</tuplet-number>
+ 						  <tuplet-type font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">TUPLET-TYPE</tuplet-type>
+ 						  <tuplet-dot font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">TUPLET-DOT</tuplet-dot>
+ 					  </tuplet-actual>
+ 					  <tuplet-normal>
+ 						  <tuplet-number font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">TUPLET-NUMBER</tuplet-number>
+ 						  <tuplet-type font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">TUPLET-TYPE</tuplet-type>
+ 						  <tuplet-dot font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!">TUPLET-DOT</tuplet-dot>
+ 					  </tuplet-normal>
+ 				  </tuplet>
+			  </notations>
+			  <lyric number="NUMBER" name="NAME" justify="JUSTIFY" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" placement="PLACEMENT" color="COLOR" print-object="PRINT-OBJECT">
+				  <extend type="TYPE" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX"  relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!"/>
+				  <humming/>
+				  <laughing/>
+				  <syllabic>SYLLABIC</syllabic>
+				  <text font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" underline="UNDERLINE" overline="OVERLINE" line-through="LINE-THROUGH" rotation="ROTATION" letter-spacing="LETTER-SPACING" xml:lang="LANG" dir="DIR">TEXT</text>
+				  <elision font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" underline="UNDERLINE" overline="OVERLINE" line-through="LINE-THROUGH" rotation="ROTATION" letter-spacing="LETTER-SPACING" xml:lang="LANG" dir="DIR">ELISION</elision>
+				  <end-line/>
+				  <end-paragraph/>
+				  <footnote justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN!" valign="VALIGN!" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATON!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE!">FOOTNOTE1!</footnote>
+				  <level reference="REFERENCE!" parentheses="PARENTHESES!" bracket="BRACKET!" size="SIZE!">LEVEL1!</level>
+			  </lyric>
+			  <play id="ID">
+				  <ipa>IPA-NOTE</ipa>
+				  <mute>MUTE-NOTE</mute>
+				  <other-play type="TYPE">OTHER-PLAY-NOTE</other-play>
+				  <semi-pitched>SEMI-PITCHED-NOTE</semi-pitched>
+			  </play>
+		  </note>
+		  <print staff-spacing="STAFF-SPACING" new-system="NEW-SYSTEM" new-page="NEW-PAGE" blank-page="BLANK-PAGE" page-number="PAGE-NUMBER">
+			  <page-layout>
+				  <page-height>PAGE-HEIGHT</page-height>
+				  <page-width>PAGE-WIDTH</page-width>
+				  <page-margins type="TYPE">
+					  <left-margin>LEFT</left-margin>
+        			  <right-margin>RIGHT</right-margin>
+        			  <top-margin>RIGHT</top-margin>
+        			  <bottom-margin>RIGHT</bottom-margin>
+     			 </page-margins>
+			  </page-layout>
+			  <system-layout>
+				  <system-margins>
+					  <left-margin>LEFT</left-margin>
+				      <right-margin>RIGHT</right-margin>
+				  </system-margins>
+				  <system-distance>DISTANCE</system-distance>
+				  <top-system-distance>TOP-DISTANCE</top-system-distance>
+				  <system-dividers>
+					  <left-divider print-object="PRINT-OBJECT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN"/>
+					  <right-divider print-object="PRINT-OBJECT" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN"/>
+				  </system-dividers>
+			  </system-layout>
+			  <staff-layout number="NUMBER">
+				  <staff-distance>STAFF-DISTANCE</staff-distance>
+			  </staff-layout>
+			  <measure-layout>
+				  <measure-distance>MEASURE-DISTANCE</measure-distance>
+			  </measure-layout>
+			  <measure-numbering default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX" relative-y="RELATIVEY" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN">MEASURE-NUMBERING</measure-numbering>
+			  <part-name-display print-object="PRINT-OBJECT">
+				  <accidental-text justify="print-JUSTIFY!" default-x="print-DEFAULTX!" default-y="print-DEFAULTY!" relative-x="print-RELATIVEX!" relative-y="print-RELATIVEY!" font-family="print-FONTFAMILY!" font-style="print-FONTSTYLE!" font-size="print-FONTSIZE!" font-weight="print-FONTWEIGHT!" color="print-COLOR!" halign="print-HALIGN" valign="print-VALIGN" underline="print-UNDERLINE!" overline="print-OVERLINE!" line-through="print-LINETHROUGH!" rotation="print-ROTATION!" letter-spacing="print-LETTERSPACING!" line-height="print-LINEHEIGHT!" xml:lang="print-LANG!" xml:space="print-SPACE!" dir="print-DIR!" enclosure="print-ENCLOSURE">PRINT-ACCIDENTALTEXT</accidental-text>
+				  <display-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">PRINT-DISPLAYTEXT</display-text>
+			  </part-name-display>
+			  <part-abbreviation-display print-object="PRINT-OBJECT">
+				  <accidental-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">PRINT2-ACCIDENTALTEXT</accidental-text>
+				  <display-text justify="JUSTIFY!" default-x="DEFAULTX!" default-y="DEFAULTY!" relative-x="RELATIVEX!" relative-y="RELATIVEY!" font-family="FONTFAMILY!" font-style="FONTSTYLE!" font-size="FONTSIZE!" font-weight="FONTWEIGHT!" color="COLOR!" halign="HALIGN" valign="VALIGN" underline="UNDERLINE!" overline="OVERLINE!" line-through="LINETHROUGH!" rotation="ROTATION!" letter-spacing="LETTERSPACING!" line-height="LINEHEIGHT!" xml:lang="LANG!" xml:space="SPACE!" dir="DIR!" enclosure="ENCLOSURE">PRINT2-DISPLAYTEXT</display-text>
+			  </part-abbreviation-display>
+		  </print>
+		  <sound tempo="TEMPO" dynamics="DYNAMICS" dacapo="DACAPO" segno="SEGNO" dalsegno="DALSEGNO" coda="CODA" tocoda="TOCODA" divisions="DIVISIONS" forward-repeat="FORWARD-REPEAT" fine="FINE" time-only="TIME-ONLY" pizzicato="PIZZICATO" pan="PAN" elevation="ELEVATION" damper-pedal="DAMPER-PEDAL" soft-pedal="SOFT-PEDAL" sostenuto-pedal="SOSTENUTO-PEDAL">
+			  <midi-device port="PORT" id="ID">MEASURE-MIDI-DEVICE</midi-device>
+			  <midi-instrument id="ID">
+				  <midi-channel>MEASURE-MIDI-CHANNEL</midi-channel>
+				  <midi-name>MEASURE-MIDI-NAME</midi-name>
+				  <midi-bank>MEASURE-MIDI-BANK</midi-bank>
+				  <midi-program>MEASURE-MIDI-PROGRAM</midi-program>
+				  <midi-unpitched>MEASURE-MIDI-UNPITCHED</midi-unpitched>
+				  <volume>MEASURE-VOLUME</volume>
+				  <pan>MEASURE-PAN</pan>
+				  <elevation>MEASURE-ELEVATION</elevation>
+			  </midi-instrument>
+			  <play id="ID">
+				  <ipa>MEASURE-IPA</ipa>
+				  <mute>MEASURE-MUTE</mute>
+				  <other-play type="TYPE">MEASURE-OTHER-PLAY</other-play>
+				  <semi-pitched>MEASURE-SEMI-PITCHED</semi-pitched>
+			  </play>
+			  <offset sound="SOUND">MEASURE-OFFSET</offset>
+		  </sound> 
+	  </part>
+  </measure>
+</score-timewise>
