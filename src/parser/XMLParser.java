@@ -46,7 +46,7 @@ public class XMLParser {
         try {
             xmlStreamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(xmlFileName, new FileInputStream(xmlFileName));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             System.out.println("ERROR: File not found");
             return;
         }

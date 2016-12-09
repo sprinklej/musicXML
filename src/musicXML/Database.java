@@ -12,6 +12,7 @@ package musicXML;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.io.File;
 
 
 public class Database {
@@ -22,8 +23,9 @@ public class Database {
     // Constructor
     public Database() {
         try {
+            //System.out.println(getDBFilePath());
             Class.forName("org.sqlite.JDBC");
-            database = DriverManager.getConnection("jdbc:sqlite:database/musicXML.db");
+            database = DriverManager.getConnection("jdbc:sqlite:" + "database" + File.separator + "musicXML.db");
             stat = database.createStatement();
         } catch (ClassNotFoundException e) {
             System.out.println("FATAL ERROR: Could not find database class");
@@ -35,6 +37,7 @@ public class Database {
             //e.printStackTrace();
         }
     }
+
 
     // Close the DB
     public void closeDB() {
