@@ -54,7 +54,8 @@ public class Database {
     // get the MusicXML list from the DB
     public ArrayList<MusicXMLFile> getMXMLList() {
         ArrayList<MusicXMLFile> XMLList = new ArrayList<MusicXMLFile>();
-        String sqlQueryString = "SELECT * FROM musicXMLFiles;";
+        //String sqlQueryString = "SELECT * FROM musicXMLFiles;";
+        String sqlQueryString = "SELECT * FROM musicXMLFiles ORDER BY songTitle asc;";
 
         try {
             ResultSet rs = stat.executeQuery(sqlQueryString);
@@ -75,8 +76,10 @@ public class Database {
     // Search the DB for some text string
     public ArrayList<MusicXMLFile> searchXMLList(String searchTxt) {
         ArrayList<MusicXMLFile> XMLList = new ArrayList<MusicXMLFile>();
+        //String sqlQueryString = "SELECT * FROM musicXMLFiles WHERE songTitle like '%" + searchTxt +
+        //        "%' OR composer like '%" + searchTxt + "%';";
         String sqlQueryString = "SELECT * FROM musicXMLFiles WHERE songTitle like '%" + searchTxt +
-                "%' OR composer like '%" + searchTxt + "%';";
+                "%' OR composer like '%" + searchTxt + "%' ORDER BY songTitle asc;";
 
         try {
             ResultSet rs = stat.executeQuery(sqlQueryString);

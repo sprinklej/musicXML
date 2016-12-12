@@ -109,7 +109,7 @@ public class Controller {
 
                 // get some parsed info an display it
                 GetParsedData data = new GetParsedData(parser.getScore());
-                txtArea.appendText("**Score Parsed**\n");
+                txtArea.appendText("****Score Parsed****\n");
                 txtArea.appendText(data.getScoreType());
                 txtArea.appendText(data.getWorkInfo());
                 txtArea.appendText(data.getMovementNumber());
@@ -151,7 +151,7 @@ public class Controller {
             Boolean success = exporter.writeFile();
 
             if (success) {
-                txtArea.appendText("\nExport Complete.\n");
+                txtArea.appendText("\n**Export Complete.**\n");
             } else {
                 txtArea.appendText("\nError: Export Failed!\n");
             }
