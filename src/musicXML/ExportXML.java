@@ -35,14 +35,6 @@ public class ExportXML {
             return false;
         }
 
-        // get scoretype
-        /*if(score.getScoreType().contentEquals(XMLConsts.PARTWISE)) {
-            scoreType = XMLConsts.PARTWISE;
-        } else {
-            scoreType = XMLConsts.TIMEWISE;
-        }
-        */
-
         try {
             // get writer started
             XMLOutputFactory xof = XMLOutputFactory.newInstance();

@@ -131,16 +131,6 @@ public class ParseXMLHeader {
             parseHelper.setComplexEAttributes(xmlStreamReader, partList);
             XMLParser.getElements(xmlStreamReader, () -> partListStart(), () -> partListEnd());
         }
-
-/*
-        // PARSE THE BODY
-        // partwise
-        else if (xmlStreamReader.getName().toString().contentEquals(XMLConsts.PART)) {
-            ParseXMLBody parseBodyObj = new ParseXMLBody(xmlStreamReader, score);
-            parseBodyObj.parseBody();
-        }
-        // TODO TIMEWISE PARSRING
-        */
     }
 
 

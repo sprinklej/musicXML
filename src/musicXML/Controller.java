@@ -151,7 +151,7 @@ public class Controller {
             Boolean success = exporter.writeFile();
 
             if (success) {
-                txtArea.appendText("\n**Export Complete.**\n");
+                txtArea.appendText("\n**Export Complete**\n");
             } else {
                 txtArea.appendText("\nError: Export Failed!\n");
             }

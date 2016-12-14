@@ -41,7 +41,7 @@ public class XMLParser {
         String xmlFileName = currentSong.getFilePath();
         //InputStream xmlInputStream = getClass().getResourceAsStream(xmlFileName);
         XMLInputFactory2 xmlInputFactory = (XMLInputFactory2)XMLInputFactory.newInstance();
-        xmlInputFactory.setProperty(XMLInputFactory2.SUPPORT_DTD, false);   //do not read web based DTD
+        xmlInputFactory.setProperty(XMLInputFactory2.SUPPORT_DTD, false);   //do not read web based DTD, causes error
 
         try {
             xmlStreamReader = (XMLStreamReader2) xmlInputFactory.createXMLStreamReader(xmlFileName, new FileInputStream(xmlFileName));
@@ -54,6 +54,8 @@ public class XMLParser {
         parseHeaderObj = new ParseXMLHeader(xmlStreamReader);
         parseBodyObj = new ParseXMLBody(xmlStreamReader);
         getElements(xmlStreamReader, () -> scoreStart(), () -> scoreEnd());
+        // If preferred the above line can be written in the method reference style instead of the lambda style
+        // getElements(xmlStreamReader, this::scoreStart, this::scoreEnd);
     }
 
 
