@@ -47,7 +47,29 @@ Important files:
 ###################################
 To Run the application:
 
-Import the project into IntelliJ, build it, run main.
+Import the project into IntelliJ:
+-Select "Import Project"
+-Select the folder where the project is located, click ok.
+-Select "Create project from existing sources" click next
+-Select a project name, click next. It is fine to override the existing .idea folder.
+-Ensure the src folder is selected, click next.
+-Ensure the libraries are selected, click next.
+-Ensire the modules are seleceted, click next.
+-Select a JDK (I am using 1.8)
+-Click finish.
+
+Once the project opens:
+-Under the Run dropdown select Edit Configurations...
+-Select the "+" to create a new configuration
+-Select "Application"
+-Name it Main (at the very top)
+-Select the "..." button beside the "Main Class:" field
+-Choose the only option, should be Main (MusicXML)
+-Click Ok, click OK again 
+
+Build the project.
+
+run the project.
 
 
 ###################################
