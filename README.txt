@@ -54,15 +54,15 @@ Import the project into IntelliJ:
 -Select a project name, click next. It is fine to override the existing .idea folder.
 -Ensure the src folder is selected, click next.
 -Ensure the libraries are selected, click next.
--Ensire the modules are seleceted, click next.
+-Ensure the modules are selected, click next.
 -Select a JDK (I am using 1.8)
 -Click finish.
 
-Once the project opens:
--Under the Run dropdown select Edit Configurations...
+Once the project opens, if the existing .idea folder was overwritten, you must also:
+-From the Run dropdown select Edit Configurations...
 -Select the "+" to create a new configuration
 -Select "Application"
--Name it Main (at the very top)
+-At the very top of the window Name the new configuration "Main"
 -Select the "..." button beside the "Main Class:" field
 -Choose the only option, should be Main (MusicXML)
 -Click Ok, click OK again 
