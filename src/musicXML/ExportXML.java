@@ -44,6 +44,7 @@ public class ExportXML {
             xmlStreamWriter.writeStartDocument();
             xmlStreamWriter.writeDTD("score-" + score.getScoreType(), "http://www.musicxml.org/dtds/" + score.getScoreType() + ".dtd",
                     "-//Recordare//DTD MusicXML 3.0 " + score.getScoreType().substring(0, 1).toUpperCase() + score.getScoreType().substring(1) + "//EN", "");
+            // Example MusicXML DTDs
             //<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
             //<!DOCTYPE score-timewise PUBLIC "-//Recordare//DTD MusicXML 3.0 Timewise//EN" "http://www.musicxml.org/dtds/timewise.dtd">
 

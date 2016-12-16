@@ -88,8 +88,6 @@ public class Controller {
 
                 txtArea.setText("Song Info:\n\n");
                 txtArea.appendText("ID: " + currentSong.getId() + "\n");
-                //txtArea.appendText("\nsongTitle: " + currentSong.getSongTitle());
-                //txtArea.appendText("\ncomposer: " + currentSong.getComposer());
                 txtArea.appendText("FilePath: " + currentSong.getFilePath() + "\n\n");
 
                 parser = new XMLParser(currentSong);

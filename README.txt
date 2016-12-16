@@ -5,22 +5,25 @@ Created By:
 	Joel Sprinkle
 
 Description:
-	MusicXML file parser. 
+	MusicXML file parser and exporter.
 
 Build Platform:
-	macOS 10.12.1
+	macOS 10.12.2
 	IntelliJ IDEA Community 2016.2.5
 	Sqlite3
 ##########################################################################
 ###################################
 ChangeLog:
 
-Version 1.0 - Git Release
+Version 1.0 - Git Release - Dec. 9, 2016
 MusicXML files are now parsed when clicked on.
-User can also export MusicXML data back to a file now.
+Some XML data of the parsed file is displayed in the textArea.
+Users can also export MusicXML data back to a file now.
 
-Version 0.1 - Git Release
-GUI displays database contents in a tableView. The User can add/edit/delete database contents through the GUI interface.
+
+Version 0.1 - Git Release - Sept. 23, 2016
+GUI displays database contents in a tableView.
+The User can add/edit/delete database contents through the GUI interface.
 
 
 ###################################
@@ -52,5 +55,5 @@ go to https://sqlite.org/download.html)
 -Run .read createDB-Mac.sql
 
 NOTE:
-The file paths in the createDB-Mac.sql file are set for mac file
-paths for windows the “/“ would have to changed to “\”
+The file paths for the sample XML files in the createDB-Mac.sql file are set
+for mac file paths for windows the “/“ would have to changed to “\”
