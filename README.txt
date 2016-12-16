@@ -45,6 +45,12 @@ Important files:
 
 
 ###################################
+To Run the application:
+
+Import the project into IntelliJ, build it, run main.
+
+
+###################################
 Database Info:
 
 To reset the database back to default:
