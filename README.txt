@@ -6,6 +6,8 @@ Created By:
 
 Description:
 	MusicXML file parser and exporter.
+	For a more detailed look into how this project was created read
+	the "MusicXML Parser - Report.pdf" file.
 
 Build Platform:
 	macOS 10.12.2
